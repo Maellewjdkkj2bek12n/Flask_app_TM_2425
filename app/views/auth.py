@@ -10,10 +10,10 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 @auth_bp.route('/register', methods=('GET', 'POST'))
 def register():
 
-    # Si des données de formulaire sont envoyées vers la route /register (ce qui est le cas lorsque le formulaire d'inscription est envoyé)
+    # Si des données de formulaire sont envoyées vers la route /register (ce qui est le cas lorsque le formulaire d'inscription est envoyé) c'est une requete post
     if request.method == 'POST':
 
-        # On récupère les champs 'username' et 'password' de la requête HTTP
+        # On récupère les champs 'nom_utilisateur' et 'password' de la requête HTTP
         username = request.form['username']
         password = request.form['password']
 
@@ -24,7 +24,7 @@ def register():
         # on essaie d'insérer l'utilisateur dans la base de données
         if username and password:
             try:
-                db.execute("INSERT INTO users (username, password) VALUES (?, ?)",(username, generate_password_hash(password)))
+                db.execute("INSERT INTO utilisateurs (nom_utilisateur, mot_passe) VALUES (?, ?)",(username, generate_password_hash(password)))
                 # db.commit() permet de valider une modification de la base de données
                 db.commit()
                 # On ferme la connexion à la base de données pour éviter les fuites de mémoire
@@ -34,7 +34,7 @@ def register():
 
                 # La fonction flash dans Flask est utilisée pour stocker un message dans la session de l'utilisateur
                 # dans le but de l'afficher ultérieurement, généralement sur la page suivante après une redirection
-                error = f"Utilisateur {username} déjà enregistré."
+                error = "Utilisateur {username} déjà enregistré."
                 flash(error)
                 return redirect(url_for("auth.register"))
             
@@ -45,7 +45,7 @@ def register():
             flash(error)
             return redirect(url_for("auth.login"))
     else:
-        # Si aucune donnée de formulaire n'est envoyée, on affiche le formulaire d'inscription
+        # Si aucune donnée de formulaire n'est envoyée, on affiche le formulaire d'inscription (on a fait une requete get)
         return render_template('auth/register.html')
 
 # Route /auth/login
@@ -54,7 +54,7 @@ def login():
     # Si des données de formulaire sont envoyées vers la route /login (ce qui est le cas lorsque le formulaire de login est envoyé)
     if request.method == 'POST':
 
-        # On récupère les champs 'username' et 'password' de la requête HTTP
+        # On récupère les champs 'nom_utilisateur' et 'password' de la requête HTTP
         username = request.form['username']
         password = request.form['password']
 
@@ -63,7 +63,7 @@ def login():
         
         # On récupère l'utilisateur avec le username spécifié (une contrainte dans la db indique que le nom d'utilisateur est unique)
         # La virgule après username est utilisée pour créer un tuple contenant une valeur unique
-        user = db.execute('SELECT * FROM users WHERE username = ?', (username,)).fetchone()
+        user = db.execute('SELECT * FROM utilisateurs WHERE nom_utilisateur = ?', (username,)).fetchone()
 
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()
@@ -73,14 +73,14 @@ def login():
         error = None
         if user is None:
             error = "Nom d'utilisateur incorrect"
-        elif not check_password_hash(user['password'], password):
+        elif not check_password_hash(user['mot_passe'], password):
             error = "Mot de passe incorrect"
 
         # S'il n'y pas d'erreur, on ajoute l'id de l'utilisateur dans une variable de session
         # De cette manière, à chaque requête de l'utilisateur, on pourra récupérer l'id dans le cookie session
         if error is None:
             session.clear()
-            session['user_id'] = user['id']
+            session['user_id'] = user['id_utilisateur']
             # On redirige l'utilisateur vers la page principale une fois qu'il s'est connecté
             return redirect("/")
         
@@ -119,7 +119,7 @@ def load_logged_in_user():
     else:
          # On récupère la base de données et on récupère l'utilisateur correspondant à l'id stocké dans le cookie session
         db = get_db()
-        g.user = db.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+        g.user = db.execute('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', (user_id,)).fetchone()
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()
 
