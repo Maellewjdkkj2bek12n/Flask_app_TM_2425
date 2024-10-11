@@ -1,25 +1,20 @@
 <!doctype html>
+
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
     <header id="header">
         <nav id="header-nav">
-            <div id="header-nav-logo">
-                <a href="{{url_for('home.landing_page')}}">
-                    <img src="{{url_for('static', filename='imgs/logo-csud.svg')}}" alt="logo-csud"/>
-                </a>
-            </div>
-            <ul id="header-nav-menu">
+            <ul id="header-nav-droite">
                 {% if g.user %}
                     <li><span>{{ g.user['username'] }}</span>
                     <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
                     <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
                 {% else %}
-                    <li><a href="{{ url_for('auth.register') }}">S'enregistrer</a>
-                    <li><a href="{{ url_for('auth.login') }}">Se connecter</a>
+                    <li><a href="{{ url_for('auth.register') }}">Inscription</a>
+                    <li><a href="{{ url_for('auth.login') }}">Connexion</a>
                 {% endif %}
             </ul>
         </nav>
@@ -28,20 +23,6 @@
     <main id="main-content">
         {% block content %}{% endblock %}
     </main>
-
-    <footer id="footer">
-        <div id="footer-nav">
-            <div>
-                <p>Template de base TM</p>
-            </div>
-            <div>
-                <p>Collège du Sud, 1630, Bulle </p>
-            </div>
-            <div>
-                <p>Johan Jobin</p>
-            </div>
-        </div>
-    </footer>
 
     <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
 </body>
