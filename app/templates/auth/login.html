@@ -8,11 +8,18 @@
   <div class="content-register">
     <div>
       <form method="post">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">Nom d'utilisateur...</label>
+        <br />
         <input name="username" id="username" required>
-        <label for="password">Mot de passe</label>
+        <br />
+        <br />
+        <label for="password">Mot de passe...</label>
+        <br />
         <input type="password" name="password" id="password" required>
-        <input type="submit" value="Se connecter">
+        <br />
+        <br />
+        <input type="button" value="Mot de passe oublié ?">
+        <input type="submit" value="Connexion">
       </form>
 
       {% for message in get_flashed_messages() %}
