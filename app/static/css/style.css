@@ -50,105 +50,191 @@
 
 /*block du haut*/
 header{
-    height: 100px;
+  z-index: 3;
+  height: 53px;
 }
 
 #header-nav{
+  z-index: 3;
+
   background-color: #6D6D6D;
   height: 53px;
   width: 100%;
+
   display: flex;
   flex-flow: row nowrap;
 }
 
 #header-nav-gauche{
-    width:97%;
+  width:97%;
 }
 
 #header-nav-droite{
-    width: 97%;
+  width: 97%;
 }
 
 #header-nav>ul{
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    gap: 60px
+  z-index: 3;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  gap: 60px
 }
 
 /*écritures du haut*/
 
 #header-nav li a:hover{
-  color: #ffffff;
-  text-decoration: none;
   font-size : 15px;
+  color: #ffffff;
   font-weight: bold;
   font-family: Arial;
+  text-decoration: none;
 }
 
 #header-nav a{
-    color: #ffffff;
-    text-decoration: none;
-    font-size : 15px;
-    font-weight: bold;
-    font-family: system-ui;
+  font-size : 15px;
+  color: #ffffff;
+  font-weight: bold;
+  font-family: system-ui;
+  text-decoration: none;
 }
 
-/*milieu de page, tout le contenu*/
+/* fond avec toutes les ptites images de la galerie*/
+#grille-image{
+  position : absolute;
+  top:78px;
+  z-index: 1;
 
-.content-index, .content-404, .content-profile, .content-register{
-  display: grid;
-  grid-template-columns: [gauche] 30% [milieu] auto [droite] 30% [fin];
-  grid-template-rows: [haut] 35% [centre] auto [bas] 35% [fin];
-  height: 100vh;
-  width: 100vw;
-}
+  height: 1000px;
 
-/*barre qui traverse le mileux pour le login, register et page d'acceuil*/
-
-.content-index h1{
-  color: #383838;
-  font-family: cursive;
-  font-size : 25px;
-  text-align:center;
-  
   display: flex;
-  align-content: center;
-  justify-content: center;
   flex-flow: row wrap;
+  justify-content: center;
+  gap: 25px;
+}
 
-  grid-column-start: gauche;
-  grid-column-end: fin;
-  grid-row-start: centre;
-  grid-row-end: centre;
-  justify-self: stretch;
-  align-self: stretch;
-  
-  background-color: #FFFF
+.image{
+  object-fit: cover;
+  width: 180px;
+  height: 180px;
+}
+
+.cellule{
+  width: 180px;
+  height: 180px;
+}
+
+#zone-centrale{
+  background-color: #dadada;
+}
+
+/*petit texte central*/
+
+#zone-texte{
+  position: fixed;
+  top: 300px;
+  z-index: 3;
+
+  background-color: #ffffff;
+  box-shadow: 0px 5px #60606080;
+  height: 200px;
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size : 14px;
+  color: #000000;
+  font-family:cursive;
+  text-align:center;
+
 }
 
 /*haut de page, petits blocs reliés aux truc du loging et du register*/
 
-.content-register div{
+.content-register div, .content-login div{
+  position: absolute;
+  z-index: 4;
+
+  background-color: #EFEDED;
+  box-shadow: 0px 5px #45454580;
+  height: 190px;
+  width: 280px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-content: space-around;
+  gap : 15px;
+
+  font-size : 15px;
   color: #383838;
   font-family: cursive;
-  font-size : 15px;
   text-align:left;
-  
-  display: flex;
-  align-content: space-around;
-  justify-content: space-around;
-  flex-flow: row wrap;
-  gap : 13px;
-
-  grid-column-start: milieux;
-  grid-column-end: fin;
-  grid-row-start: haut;
-  grid-row-end: haut;
-  justify-self: stretch;
-  align-self: stretch;
-  
-  background-color: #EFEDED
 }
 
- 
+.content-register div{
+  top:53px;
+  right:150px;
+}
+
+.content-login div{
+  top:53px;
+  right:0px;
+}
+
+/*highlight des boutons quand on clique dessus*/
+#highligh-register{
+  position: absolute;
+  top: 0px;
+  right:150px;
+  z-index: 5;
+
+  background-color: #EFEDED;
+  height: 53px;
+  width: 150px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size : 15px;
+  color: #707070;
+  font-weight: bold;
+  font-family: Arial;
+  text-decoration: none;
+}
+
+#highligh-login{
+  position: absolute;
+  top: 0px;
+  right:0px;
+  z-index: 5;
+
+  background-color: #EFEDED;
+  height: 53px;
+  width: 150px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size : 15px;
+  color: #707070;
+  font-weight: bold;
+  font-family: Arial;
+  text-decoration: none;
+}
+
+/*assombrissement de la galerie pour la page d'accueil*/
+#assombrissement{
+  position : fixed;
+  /*top:53px;*/
+  top:0px;
+  z-index: 2;
+
+  background-color: #6d6d6d33;
+  height: 1000px;
+  width: 100%;
+}

@@ -5,27 +5,134 @@
 {% endblock %}
 
 {% block content %}
+  <!--assombrissement de la galerie pour la page d'accueil-->
+  <div id="assombrissement">
+  </div>
+  <!--fin assombrissement de la galerie pour la page d'accueil-->
+  <!-- highlight des boutons quand on clique dessus-->
+  <div id="highligh-register">
+    <a>Inscription</a>
+  </div>
+  <!-- fin highlight des boutons quand on clique dessus-->
+  <!-- petits blocks du haut avec les boutons de connection-->
   <div class="content-register">
     <div>
       <form method="post">
-        <label for="username">Nom d'utilisateur</label>
+        <label for="username">Nom d'utilisateur...</label>
         <br />
         <input name="username" id="username" required>
         <br />
         <br />
-        <label for="password">Mot de passe</label>
+        <label for="password">Mot de passe...</label>
         <br />
         <input type="password" name="password" id="password" required>
         <br />
         <br />
         <input type="button" value="Renvoyer le code">
-        <input type="submit" value="Connexion">
+        <input type="submit" value="Inscription">
       </form>
     
       {% for message in get_flashed_messages() %}
         <div class="flash">{{ message }}</div>
-      {% endfor %}
+      {% endfor %}¨
+    </div>
   </div>
+  <!-- fin petits blocks du haut avec les boutons de connection-->
+      <!-- Zone du mileux qui ne bouge pas-->
+      <div id="zone-centrale">
+        <div id="zone-texte">
+            <div id="texte-central">
+                <h1>Partagez gratuitement vos créations sur la galerie <br/> d'art en ligne</h1>
+            </div>
+        </div>
+        <div id="grille-image">
+          <!--  Evidemment, plutôt que de copier-coller, il faudra réaliser une boucle à l'aide des template Jinja. Cette boucle affichera les images préalablement récupérées dans la base de données   -->
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+          <div class="cellule">
+              <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          </div>
+      </div>
+      <!-- fin Zone du mileux qui ne bouge pas-->
 {% endblock %}
 
 
