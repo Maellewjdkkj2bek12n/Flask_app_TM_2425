@@ -18,23 +18,29 @@
   <div class="content-register">
     <div>
       <form method="post">
-        <label for="username">Nom d'utilisateur...</label>
+        <label for="username">Adresse mail...</label>
         <br />
-        <input name="username" id="username" required>
+        <input name="username" id="username" required class="login-grands-boutons">
         <br />
+        <label for="password">Code envoyé à l'adresse mail...</label>
+        <br />
+        <input type="password" name="password" id="password" required class="login-grands-boutons">
         <br />
         <label for="password">Mot de passe...</label>
         <br />
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" required class="login-grands-boutons">
         <br />
+        <label for="password">Confirmez le mot de passe...</label>
         <br />
-        <input type="button" value="Renvoyer le code">
-        <input type="submit" value="Inscription">
+        <input type="password" name="password" id="password" required class="login-grands-boutons">
+        <br />
+        <input type="button" value="Renvoyer le code" class="login-petits-boutons1">
+        <input type="submit" value="Inscription" class="login-petits-boutons2">
       </form>
     
       {% for message in get_flashed_messages() %}
         <div class="flash">{{ message }}</div>
-      {% endfor %}¨
+      {% endfor %}
     </div>
   </div>
   <!-- fin petits blocks du haut avec les boutons de connection-->

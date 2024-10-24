@@ -7,16 +7,24 @@
 <body>
     <header id="header">
         <nav id="header-nav">
-            <ul id="header-nav-droite">
-                {% if g.user %}
+            {% if g.user %}
+                <ul id="header-nav-gauche">
                     <li><span>{{ g.user['username'] }}</span>
+                </ul>
+                <ul id="header-nav-droite1">
                     <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
+                </ul>
+                <ul id="header-nav-droite2">
                     <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
-                {% else %}
+                </ul>
+            {% else %}
+                <ul id="header-nav-droite1">
                     <li><a href="{{ url_for('auth.register') }}">Inscription</a>
+                </ul>
+                <ul id="header-nav-droite2">
                     <li><a href="{{ url_for('auth.login') }}">Connexion</a>
-                {% endif %}
-            </ul>
+                </ul>
+             {% endif %}
         </nav>
     </header>
         

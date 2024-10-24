@@ -18,18 +18,16 @@
   <div class="content-login">
     <div>
       <form method="post">
-        <label for="username">Nom d'utilisateur...</label>
+        <label for="username">Adresse mail...</label>
         <br />
-        <input name="username" id="username" required>
-        <br />
+        <input name="username" id="username" required class="login-grands-boutons">
         <br />
         <label for="password">Mot de passe...</label>
         <br />
-        <input type="password" name="password" id="password" required>
+        <input type="password" name="password" id="password" required class="login-grands-boutons">
         <br />
-        <br />
-        <input type="button" value="Mot de passe oublié ?">
-        <input type="submit" value="Connexion">
+        <input type="button" value="Mot de passe oublié ?" class="login-petits-boutons1">
+        <input type="submit" value="Connexion" class="login-petits-boutons2">
       </form>
 
       {% for message in get_flashed_messages() %}

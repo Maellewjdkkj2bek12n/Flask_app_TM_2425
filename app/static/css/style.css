@@ -48,37 +48,83 @@
 -----------------   ADD YOUR CSS RULES BELOW ------------------
 */
 
-/*block du haut*/
+/*block du haut en général*/
 header{
   z-index: 3;
   height: 53px;
 }
 
 #header-nav{
+  position : fixed;
   z-index: 3;
 
-  background-color: #6D6D6D;
+  background-color: #6e6e6e;
   height: 53px;
   width: 100%;
 
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid ;
+  grid-template-columns: [partie-gauche] auto [début1] 75px [début2] 75px [début3] 75px [début4] 75px [fin];
+  justify-items: start;
 }
+
+/*boutons du haut si il y a 2 boutons à droite*/
+
+#header-nav-droite1{
+  grid-column-start: début1;
+  grid-column-end: début3;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-nav-droite2{
+  grid-column-start: début3;
+  grid-column-end: fin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*boutons du haut si il y a 3 boutons à droite*/
+
+#header-nav-droite3{
+  grid-column-start: début2;
+  grid-column-end: début3;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-nav-droite4{
+  grid-column-start: début3;
+  grid-column-end: début4;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#header-nav-droite5{
+  grid-column-start: début4;
+  grid-column-end: fin;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/*boutons du haut à gauche*/
 
 #header-nav-gauche{
-  width:97%;
-}
+  grid-column-start: partie-gauche;
+  grid-column-end: début1;
 
-#header-nav-droite{
-  width: 97%;
-}
-
-#header-nav>ul{
-  z-index: 3;
   display: flex;
-  justify-content: right;
-  align-items: center;
-  gap: 60px
+  justify-content: center;
+  align-items: left;
 }
 
 /*écritures du haut*/
@@ -136,7 +182,7 @@ header{
   z-index: 3;
 
   background-color: #ffffff;
-  box-shadow: 0px 5px #60606080;
+  box-shadow: 3px 5px 6px 6px #45454570;
   height: 200px;
   width: 100%;
 
@@ -154,39 +200,80 @@ header{
 /*haut de page, petits blocs reliés aux truc du loging et du register*/
 
 .content-register div, .content-login div{
-  position: absolute;
+  position : fixed;
   z-index: 4;
 
   background-color: #EFEDED;
-  box-shadow: 0px 5px #45454580;
-  height: 190px;
-  width: 280px;
+  box-shadow: 3px 5px 6px 6px #45454570;
+  width: 290px;
 
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
-  align-content: space-around;
-  gap : 15px;
 
-  font-size : 15px;
-  color: #383838;
+  justify-content: center;  
+  align-items: center; 
+
+  font-size : 13px;
+  color: #000000;
   font-family: cursive;
   text-align:left;
+  line-height: 1,5;
 }
 
 .content-register div{
+  position : fixed;
   top:53px;
   right:150px;
+
+  height: 290px;
 }
 
 .content-login div{
+  position : fixed;
   top:53px;
   right:0px;
+
+  height: 170px;
+}
+
+/*apparence de la partie ou il faut écrire les noms ect*/
+
+.login-grands-boutons {
+  background-color: #ffffff;
+  box-shadow: 1px 2px #4646464d;
+  border: none;
+  border-radius: 8px;
+
+  width: 240px;  
+  height: 30px; 
+  margin-bottom : 7px;
+  cursor: pointer;
+}
+
+.login-petits-boutons1 {
+  background: none;
+  border: none;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  padding: 0;
+
+  text-align: left;
+  width: 145px;  
+  height: 20px; 
+  cursor: pointer;
+}
+
+.login-petits-boutons2 {
+  background-color: #ffffff;
+  box-shadow: 1px 2px #4646464d;
+  border: none;
+  border-radius: 8px;
+  width: 93px;  
+  height: 20px;  
 }
 
 /*highlight des boutons quand on clique dessus*/
 #highligh-register{
-  position: absolute;
+  position : fixed;
   top: 0px;
   right:150px;
   z-index: 5;
@@ -207,7 +294,7 @@ header{
 }
 
 #highligh-login{
-  position: absolute;
+  position : fixed;
   top: 0px;
   right:0px;
   z-index: 5;
@@ -234,7 +321,7 @@ header{
   top:0px;
   z-index: 2;
 
-  background-color: #6d6d6d33;
+  background-color: #6d6d6d52;
   height: 1000px;
   width: 100%;
 }
