@@ -225,7 +225,7 @@ header{
   top:53px;
   right:150px;
 
-  height: 290px;
+  height: 340px;
 }
 
 .content-login div{
@@ -264,11 +264,13 @@ header{
 
 .login-petits-boutons2 {
   background-color: #ffffff;
-  box-shadow: 1px 2px #4646464d;
   border: none;
+  box-shadow: 1px 2px #4646464d;
   border-radius: 8px;
+
   width: 93px;  
-  height: 20px;  
+  height: 20px;
+  cursor: pointer;
 }
 
 /*highlight des boutons quand on clique dessus*/
