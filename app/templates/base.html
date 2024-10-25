@@ -9,13 +9,13 @@
         <nav id="header-nav">
             {% if g.user %}
                 <ul id="header-nav-gauche">
-                    <li><span>{{ g.user['username'] }}</span>
+                    <li><a href="{{ url_for('auth.logout') }}">Accueil</a>
                 </ul>
-                <ul id="header-nav-droite1">
-                    <li><a href="{{ url_for('auth.logout') }}">Se déconnecter</a>
+                <ul id="header-nav-droite3">
+                    <li><a href="{{url_for('user.show_profile')}}"><img src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile" width="50px"></a></li>
                 </ul>
-                <ul id="header-nav-droite2">
-                    <li><a href="{{url_for('user.show_profile')}}">Consulter son profil</a></li>
+                <ul id="header-nav-droite4">
+                    <li><a href="{{url_for('user.show_profile')}}"><img src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre" width="50 px"></a></li>
                 </ul>
             {% else %}
                 <ul id="header-nav-droite1">
