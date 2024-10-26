@@ -12,10 +12,8 @@
                     <li><a href="{{ url_for('auth.logout') }}">Accueil</a>
                 </ul>
                 <ul id="header-nav-droite3">
-                    <li><a href="{{url_for('user.show_profile')}}"><img src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile" width="50px"></a></li>
-                </ul>
-                <ul id="header-nav-droite4">
-                    <li><a href="{{url_for('user.show_profile')}}"><img src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre" width="50 px"></a></li>
+                    <li><a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile"></a></li>
+                    <li><a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a></li>
                 </ul>
             {% else %}
                 <ul id="header-nav-droite1">

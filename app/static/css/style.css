@@ -84,68 +84,66 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: [partie-gauche] auto [début1] 75px [début2] 75px [début3] 75px [début4] 75px [fin];
-  justify-items: start;
+  grid-template-columns: [partie-gauche] auto [débutgrand1] 75px [fin1] 75px [débutgrand2] 113px [fin2] 37px [fin];
+  align-items: center;
 }
 
 /*boutons du haut si il y a 2 boutons à droite*/
 
 #header-nav-droite1{
-  grid-column-start: début1;
-  grid-column-end: début3;
+  justify-self: start;
+  grid-column-start: débutgrand1;
+  grid-column-end: débutgrand2;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row nowrap;
+  justify-items: center;
+  align-content: center;
 }
 
 #header-nav-droite2{
-  grid-column-start: début3;
+  justify-self: start;
+  grid-column-start: débutgrand2;
   grid-column-end: fin;
+  justify-content: center;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row nowrap;
+  justify-items: center;
+  align-content: center;
 }
 
-/*boutons du haut si il y a 3 boutons à droite*/
+/*boutons du haut si il y a 3 boutons à droite */
 
 #header-nav-droite3{
-  grid-column-start: début2;
-  grid-column-end: début3;
+  justify-self: end;
+  grid-column-start: débutgrand1;
+  grid-column-end: fin2;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row nowrap;
+  justify-items: right;
+  align-content: center;
+  gap: 10px;
 }
 
-#header-nav-droite4{
-  grid-column-start: début3;
-  grid-column-end: début4;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-#header-nav-droite5{
-  grid-column-start: début4;
-  grid-column-end: fin;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.logo{
+  object-fit: cover;
+  width: 37px;
+  height: 37px;
 }
 
 /*boutons du haut à gauche*/
 
 #header-nav-gauche{
+  justify-self: start;
   grid-column-start: partie-gauche;
-  grid-column-end: début1;
+  grid-column-end: débutgrand1;
 
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-flow: row nowrap;
+  justify-items: center;
+  align-content: center;
 }
 
 /*écritures du haut*/
@@ -206,6 +204,7 @@ header{
   width: 100%;
 
   display: flex;
+  flex-flow: row wrap;
   justify-content: center;
   align-items: center;
 
