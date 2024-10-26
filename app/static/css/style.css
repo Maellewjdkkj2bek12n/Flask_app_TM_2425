@@ -20,7 +20,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background-color : #E5E5E5
+    background-color : #e7e5e5;
   }
   
   /* 5. Improve media defaults */
@@ -188,7 +188,7 @@ header{
 }
 
 #zone-centrale{
-  background-color: #dadada;
+  background-color: #E2E2E2;
 }
 
 /*petit texte central*/
