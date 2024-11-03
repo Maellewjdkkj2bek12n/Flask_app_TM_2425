@@ -128,7 +128,8 @@ def load_logged_in_user():
 @auth_bp.route('/MDP')
 def MDP():
     # Affichage de la page pour le mot de passe oublié
-    return render_template('auth/MDP.html')
+    page_type = 'MDP'
+    return render_template('auth/MDP.html', page_type=page_type)
 
 
 
