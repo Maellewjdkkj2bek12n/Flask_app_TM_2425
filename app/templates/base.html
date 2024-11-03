@@ -8,20 +8,20 @@
     <header id="header">
         <nav id="header-nav">
             {% if g.user %}
-                <ul id="header-nav-gauche">
-                    <li><a href="{{ url_for('auth.logout') }}">Accueil</a>
-                </ul>
-                <ul id="header-nav-droite3">
-                    <li><a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile"></a></li>
-                    <li><a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a></li>
-                </ul>
+                <nav id="header-nav-gauche">
+                    <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
+                </nav>
+                <nav id="header-nav-droite3">
+                    <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile"></a>
+                    <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                </nav>
             {% else %}
-                <ul id="header-nav-droite1">
-                    <li><a href="{{ url_for('auth.register') }}">Inscription</a>
-                </ul>
-                <ul id="header-nav-droite2">
-                    <li><a href="{{ url_for('auth.login') }}">Connexion</a>
-                </ul>
+                <nav id="header-nav-droite1">
+                    <a href="{{ url_for('auth.register') }}">Inscription</a>
+                </nav>
+                <nav id="header-nav-droite2">
+                    <a href="{{ url_for('auth.login') }}">Connexion</a>
+                </nav>
              {% endif %}
         </nav>
     </header>

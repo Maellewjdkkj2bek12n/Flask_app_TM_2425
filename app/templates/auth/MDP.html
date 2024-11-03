@@ -5,43 +5,38 @@ Bienvenue dans la Galerie
 {% endblock %}
 
 {% block content %}
+  <!--partie du milieux avec les trucs pour changer le mot de passe-->
+  <div id="centreMDP">
+  <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Clée.png') }}" alt="Clée">
+  <div id="MDP">
+    <form method="post">
+        <label for="mail">Adresse mail...</label>
+        <br />
+        <input name="mail" id="mail" required class="login-grands-boutons">
+        <br />
+        <label for="code">Code envoyé à l'adresse mail...</label>
+        <br />
+        <input name="code" id="code" class="login-grands-boutons">
+        <br />
+        <label for="password">Nouveau mot de passe...</label>
+        <br />
+        <input type="password" name="password" id="password" required class="login-grands-boutons">
+        <br />
+        <label for="password">Confirmez le nouveau mot de passe...</label>
+        <br />
+        <input type="password" name="password" id="password" required class="login-dernier-grand-bouton">
+      </form>
+  </div>
+  </div>
+  <!--partie du milieux avec les trucs pour changer le mot de passe-->
+
+
   <!--assombrissement de la galerie pour la page d'accueil-->
   <div id="assombrissement">
   </div>
   <!--fin assombrissement de la galerie pour la page d'accueil-->
-  <!-- highlight des boutons quand on clique dessus-->
-  <div id="highligh-login">
-    <a href="{{ url_for('auth.logout') }}">Connexion</a>
-  </div>
-  <!-- fin highlight des boutons quand on clique dessus-->
-  <!-- petits blocks du haut avec les boutons de connection-->
-  <div class="content-login">
-    <div>
-      <form method="post">
-        <label for="username">Nom d'utilisateur...</label>
-        <br />
-        <input name="username" id="username" required class="login-grands-boutons">
-        <br />
-        <label for="password">Mot de passe...</label>
-        <br />
-        <input type="password" name="password" id="password" required class="login-grands-boutons">
-        <br />
-        <nav id="login-petits-boutons">
-        <a href="{{ url_for('auth.MDP') }}">Mot de passe oublié ?</a>
-        <input type="submit" value="Connexion" class="login-petits-boutons2">
-        </nav>
-      </form>
-
-      {% for message in get_flashed_messages() %}
-        <div>{{ message }}</div>
-      {% endfor %}
-    </div>
-  </div>
-  <!-- fin petits blocks du haut avec les boutons de connection-->
       <!-- Zone du mileux qui ne bouge pas-->
-        <div id="zone-texte">
-            <h1>Partagez gratuitement vos créations sur la galerie <br/> d'art en ligne</h1>
-         </div>
+      <div id="zone-centrale">
         <div id="grille-image">
           <!--  Evidemment, plutôt que de copier-coller, il faudra réaliser une boucle à l'aide des template Jinja. Cette boucle affichera les images préalablement récupérées dans la base de données   -->
           <div class="cellule">
@@ -128,5 +123,6 @@ Bienvenue dans la Galerie
           <div class="cellule">
               <img class="image" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
           </div>
+      </div>
       <!-- fin Zone du mileux qui ne bouge pas-->
 {% endblock %}

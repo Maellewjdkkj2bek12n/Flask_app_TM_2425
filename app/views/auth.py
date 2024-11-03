@@ -123,6 +123,12 @@ def load_logged_in_user():
         g.user = db.execute('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', (user_id,)).fetchone()
         # On ferme la connexion à la base de données pour éviter les fuites de mémoire
         close_db()
+        
+        
+@auth_bp.route('/MDP')
+def MDP():
+    # Affichage de la page pour le mot de passe oublié
+    return render_template('auth/MDP.html')
 
 
 

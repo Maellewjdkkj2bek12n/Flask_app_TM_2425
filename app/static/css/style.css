@@ -84,14 +84,14 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: [partie-gauche] auto [débutgrand1] 75px [fin1] 75px [débutgrand2] 113px [fin2] 37px [fin];
+  grid-template-columns: [début] 37px [partie-gauche] auto [débutgrand1] 75px [fin1] 75px [débutgrand2] 113px [fin2] 37px [fin];
   align-items: center;
 }
 
 /*boutons du haut si il y a 2 boutons à droite*/
 
 #header-nav-droite1{
-  justify-self: start;
+  justify-self: center;
   grid-column-start: débutgrand1;
   grid-column-end: débutgrand2;
 
@@ -102,7 +102,7 @@ header{
 }
 
 #header-nav-droite2{
-  justify-self: start;
+  justify-self: center;
   grid-column-start: débutgrand2;
   grid-column-end: fin;
   justify-content: center;
@@ -148,18 +148,15 @@ header{
 
 /*écritures du haut*/
 
-#header-nav li a:hover{
+#header-nav a, #header-nav a:hover{
   font-size : 15px;
   color: #ffffff;
   font-family: 'Inter-Black';
   text-decoration: none;
 }
 
-#header-nav a{
-  font-size : 15px;
-  color: #ffffff;
-  font-family: 'Inter-Black';
-  text-decoration: none;
+#header-nav a:hover{
+  font-size : 16px;
 }
 
 /* fond avec toutes les ptites images de la galerie*/
@@ -185,10 +182,6 @@ header{
 .cellule{
   width: 180px;
   height: 180px;
-}
-
-#zone-centrale{
-  background-color: #E2E2E2;
 }
 
 /*petit texte central*/
@@ -255,7 +248,7 @@ header{
 
 /*apparence de la partie ou il faut écrire les noms ect*/
 
-.login-grands-boutons {
+.login-grands-boutons, .login-dernier-grand-bouton{
   background-color: #ffffff;
   box-shadow: 2px 4px 2px #0000004d;
   border: none;
@@ -269,19 +262,15 @@ header{
   font-family:'Inter-Light';
 }
 
-.login-petits-boutons1 {
-  background: none;
-  border: none;
-  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
-  padding: 0;
+#login-petits-boutons{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
 
-  text-align: left;
-  width: 145px;  
+  width: 240px;  
   height: 19px; 
   margin-top : 6px;
-  cursor: pointer;
-
-  font-family:'Inter-Light';
 }
 
 .login-petits-boutons2 {
@@ -292,10 +281,28 @@ header{
 
   width: 93px;  
   height: 19px;
-  margin-top : 6px;
   cursor: pointer;
 
   font-family:'Inter-Light';
+}
+
+#login-petits-boutons a, #login-petits-boutons a:hover,.login-petits-boutons1 {
+  background: none;
+  border: none;
+  padding: 0;
+
+  cursor: pointer;
+
+  font-size : 13px;
+  color: #000000;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  font-family:'Inter-Light';
+  text-align: left;
+  text-decoration: none;
+}
+
+#login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover {
+  font-size : 14px;
 }
 
 /*highlight des boutons quand on clique dessus*/
@@ -329,21 +336,78 @@ header{
   z-index: 5;
 }
 
-#highligh-login a, #highligh-register a{
+#highligh-login a, #highligh-register a, #highligh-login a:hover, #highligh-register a:hover{
   font-size : 15px;
   color: #707070;
   font-family: 'Inter-Black';
   text-decoration: none;
 }
 
+#highligh-login a:hover, #highligh-register a:hover{
+  font-size : 16px;
+}
+
 /*assombrissement de la galerie pour la page d'accueil*/
 #assombrissement{
   position : fixed;
-  /*top:53px;*/
   top:0px;
   z-index: 2;
 
   background-color: #D9D9D980;
   height: 1000px;
   width: 100%;
+}
+
+/*partie du milieux avec les trucs pour changer le mot de passe*/
+#centreMDP{
+  position : fixed;
+  top:0
+  10px;
+  z-index: 4;
+
+  height: 100%;
+  width: 100%;
+
+  display: grid ;
+  grid-template-rows: 20vh [hautlogo] 45px [hautcarré] auto [reste];
+}
+
+.imageMDP{
+  position : fixed;
+  grid-row-start: hautlogo;
+  grid-row-end: reste;
+  justify-self: center;
+  z-index: 5;
+
+  object-fit: cover;
+  width: 90px;
+  height: 90px;
+}
+
+#MDP{
+  position : fixed;
+  grid-row-start: hautcarré;
+  grid-row-end: reste;
+  justify-self: center;
+  z-index: 4;
+
+  background-color: #EFEDED;
+  box-shadow: 2px 4px 3px #0000004d;
+  width: 290px;
+  height: 285px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;  
+  align-items: end; 
+
+  font-size : 13px;
+  color: #000000;
+  font-family:'Inter-Light';
+  text-align:left;
+  line-height: 1,5;
+}
+
+.login-dernier-grand-bouton{
+  margin-bottom : 22px;
 }
