@@ -8,5 +8,6 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 @user_bp.route('/profile', methods=('GET', 'POST'))
 @login_required 
 def show_profile():
+    page_type = 'profile'
     # Affichage de la page principale de l'application
-    return render_template('user/profile.html')
+    return render_template('user/profile.html', page_type=page_type)

@@ -8,17 +8,27 @@
     <header id="header">
         <nav id="header-nav">
             {% if g.user %}
-                <nav id="header-nav-gauche">
-                    <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
-                </nav>
-                <nav id="header-nav-droite3">
-                    <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile"></a>
-                    <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
-                </nav>
+                {% if page_type == 'profile' %}
+                    <nav id="header-nav-droite3">
+                        <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                    </nav>
+                {% else %}
+                    <nav id="header-nav-gauche">
+                        <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
+                    </nav>
+                    <nav id="header-nav-droite3">
+                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profile.png') }}" alt="Profile"></a>
+                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                    </nav>
+                {% endif %}
             {% else %}
                 {% if page_type == 'MDP' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('auth.logout') }}">Accueil</a>
+                    </nav>
+                    <nav id="header-nav-droite3">
+                        <a href="{{ url_for('auth.register') }}">{{g.user.username}}</a>
                     </nav>
                 {% else %}
                     <nav id="header-nav-droite1">

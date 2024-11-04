@@ -97,20 +97,19 @@ header{
 
   display: flex;
   flex-flow: row nowrap;
-  justify-items: center;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 #header-nav-droite2{
   justify-self: center;
   grid-column-start: débutgrand2;
   grid-column-end: fin;
-  justify-content: center;
 
   display: flex;
   flex-flow: row nowrap;
-  justify-items: center;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 /*boutons du haut si il y a 3 boutons à droite */
@@ -122,8 +121,8 @@ header{
 
   display: flex;
   flex-flow: row nowrap;
-  justify-items: right;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
 }
 
@@ -142,8 +141,8 @@ header{
 
   display: flex;
   flex-flow: row nowrap;
-  justify-items: center;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 /*écritures du haut*/
