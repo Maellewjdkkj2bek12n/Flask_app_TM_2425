@@ -360,8 +360,7 @@ header{
 /*partie du milieux avec les trucs pour changer le mot de passe*/
 #centreMDP{
   position : fixed;
-  top:0
-  10px;
+  top:10px;
   z-index: 4;
 
   height: 100%;
@@ -409,4 +408,59 @@ header{
 
 .login-dernier-grand-bouton{
   margin-bottom : 22px;
+}
+
+/*partie profil*/
+
+#profil{
+  position : fixed;
+  top:10px;
+  z-index: 4;
+
+  height: 100%;
+  width: 100%;
+
+  display: grid ;
+  grid-template-columns: 20px [débutphotodeprofil] 100px [finphotodeprofil] 180px [fininfo] auto;
+  grid-template-rows: [info] 100px [débutgalerie] auto [fingalerie];
+}
+
+.photodeprofil{
+  position : fixed;
+  grid-row-start: info;
+  grid-row-end: débutgalerie;
+  grid-column-start: débutphotodeprofil;
+  grid-column-end: finphotodeprofil;
+  justify-self: center;
+  z-index: 5;
+
+  object-fit: cover;
+  width: 90px;
+  height: 90px;
+}
+
+#Infoutilisateur{
+  position : fixed;
+  grid-row-start: info;
+  grid-row-end: débutgalerie;
+  grid-column-start: finphotodeprofil;
+  grid-column-end: fininfo;
+  justify-self: center;
+  z-index: 4;
+
+  background-color: #EFEDED;
+  box-shadow: 2px 4px 3px #0000004d;
+  width: 290px;
+  height: 285px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;  
+  align-items: end; 
+
+  font-size : 13px;
+  color: #000000;
+  font-family:'Inter-Light';
+  text-align:left;
+  line-height: 1,5;
 }

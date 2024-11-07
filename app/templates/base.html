@@ -24,11 +24,8 @@
                 {% endif %}
             {% else %}
                 {% if page_type == 'MDP' %}
-                    <nav id="header-nav-droite3">
-                        <a href="{{ url_for('auth.logout') }}">Accueil</a>
-                    </nav>
-                    <nav id="header-nav-droite3">
-                        <a href="{{ url_for('auth.register') }}">{{g.user.username}}</a>
+                    <nav id="header-nav-droite2">
+                        <a href="{{ url_for('home.landing_page') }}">Accueil</a>
                     </nav>
                 {% else %}
                     <nav id="header-nav-droite1">
