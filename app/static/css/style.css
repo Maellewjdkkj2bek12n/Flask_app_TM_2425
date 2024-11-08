@@ -421,8 +421,8 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: 20px [débutphotodeprofil] 100px [finphotodeprofil] 180px [fininfo] auto;
-  grid-template-rows: [info] 100px [débutgalerie] auto [fingalerie];
+  grid-template-columns: 30px [débutphotodeprofil] 130px [finphotodeprofil] 300px [fininfo] auto;
+  grid-template-rows: 90px [info] 130px [débutgalerie] auto [fingalerie];
 }
 
 .photodeprofil{
@@ -435,8 +435,8 @@ header{
   z-index: 5;
 
   object-fit: cover;
-  width: 90px;
-  height: 90px;
+  width: 120px;
+  height: 120px;
 }
 
 #Infoutilisateur{
@@ -451,15 +451,15 @@ header{
   background-color: #EFEDED;
   box-shadow: 2px 4px 3px #0000004d;
   width: 290px;
-  height: 285px;
+  height: 120px;
 
   display: flex;
   flex-flow: row wrap;
-  justify-content: center;  
-  align-items: end; 
+  justify-content: start;  
+  align-items: center; 
 
   font-size : 13px;
-  color: #000000;
+  color: #0f0707;
   font-family:'Inter-Light';
   text-align:left;
   line-height: 1,5;
