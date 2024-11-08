@@ -9,10 +9,11 @@
     <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Clée">
     <div id="Infoutilisateur">
         <ul>
-          <li>Nom d'utilisateur: {{g.user.username}}</li>
-          <li>Mot de passe: {{g.user.password}}</li>
+          <li id= "nomutilisateur">{{g.user.username}}</li>
+          <li id= "bio">{{g.user.bio}}</li>
         </ul>
     </div>
+    <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
   </div> 
   
 {% endblock %}
