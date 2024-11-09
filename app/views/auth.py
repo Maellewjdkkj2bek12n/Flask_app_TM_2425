@@ -14,25 +14,41 @@ def register():
     if request.method == 'POST':
 
         # On récupère les champs 'nom_utilisateur' et 'password' de la requête HTTP
-        username = request.form['username']
-        password = request.form['password']
-        mail = request.form['mail']
+        
+        mail = request.form['mail'] 
+        code = request.form['code'] 
+        username = request.form['username'] 
+        password = request.form['password'] 
+        confirm_password = request.form['confirm_password']
 
         # On récupère la base de donnée
         db = get_db()
 
         # Si le nom d'utilisateur et le mot de passe ont bien une valeur
         # on essaie d'insérer l'utilisateur dans la base de données
-        if username and password:
+        if username and password and mail and confirm_password and code:
+            
+            #il faut que les deux mots de passes soient les mêmes 
+            if password != confirm_password: 
+                error = "Les mots de passe ne correspondent pas." 
+                flash(error) 
+                return redirect(url_for("auth.register"))
+            
+            #il faut que le code de confirmations soit le bon cote de confirmation 
+            if code != session.get('confirmation_code'): 
+                flash('Code de confirmation incorrect.') 
+                return redirect(url_for("auth.register"))
+            
+            #on met les valeurs dans la base de donnée 
             try:
                 db.execute("INSERT INTO utilisateurs (adresse_mail, nom_utilisateur, mot_passe) VALUES (?, ?, ?)",(mail, username, generate_password_hash(password)))
                 # db.commit() permet de valider une modification de la base de données
                 db.commit()
                 # On ferme la connexion à la base de données pour éviter les fuites de mémoire
                 close_db()
-                
+             
+            #si l'utilisateur existe déjà   
             except db.IntegrityError:
-
                 # La fonction flash dans Flask est utilisée pour stocker un message dans la session de l'utilisateur
                 # dans le but de l'afficher ultérieurement, généralement sur la page suivante après une redirection
                 error = "Utilisateur {username} déjà enregistré."
@@ -42,7 +58,7 @@ def register():
             return redirect(url_for("auth.login"))
          
         else:
-            error = "Nom d'utilisateur ou mot de passe invalide"
+            error = "Remplir tout les champs"
             flash(error)
             return redirect(url_for("auth.login"))
     else:

@@ -421,8 +421,8 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: 30px [débutphotodeprofil] 220px [finphotodeprofil] 270px [fininfo] auto;
-  grid-template-rows: 90px [info] 200px [fininfo] 45px [débutgalerie] auto [fingalerie];
+  grid-template-columns: 20px [débutphotodeprofil] 190px [finphotodeprofil] 250px [fininfo] auto;
+  grid-template-rows: 70px [info] 180px [fininfo] 55px [débutgalerie] 145px [finlogo] auto [fingalerie];
 }
 
 .photodeprofil{
@@ -436,21 +436,35 @@ header{
   z-index: 3;
 
   object-fit: cover;
-  width: 200px;
-  height: 200px;
+  width: 180px;
+  height: 180px;
 }
 
 .pascréations{
   position : fixed;
   grid-row-start: débutgalerie;
-  grid-row-end: fingalerie;
+  grid-row-end: finlogo;
   justify-self: center;
   align-self: start;
   z-index: 3;
 
   object-fit: cover;
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
+}
+
+.Aucune_création{
+  position : fixed;
+  grid-row-start: finlogo;
+  grid-row-end: fingalerie;
+  justify-self: center;
+  align-self: start;
+  z-index: 3;
+
+  font-size : 23px;
+  color: #6D6D6D;
+  font-family: 'Inter-Black';
+  text-decoration: none;
 }
 
 
@@ -466,8 +480,8 @@ header{
 
   background-color: #BAB5B5;
   box-shadow: 2px 4px 3px #0000004d;
-  width: 250px;
-  height: 120px;
+  width: 230px;
+  height: 110px;
   border-radius: 8px;
 
   display: flex;
@@ -478,7 +492,7 @@ header{
 
 #nomutilisateur{
   margin-top: 20px; 
-  font-size : 16px;
+  font-size : 17px;
   color: #ffffff;
   font-family:'Inter-Black';
   text-align:left;
@@ -487,7 +501,7 @@ header{
 
 #bio{ 
   margin-top: 5px;
-  font-size : 12px;
+  font-size : 15px;
   color: #ffffff;
   font-family:'Inter-Light';
   text-align:left;

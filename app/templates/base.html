@@ -11,7 +11,7 @@
                 {% if page_type == 'profil' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                        <a href="{{url_for('home.landing_page')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
                     </nav>
                 {% else %}
                     <nav id="header-nav-gauche">

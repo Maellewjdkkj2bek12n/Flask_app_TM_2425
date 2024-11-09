@@ -2,6 +2,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 from app.config import EMAIL_HOST, EMAIL_PORT, EMAIL_PASSWORD, EMAIL_ADDRESS
+from werkzeug.security import generate_password_hash
+import random 
+import string
 
 def send_email(to_address, subject, message, cc_addresses=None):
     # Création de l'objet email
@@ -36,4 +39,6 @@ def send_email(to_address, subject, message, cc_addresses=None):
 # Exemple d'utilisation
 # send_email("...@edufr.ch", "Objet de test", "Contenu du message", cc_addresses=["...@edufr.ch"])
 
-
+def send_email(to_address, subject, message, cc_addresses=None):
+    msg = message(subject, sender=app.config['MAIL_USERNAME'], recipients=[to_address])
+    msg.body = 1234
