@@ -507,3 +507,73 @@ header{
   text-align:left;
   line-height: 1,5;
 }
+
+/*affivhage d'une phtot en pariculier*/
+#affichage{
+  position : fixed;
+  top:10px;
+  z-index: 3;
+
+  height: 100%;
+  width: 100%;
+
+  display: grid ;
+  grid-template-columns: 20px [débutphotoengrand] 60vw [finphotoengrand] 20px [débutgalerie] auto [fingalerie] 20px;
+  grid-template-rows: 65px [haut] 75vh [finhaut] 20px [createur] auto [fincreateur] 20px;
+}
+
+#arrièrephotoagrandie{
+  position : fixed;
+  grid-column-start: débutphotoengrand;
+  grid-column-end: finphotoengrand;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+  justify-self: center;
+  align-self: center;
+  z-index: 3;
+ 
+  background-color: #ffffff;
+  width: 60vw;
+  height: 75vh;
+  box-shadow: 2px 4px 3px #0000004d;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#photoagrandie{
+  object-fit: contain;
+  width: 55vw;
+  height: 70vh;
+}
+
+#galerierapetissie{
+  position : fixed;
+  grid-column-start: débutgalerie;
+  grid-column-end: fingalerie;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+  justify-self: center;
+  align-self: center;
+
+  z-index: 1;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.imagerapetissie{
+  object-fit: cover;
+  width: 90px;
+  height: 180px;
+}
+
+.celluleraptissie{
+  width: 90px;
+  height: 180px;
+}
+
