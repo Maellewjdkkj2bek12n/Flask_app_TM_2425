@@ -514,7 +514,7 @@ header{
 
   display: grid ;
   grid-template-columns: 20px [débutphotoengrand] 60vw [finphotoengrand] 20px [débutgalerie] auto [fingalerie] 20px;
-  grid-template-rows: 64px [haut] 75vh [finhaut] 20px [createur] 10vh [fincreateur] 20px;
+  grid-template-rows: 64px [haut] 75vh [finhaut]  10vh [fincreateur] 20px;
 }
 
 #arrièrephotoagrandie{
@@ -572,4 +572,31 @@ header{
   object-fit: cover;
   width: 100%;
   height: 100%;
+}
+
+#createur{
+  grid-column-start: débutphotoengrand;
+  grid-column-end: fingalerie;
+  grid-row-start: finhaut;
+  grid-row-end: fincreateur;
+
+  justify-self: start;
+  align-self: center;
+  z-index: 3;
+
+  font-size : 13px;
+  color: #000000;
+  font-family:'Inter-Black';
+  text-align:left;
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+}
+
+#createurphoto{
+  width: 5%;
+  height: 5%;
 }
