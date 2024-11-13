@@ -178,11 +178,6 @@ header{
   height: 180px;
 }
 
-.cellule{
-  width: 180px;
-  height: 180px;
-}
-
 /*petit texte central*/
 
 #zone-texte{
@@ -519,7 +514,7 @@ header{
 
   display: grid ;
   grid-template-columns: 20px [débutphotoengrand] 60vw [finphotoengrand] 20px [débutgalerie] auto [fingalerie] 20px;
-  grid-template-rows: 65px [haut] 75vh [finhaut] 20px [createur] auto [fincreateur] 20px;
+  grid-template-rows: 64px [haut] 75vh [finhaut] 20px [createur] 10vh [fincreateur] 20px;
 }
 
 #arrièrephotoagrandie{
@@ -550,30 +545,31 @@ header{
 }
 
 #galerierapetissie{
-  position : fixed;
   grid-column-start: débutgalerie;
   grid-column-end: fingalerie;
   grid-row-start: haut;
   grid-row-end: finhaut;
+
   justify-self: center;
   align-self: center;
+  z-index: 3;
 
-  z-index: 1;
+  width: 100%;
+  height: 74vh;
 
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid ;
+  grid-template-columns: repeat(6, auto);
+  grid-template-rows: repeat (4, auto);
+  gap : 3%;
+}
+
+.imagerapetissie:nth-child(n+25) {
+  display:none;
 }
 
 .imagerapetissie{
+  align-self: center;
   object-fit: cover;
-  width: 90px;
-  height: 180px;
+  width: 100%;
+  height: 100%;
 }
-
-.celluleraptissie{
-  width: 90px;
-  height: 180px;
-}
-
