@@ -144,6 +144,7 @@ header{
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 /*écritures du haut*/
@@ -153,6 +154,7 @@ header{
   color: #ffffff;
   font-family: 'Inter-Black';
   text-decoration: none;
+  cursor: pointer;
 }
 
 #header-nav a:hover{
@@ -177,6 +179,7 @@ header{
   object-fit: cover;
   width: 180px;
   height: 180px;
+  cursor: pointer;
 }
 
 /*petit texte central*/
@@ -262,6 +265,7 @@ header{
   justify-content: space-between;
   align-items: center;
   align-content: center;
+  cursor: pointer;
 
   width: 240px;  
   height: 19px; 
@@ -298,6 +302,7 @@ header{
 
 #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover {
   font-size : 14px;
+  cursor: pointer;
 }
 
 /*highlight des boutons quand on clique dessus*/
@@ -336,10 +341,12 @@ header{
   color: #707070;
   font-family: 'Inter-Black';
   text-decoration: none;
+  cursor: pointer;
 }
 
 #highligh-login a:hover, #highligh-register a:hover{
   font-size : 16px;
+  cursor: pointer;
 }
 
 /*assombrissement de la galerie pour la page d'accueil*/
@@ -404,12 +411,13 @@ header{
 
 .login-dernier-grand-bouton{
   margin-bottom : 22px;
+  cursor: pointer;
 }
 
 /*partie profil*/
 
 #profil{
-  position : fixed;
+  position : absolute;
   top:10px;
   z-index: 3;
 
@@ -417,12 +425,12 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: 20px [débutphotodeprofil] 190px [finphotodeprofil] 250px [fininfo] auto;
+  grid-template-columns: 20px [débutphotodeprofil] 190px [finphotodeprofil] 250px [fininfo] auto [fin] 20px;
   grid-template-rows: 70px [info] 180px [fininfo] 55px [débutgalerie] 145px [finlogo] auto [fingalerie];
 }
 
 .photodeprofil{
-  position : fixed;
+  position : absolute;
   grid-row-start: info;
   grid-row-end: fininfo;
   grid-column-start: débutphotodeprofil;
@@ -437,7 +445,7 @@ header{
 }
 
 .pascréations{
-  position : fixed;
+  position : absolute;
   grid-row-start: débutgalerie;
   grid-row-end: finlogo;
   justify-self: center;
@@ -450,7 +458,7 @@ header{
 }
 
 .Aucune_création{
-  position : fixed;
+  position : absolute;
   grid-row-start: finlogo;
   grid-row-end: fingalerie;
   justify-self: center;
@@ -463,9 +471,27 @@ header{
   text-decoration: none;
 }
 
+#galerierapetissieuser{
+  position : absolute;
+  grid-row-start: débutgalerie;
+  grid-column-start: débutphotodeprofil;
+  grid-column-end: fin;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  min-height: max-content;
+  gap: 2vw;
+}
+
+.imagerapetissieuser{
+  object-fit: cover;
+  width: calc(95% / 3) ;
+  height: 200px;
+}
 
 #Infoutilisateur{
-  position : fixed;
+  position : absolute;
   grid-row-start: info;
   grid-row-end: fininfo;
   grid-column-start: finphotodeprofil;
@@ -504,7 +530,7 @@ header{
   line-height: 1,5;
 }
 
-/*affivhage d'une phtot en pariculier*/
+/*affivhage d'une photo en pariculier*/
 #affichage{
   position : fixed;
   top:10px;
@@ -560,6 +586,7 @@ header{
 }
 
 #galerierapetissie{
+  position: absolute;
   grid-column-start: débutgalerie;
   grid-column-end: fingalerie;
   grid-row-start: haut;
@@ -576,10 +603,7 @@ header{
   grid-template-columns: repeat(6, auto);
   grid-template-rows: repeat (4, auto);
   gap : 3%;
-}
-
-.imagerapetissie:nth-child(n+25) {
-  display:none;
+  cursor: pointer;
 }
 
 .imagerapetissie{
@@ -589,7 +613,7 @@ header{
   height: 100%;
 }
 
-#createur{
+#createur, #createur a{
   grid-column-start: débutphotoengrand;
   grid-column-end: fingalerie;
   grid-row-start: finhaut;
@@ -603,17 +627,20 @@ header{
   color: #000000;
   font-family:'Inter-Black';
   text-align:left;
+  text-decoration: none;
 
   display: flex;
   flex-flow: row nowrap;
   justify-content: start;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 }
 
 #createurphoto{
   width: 5%;
   height: 5%;
+  cursor: pointer;
 }
 
 /*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
@@ -651,6 +678,7 @@ header{
   margin-top: 5px;
 
   font-family:'Inter-Light';
+  cursor: pointer;
 }
 
 .menu1.hidden, .menu2.hidden, .menu3.hidden {

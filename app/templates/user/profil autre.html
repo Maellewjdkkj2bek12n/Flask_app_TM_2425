@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Profil
+{% endblock %}
+
+{% block content %}
+  <div id="profil">
+    <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+    <div id="Infoutilisateur">
+        <ul>
+          <li id= "nomutilisateur">{{g.user.username}}</li>
+          <li id= "bio">{{g.user.bio}}</li>
+        </ul>
+    </div>
+      
+      <div id="galerierapetissieuser">  
+          <!--  Evidemment, plutôt que de copier-coller, il faudra réaliser une boucle à l'aide des template Jinja. Cette boucle affichera les images préalablement récupérées dans la base de données   -->
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+          <img class="imagerapetissieuser" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+      </div> 
+  </div>
+  
+{% endblock %}

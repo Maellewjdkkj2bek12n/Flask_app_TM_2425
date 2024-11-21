@@ -13,3 +13,9 @@ def show_profile():
     page_type = 'profil'
     # Affichage de la page principale de l'application
     return render_template('user/profil.html', page_type=page_type)
+
+@user_bp.route('/profil autre', methods=('GET', 'POST'))
+def show_autreprofile():
+    page_type = 'profile_autres'
+    # Affichage de la page principale de l'application
+    return render_template('user/profil autre.html', page_type=page_type)

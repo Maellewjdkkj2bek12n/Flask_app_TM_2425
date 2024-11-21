@@ -46,7 +46,7 @@ Bienvenue dans la Galerie
     </a>
     <div id="createur">
         <img id= "createurphoto" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-        <a>@julie_delaprairie02-dessin</a>
+        <a href={{url_for('user.show_autreprofile')}}>@julie_delaprairie02-dessin</a>
     </div>
 </div>         
 {% endblock %}
