@@ -11,24 +11,48 @@
                 {% if page_type == 'profil' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-                        <a href="{{url_for('home.landing_page')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                        <a><img id = "menu-toggle1" class= "logo" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
+                    <div id="menu1" class="menu1 hidden">
+                        <input type="submit" value="Modifier le nom d’utilisateur" class="menuboutons">
+                        <input type="submit" value="Modifier la photo de profil" class="menuboutons">
+                        <input type="submit" value="Modifier la bio" class="menuboutons">
+                        <input type="submit" value="Modifier le mot de passe" class="menuboutons">
+                        <input type="submit" value="Ajouter des photos d’œuvre" class="menuboutons">
+                        <input type="submit" value="Voir les utilisateurs suivis" class="menuboutons">
+                        <input type="submit" value="Voir les utilisateurs bloqués" class="menuboutons">
+                    </div>
                 {% elif page_type == 'profile_autres' %}
                     <nav id="header-nav-gauche">
                         <a href="{{ url_for('home.landing_page') }}">Retour</a>
                     </nav>
                     <nav id="header-nav-droite3">
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                        <a><img id = "menu-toggle2" class= "logo" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
+                    <div id="menu2" class="menu2 hidden">
+                        <input type="submit" value="Contacter" class="menuboutons">
+                        <input type="submit" value="Suivre" class="menuboutons">
+                        <input type="submit" value="Bloquer" class="menuboutons">
+                    </div>
                 {% else %}
                     <nav id="header-nav-gauche">
                         <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
                     </nav>
                     <nav id="header-nav-droite3">
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                        <a><img id = "menu-toggle3" class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
                     </nav>
+                        <div id="menu3" class="menu3 hidden">
+                            <input type="submit" value="Photographie" class="menuboutons">
+                            <input type="submit" value="Peinture" class="menuboutons">
+                            <input type="submit" value="Sculpture" class="menuboutons">
+                            <input type="submit" value="Architecture" class="menuboutons">
+                            <input type="submit" value="Dessin" class="menuboutons">
+                            <input type="submit" value="Gravure" class="menuboutons">
+                            <input type="submit" value="Graphisme" class="menuboutons">
+                        </div>
+                
                 {% endif %}
             {% else %}
                 {% if page_type == 'MDP' %}

@@ -130,6 +130,7 @@ header{
   object-fit: cover;
   width: 37px;
   height: 37px;
+  cursor: pointer;
 }
 
 /*boutons du haut à gauche*/
@@ -544,6 +545,20 @@ header{
   height: 70vh;
 }
 
+#liengalerie {
+  grid-column-start: débutgalerie;
+  grid-column-end: fingalerie;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+
+  justify-self: center;
+  align-self: center;
+  z-index: 8;
+
+  width: 100%;
+  height: 74vh;
+}
+
 #galerierapetissie{
   grid-column-start: débutgalerie;
   grid-column-end: fingalerie;
@@ -552,7 +567,7 @@ header{
 
   justify-self: center;
   align-self: center;
-  z-index: 3;
+  z-index: 7;
 
   width: 100%;
   height: 74vh;
@@ -599,4 +614,45 @@ header{
 #createurphoto{
   width: 5%;
   height: 5%;
+}
+
+/*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
+
+.menu1 , .menu2, .menu3 {
+  position : fixed;
+  z-index: 4;
+  top:53px;
+  right:10px;
+
+  background-color: #efeded00;
+  width: 200px;
+
+  display: flex;
+  flex-flow: row wrap;
+
+  justify-content: space-around;  
+  align-items: center;
+
+  font-size : 15px;
+  color: #000000;
+  font-family:'Inter-Light';
+  line-height: 1,5;
+}
+
+.menuboutons {
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 2px 4px 2px #0000004d;
+  border-radius: 8px;
+
+  width: 100%;  
+  height: 35px;
+  cursor: pointer;
+  margin-top: 5px;
+
+  font-family:'Inter-Light';
+}
+
+.menu1.hidden, .menu2.hidden, .menu3.hidden {
+  display: none;
 }
