@@ -16,7 +16,7 @@ def register():
         # On récupère les champs 'nom_utilisateur' et 'password' de la requête HTTP
         
         mail = request.form['mail'] 
-        code = request.form['code'] 
+        #code = request.form['code'] 
         username = request.form['username'] 
         password = request.form['password'] 
         confirm_password = request.form['confirm_password']
@@ -26,7 +26,7 @@ def register():
 
         # Si le nom d'utilisateur et le mot de passe ont bien une valeur
         # on essaie d'insérer l'utilisateur dans la base de données
-        if username and password and mail and confirm_password and code:
+        if username and password and mail and confirm_password :
             
             #il faut que les deux mots de passes soient les mêmes 
             if password != confirm_password: 
@@ -35,9 +35,9 @@ def register():
                 return redirect(url_for("auth.register"))
             
             #il faut que le code de confirmations soit le bon cote de confirmation 
-            if code != session.get('confirmation_code'): 
-                flash('Code de confirmation incorrect.') 
-                return redirect(url_for("auth.register"))
+            #if code != session.get('confirmation_code'): 
+            #    flash('Code de confirmation incorrect.') 
+            #    return redirect(url_for("auth.register"))
             
             #on met les valeurs dans la base de donnée 
             try:
