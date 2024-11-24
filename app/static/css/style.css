@@ -428,8 +428,8 @@ header{
   width: 100%;
 
   display: grid ;
-  grid-template-columns: 20px [débutphotodeprofil] 190px [finphotodeprofil] 250px [fininfo] auto [fin] 20px;
-  grid-template-rows: 70px [info] 180px [fininfo] 55px [débutgalerie] 145px [finlogo] auto [fingalerie];
+  grid-template-columns: 5vw [débutphotodeprofil] 190px [finphotodeprofil] 250px [fininfo] auto [fin] 5vw;
+  grid-template-rows: 73px [info] 180px [fininfo] 55px [débutgalerie] 145px [finlogo] auto [fingalerie];
 }
 
 .photodeprofil{
@@ -484,7 +484,7 @@ header{
   align-self: center;
   z-index: 7;
 
-  width: 90%;
+  width: 93%;
 
   display: grid ;
   grid-template-columns: repeat(3, auto);
