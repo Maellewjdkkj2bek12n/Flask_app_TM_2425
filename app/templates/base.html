@@ -11,7 +11,7 @@
                 {% if page_type == 'profil' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-                        <a><img id = "menu-toggle1" class= "logo" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
+                        <a><img id = "menu-toggle1" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
                     <div id="menu1" class="menu1 hidden">
                         <input type="submit" value="Modifier le nom d’utilisateur" class="menuboutons">
@@ -28,7 +28,7 @@
                     </nav>
                     <nav id="header-nav-droite3">
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-                        <a><img id = "menu-toggle2" class= "logo" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
+                        <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
                     <div id="menu2" class="menu2 hidden">
                         <input type="submit" value="Contacter" class="menuboutons">
@@ -41,7 +41,7 @@
                     </nav>
                     <nav id="header-nav-droite3">
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-                        <a><img id = "menu-toggle3" class= "logo" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+                        <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
                     </nav>
                         <div id="menu3" class="menu3 hidden">
                             <input type="submit" value="Photographie" class="menuboutons">
