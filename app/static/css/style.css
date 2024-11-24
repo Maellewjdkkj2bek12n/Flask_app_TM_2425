@@ -17,10 +17,13 @@
     4. Improve text rendering
   */
   body {
+    margin: 0; 
+    height: 100vh;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background-color : #e7e5e5;
+    background : linear-gradient(to top, #D1D1D1, #ffffff);
+    background-attachment: fixed; 
   }
   
   /* 5. Improve media defaults */

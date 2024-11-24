@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
             menu1.classList.toggle('hidden');
 
             if (menu1.classList.contains('hidden'))  {
-                menuToggle1.src = 'http://localhost:5000/static/imgs/Settings.png' ; 
+                menuToggle1.src = '/static/imgs/Settings.png' ; 
             } else {
-                menuToggle1.src = 'http://localhost:5000/static/imgs/SettingsA.png' ;
+                menuToggle1.src = '/static/imgs/SettingsA.png' ;
             }
         });
 });
@@ -29,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
             menu2.classList.toggle('hidden');
 
         if (menu2.classList.contains('hidden'))  {
-            menuToggle2.src = 'http://localhost:5000/static/imgs/Settings.png'; 
+            menuToggle2.src = '/static/imgs/Settings.png'; 
         } else {
-            menuToggle2.src = 'http://localhost:5000/static/imgs/SettingsA.png';
+            menuToggle2.src = '/static/imgs/SettingsA.png';
         }
         });
 });
@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
             menu3.classList.toggle('hidden');
 
         if (menu3.classList.contains('hidden'))  {
-            menuToggle3.src = 'http://localhost:5000/static/imgs/Filtre.png'; 
+            menuToggle3.src = '/static/imgs/Filtre.png'; 
         } else {
-            menuToggle3.src = 'http://localhost:5000/static/imgs/FiltreA.png';
+            menuToggle3.src = '/static/imgs/FiltreA.png';
         }
         });
 });
