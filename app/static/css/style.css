@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #d1d1d1, #ffffff);
+    background : linear-gradient(to top, #cbcbcb, #ffffff);
     background-attachment: fixed; 
   }
   
@@ -567,7 +567,6 @@ header{
 }
 
 /*affivhage d'une photo en pariculier*/
-/*marche pour page uploade aussi*/
 #affichage{
   position : fixed;
   top:10px;
@@ -701,18 +700,13 @@ header{
 
 /*page uploade*/
 .upload{
-  position: absolute;
-  grid-column-start: débutgalerie;
-  grid-column-end: fingalerie;
-  grid-row-start: haut;
-  grid-row-end: finhaut;
-
-  justify-self: center;
-  align-self: center;
+  position: fixed;
+  top:64px;
+  right:20px;
   z-index: 7;
 
-  width: 100%;
-  height: 74vh;
+  width: calc(40vw - 30px);
+  height: 450px;
 
   display: flex;
   flex-flow: row wrap;
@@ -720,10 +714,29 @@ header{
   justify-content: center ;
 }
 
-.uploadeecriture{
-  height: calc(19vh - 36px);
+#arrièrephotoupload{
+  position : fixed;
+  top:64px;
+  left: 20px;
+  z-index: 3;
+ 
+  background-color: #ffffff;
+  width: calc(60vw - 30px);
+  height: 450px;
+  box-shadow: 2px 4px 3px #0000004d;
+  border-radius: 8px;
 
-  font-size: 4.7vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadeecriture{
+  height: calc(450px - 350px - 15px);
+  width: 300px;
+  margin-top: 15px;
+
+  font-size: 25px;
   line-height: 1.2;
   color: #464646;
   font-family:'Inter';
@@ -743,19 +756,53 @@ header{
   border-radius: 8px;
 
   width: 100%; 
-  height: 8vh;
+  height: 45px;
   cursor: pointer;
   margin-top: 5px;
 
-  font-size: 3vh;
+  font-size: 17px;
   font-family:'Inter-Light';
   color: #000000;
   cursor: pointer;
   transition: transform 0.3s ease;
 }
 
-.uploadgrandsboutons:hover {
+.uploadgrandsboutons:hover, .uploadpetitsboutons:hover{
   transform: scale(1.1);
+}
+
+.uploadpetit{
+  position: fixed;
+  top: calc(64px + 450px + 25px);
+  left:20px;
+  z-index: 7;
+
+  width: calc(60vw - 30px);
+  
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center; 
+  gap: 45px;
+  transition: transform 0.3s ease;
+}
+
+.uploadpetitsboutons {
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 2px 4px 2px #0000004d;
+  border-radius: 8px;
+
+  width: 155px; 
+  height: 24px;
+  cursor: pointer;
+  margin-top: 5px;
+
+  font-size: 15px;
+  font-family:'Inter-Black';
+  color: #000000;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 /*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
