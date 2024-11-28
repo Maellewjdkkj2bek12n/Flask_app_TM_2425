@@ -134,6 +134,11 @@ header{
   width: 37px;
   height: 37px;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo, #menu-toggle1, #menu-toggle2, #menu-toggle3 :hover {
+  transform: scale(1.1);
 }
 
 /*boutons du haut à gauche*/
@@ -158,10 +163,12 @@ header{
   font-family: 'Inter-Black';
   text-decoration: none;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 #header-nav a:hover{
   font-size : 16px;
+  transform: scale(1.1);
 }
 
 /* fond avec toutes les ptites images de la galerie*/
@@ -183,7 +190,13 @@ header{
   width: 180px;
   height: 180px;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
+
+.image:hover {
+  transform: scale(1.1);
+}
+
 
 /*petit texte central*/
 
@@ -261,6 +274,7 @@ header{
   cursor: pointer;
 
   font-family:'Inter-Light';
+  transition: transform 0.3s ease;
 }
 
 #login-petits-boutons{
@@ -273,6 +287,7 @@ header{
   width: 240px;  
   height: 19px; 
   margin-top : 6px;
+  transition: transform 0.3s ease;
 }
 
 .login-petits-boutons2 {
@@ -286,7 +301,9 @@ header{
   cursor: pointer;
 
   font-family:'Inter-Light';
+  transition: transform 0.3s ease;
 }
+
 
 #login-petits-boutons a, #login-petits-boutons a:hover,.login-petits-boutons1 {
   background: none;
@@ -301,11 +318,13 @@ header{
   font-family:'Inter-Light';
   text-align: left;
   text-decoration: none;
+  transition: transform 0.3s ease;
 }
 
 #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover {
   font-size : 14px;
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 /*highlight des boutons quand on clique dessus*/
@@ -345,11 +364,13 @@ header{
   font-family: 'Inter-Black';
   text-decoration: none;
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 #highligh-login a:hover, #highligh-register a:hover{
   font-size : 16px;
   cursor: pointer;
+  transform: scale(1.1);
 }
 
 /*assombrissement de la galerie pour la page d'accueil*/
@@ -497,6 +518,12 @@ header{
   object-fit: cover;
   width: 100%;
   height: 40vh;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#galerierapetissieuser :hover{
+  transform: scale(1.07);
 }
 
 #Infoutilisateur{
@@ -540,6 +567,7 @@ header{
 }
 
 /*affivhage d'une photo en pariculier*/
+/*marche pour page uploade aussi*/
 #affichage{
   position : fixed;
   top:10px;
@@ -613,6 +641,11 @@ header{
   grid-template-rows: repeat (3, auto);
   gap : 3%;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+#galerierapetissie:hover {
+  transform: scale(1.03);
 }
 
 .imagerapetissie {
@@ -626,7 +659,7 @@ header{
   display: none;
 }
 
-#createur, #createur a{
+.createur, .createur a, #tiret, #tiret :hover{
   grid-column-start: débutphotoengrand;
   grid-column-end: fingalerie;
   grid-row-start: finhaut;
@@ -634,26 +667,95 @@ header{
 
   justify-self: start;
   align-self: center;
-  z-index: 3;
-
-  font-size : 13px;
-  color: #000000;
-  font-family:'Inter-Black';
-  text-align:left;
-  text-decoration: none;
+  z-index: 9;
 
   display: flex;
   flex-flow: row nowrap;
-  justify-content: start;
+  justify-content: start space-between;
   align-items: center;
-  gap: 10px;
-  cursor: pointer;
+  gap: 5px;
 }
 
 #createurphoto{
-  width: 5%;
-  height: 5%;
+  width: 5vh;
+  height: 5vh;
   cursor: pointer;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.createur, .createur a{
+  font-size : 13px;
+  color: #000000;
+  font-family:'Inter-Black';
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+
+.createur :hover, .createurphoto :hover, .createur a:hover {
+  transform: scale(1.03);
+}
+
+/*page uploade*/
+.upload{
+  position: absolute;
+  grid-column-start: débutgalerie;
+  grid-column-end: fingalerie;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+
+  justify-self: center;
+  align-self: center;
+  z-index: 7;
+
+  width: 100%;
+  height: 74vh;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center ;
+  justify-content: center ;
+}
+
+.uploadeecriture{
+  height: calc(19vh - 36px);
+
+  font-size: 4.7vh;
+  line-height: 1.2;
+  color: #464646;
+  font-family:'Inter';
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start ;
+  justify-content: center ;
+}
+.uploadgrandsboutons {
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 2px 4px 2px #0000004d;
+  border-radius: 8px;
+
+  width: 100%; 
+  height: 8vh;
+  cursor: pointer;
+  margin-top: 5px;
+
+  font-size: 3vh;
+  font-family:'Inter-Light';
+  color: #000000;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.uploadgrandsboutons:hover {
+  transform: scale(1.1);
 }
 
 /*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
@@ -665,7 +767,7 @@ header{
   right:10px;
 
   background-color: #efeded00;
-  width: 200px;
+  width: 230px;
 
   display: flex;
   flex-flow: row wrap;
@@ -685,13 +787,19 @@ header{
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 100%;  
+  width: 230px; 
   height: 35px;
   cursor: pointer;
   margin-top: 5px;
 
+  font-size: 15px;
   font-family:'Inter-Light';
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.menuboutons:hover {
+  transform: scale(1.1);
 }
 
 .menu1.hidden, .menu2.hidden, .menu3.hidden, .menu4.hidden {

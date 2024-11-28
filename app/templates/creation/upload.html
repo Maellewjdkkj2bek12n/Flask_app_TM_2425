@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+
+{% block content %}
+<div id= "affichage"> 
+    <div id= "arrièrephotoagrandie">
+        <img id= "photoagrandie" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+    </div>
+    <div class="upload">
+        <div class="uploadeecriture">
+            <a>Sélectionner le/les <br> catégories de l'œuvre </a>
+        </div>
+        <div>
+            <input type="button" value="Photographie" class="uploadgrandsboutons">
+            <input type="button" value="Peinture" class="uploadgrandsboutons">
+            <input type="button" value="Sculpture" class="uploadgrandsboutons">
+            <input type="button" value="Architecture" class="uploadgrandsboutons">
+            <input type="button" value="Dessin" class="uploadgrandsboutons">
+            <input type="button" value="Gravure" class="uploadgrandsboutons">
+            <input type="button" value="Graphisme" class="uploadgrandsboutons">
+        </div>
+    </div>
+
+</div>
+{% endblock %}

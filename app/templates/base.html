@@ -18,23 +18,28 @@
                         <input type="button" value="Modifier la photo de profil" class="menuboutons">
                         <input type="button" value="Modifier la bio" class="menuboutons">
                         <input type="button" value="Modifier le mot de passe" class="menuboutons">
-                        <input type="button" id = "menu-toggle4" value="Ajouter des photos d’œuvre" class="menuboutons">
+                        <input type="button" id = "switchToMenu4" value="Ajouter des photos d’œuvre" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
                     </div>
                     <div id="menu4" class="menu4 hidden">
-                        <input type="button" value="Modifier le nom d’utilisateur" class="menuboutons">
+                        <a href="{{url_for('creation.upload')}}">
+                        <input type="button" value="Parcourir les fichiers" class="menuboutons">
+                        </a>
                     </div>
-                {% elif page_type == 'profile_autres' %}
-                    <nav id="header-nav-gauche">
-                        <a href="{{ url_for('home.landing_page') }}">Retour</a>
-                    </nav>
+                {% elif page_type == 'profil_setting' %}
                     <nav id="header-nav-droite3">
+                        <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+                    </nav>
+                {% elif page_type == 'profile_autres' %}
+                    <nav id="header-nav-droite3">
+                        <a href="{{ url_for('home.landing_page') }}">Galerie</a>
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
                         <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
                     <div id="menu2" class="menu2 hidden">
-                        <input type="button" value="Contacter" class="menuboutons">
+                        <input type="button" onclick="{{ url_for('home.landing_page') }}" value="Contacter" class="menuboutons">
                         <input type="button" value="Suivre" class="menuboutons">
                         <input type="button" value="Bloquer" class="menuboutons">
                     </div>

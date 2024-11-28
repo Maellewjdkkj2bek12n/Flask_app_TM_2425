@@ -6,27 +6,29 @@ console.log("Script bien chargé")
 document.addEventListener('DOMContentLoaded', () => {
         // Sélectionner logo et menu
         const menuToggle1 = document.getElementById('menu-toggle1');
+        const switchToMenu4 = document.getElementById('switchToMenu4');
         const menu1 = document.getElementById('menu1');
+        const menu4 = document.getElementById('menu4');
 
         // Ajouter un événement de clic à logo
         menuToggle1.addEventListener('click', () => {
             // Basculer la classe "hidden" sur le menu
             menu1.classList.toggle('hidden');
+            menu4.classList.add('hidden');
 
-            if (menu1.classList.contains('hidden'))  {
-                menuToggle1.src = '/static/imgs/Settings.png' ; 
+            if (!menu4.classList.contains('hidden')) {
+                menuToggle1.src = '/static/imgs/SettingsA.png';
+            } else if (!menu1.classList.contains('hidden')) {
+                menuToggle1.src = '/static/imgs/SettingsA.png';
             } else {
-                menuToggle1.src = '/static/imgs/SettingsA.png' ;
+                menuToggle1.src = '/static/imgs/Settings.png';
             }
         });
 
-        window.showMenu = (menu4) => {
-            document.querySelectorAll('.menu').forEach(menu => {
-                menu.classList.add('hidden'); // Cacher tous les menus
-                
-            });
-            document.getElementById(menu4).classList.remove('hidden'); // Afficher le menu sélectionné
-        };
+        switchToMenu4.addEventListener('click', () => {
+            menu1.classList.add('hidden');
+            menu4.classList.remove('hidden');
+        });
 });
 
 //pour bloquer et parler à autre utilisateurs
@@ -45,17 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             menuToggle2.src = '/static/imgs/SettingsA.png';
         }
-        });
-
-        document.addEventListener('click', () => {
-            if (!menu2.classList.contains('hidden')) {
-                menu2.classList.add('hidden');
-                menuToggle2.src = '/static/imgs/Settings.png'; // Remettre l'icône initiale
-            }
-        });
-
-        menu2.addEventListener('click', (event) => {
-            event.stopPropagation();
         });
 });
 
