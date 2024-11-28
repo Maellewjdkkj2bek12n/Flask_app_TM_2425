@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #D1D1D1, #ffffff);
+    background : linear-gradient(to top, #d1d1d1, #ffffff);
     background-attachment: fixed; 
   }
   
@@ -658,7 +658,7 @@ header{
 
 /*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
 
-.menu1 , .menu2, .menu3 {
+.menu1 , .menu2, .menu3, .menu4 {
   position : fixed;
   z-index: 4;
   top:53px;
@@ -694,6 +694,6 @@ header{
   cursor: pointer;
 }
 
-.menu1.hidden, .menu2.hidden, .menu3.hidden {
+.menu1.hidden, .menu2.hidden, .menu3.hidden, .menu4.hidden {
   display: none;
 }
