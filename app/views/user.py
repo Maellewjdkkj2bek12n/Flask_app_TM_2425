@@ -9,13 +9,14 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 # Route /user/profile accessible uniquement à un utilisateur connecté grâce au décorateur @login_required
 @user_bp.route('/profil', methods=('GET', 'POST'))
 @login_required 
-def show_profile():
+def show_profile() :
+    
     page_type = 'profil'
-    # Affichage de la page principale de l'application
     return render_template('user/profil.html', page_type=page_type)
+
 
 @user_bp.route('/profil autre', methods=('GET', 'POST'))
 def show_autreprofile():
-    page_type = 'profile_autres'
+    page_type = 'profil_autres'
     # Affichage de la page principale de l'application
-    return render_template('user/profil autre.html', page_type=page_type)
+    return render_template('user/profil autre.html', page_type=page_type, user=g.user)

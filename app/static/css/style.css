@@ -66,6 +66,13 @@
 }
 
 @font-face {
+  font-family: 'Inter'; 
+  src: url('../fonts/InterTight-SemiBold.ttf') format('truetype');
+  font-weight: normal; 
+  font-style: normal; 
+}
+
+@font-face {
   font-family: 'Inter-Black'; 
   src: url('../fonts/InterTight-ExtraBold.ttf') format('truetype');
   font-weight: normal; 
@@ -799,7 +806,7 @@ header{
   margin-top: 5px;
 
   font-size: 15px;
-  font-family:'Inter-Black';
+  font-family:'Inter';
   color: #000000;
   cursor: pointer;
   transition: transform 0.3s ease;
