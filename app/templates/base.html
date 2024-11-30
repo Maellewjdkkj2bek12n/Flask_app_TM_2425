@@ -14,23 +14,40 @@
                         <a><img id = "menu-toggle1" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
                     <div id="menu1" class="menu1 hidden">
-                        <input type="button" value="Modifier le nom d’utilisateur" class="menuboutons">
-                        <input type="button" value="Modifier la photo de profil" class="menuboutons">
-                        <input type="button" value="Modifier la bio" class="menuboutons">
+                        <input type="button" id = "switchToMenu11" value="Modifier le nom d’utilisateur" class="menuboutons">
+                        <input type="button" id = "switchToMenu12" value="Modifier la photo de profil" class="menuboutons">
+                        <input type="button" id = "switchToMenu13" value="Modifier la bio" class="menuboutons">
                         <input type="button" value="Modifier le mot de passe" class="menuboutons">
-                        <input type="button" id = "switchToMenu4" value="Ajouter des photos d’œuvre" class="menuboutons">
+                        <input type="button" id = "switchToMenu14" value="Ajouter des photos d’œuvre" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
                     </div>
-                    <div id="menu4" class="menu4 hidden">
+
+                    <div id="menu11" class="menu11 hidden">
+                        <input type="texte" value="Entrez le nouveau nom d'utilisateur ici." class="menuboutons">
+                        </a>
+                    </div>
+
+                    <div id="menu12" class="menu12 hidden">
                         <a href="{{url_for('creation.upload')}}">
                         <input type="button" value="Parcourir les fichiers" class="menuboutons">
                         </a>
                     </div>
+
+                    <div id="menu13" class="menu13 hidden">
+                        <input type="texte" value="Entrez la nouvelle bio ici." class="menuboutons">
+                        </a>
+                    </div>
+
+                    <div id="menu14" class="menu14 hidden">
+                        <a href="{{url_for('creation.upload')}}">
+                        <input type="button" value="Parcourir les fichiers" class="menuboutons">
+                        </a>
+                    </div>
+
                 {% elif page_type == 'profil_setting' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-                        <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
                     </nav>
                 {% elif page_type == 'profil_autres' %}
                     <nav id="header-nav-droite3">
@@ -52,13 +69,13 @@
                         <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
                     </nav>
                         <div id="menu3" class="menu3 hidden">
-                            <input type="button" value="Photographie" class="menuboutons">
-                            <input type="button" value="Peinture" class="menuboutons">
-                            <input type="button" value="Sculpture" class="menuboutons">
-                            <input type="button" value="Architecture" class="menuboutons">
-                            <input type="button" value="Dessin" class="menuboutons">
-                            <input type="button" value="Gravure" class="menuboutons">
-                            <input type="button" value="Graphisme" class="menuboutons">
+                            <input type="button" value="Photographie" class="typeartboutons">
+                            <input type="button" value="Peinture" class="typeartboutons">
+                            <input type="button" value="Sculpture" class="typeartboutons">
+                            <input type="button" value="Architecture" class="typeartboutons">
+                            <input type="button" value="Dessin" class="typeartboutons">
+                            <input type="button" value="Gravure" class="typeartboutons">
+                            <input type="button" value="Graphisme" class="typeartboutons">
                         </div>
                 
                 {% endif %}
