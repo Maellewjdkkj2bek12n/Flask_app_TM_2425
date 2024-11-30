@@ -31,11 +31,11 @@ Connect'Art
         <input type="submit" value="Connexion" class="login-petits-boutons2">
         </nav>
       </form>
-
-      {% for message in get_flashed_messages() %}
-        <div>{{ message }}</div>
-      {% endfor %}
     </div>
+    {% for message in get_flashed_messages() %}
+    <nav class="flash" id="flash">{{ message }}</nav>
+    {% endfor %}
+  
   </div>
   <!-- fin petits blocks du haut avec les boutons de connection-->
       <!-- Zone du mileux qui ne bouge pas-->

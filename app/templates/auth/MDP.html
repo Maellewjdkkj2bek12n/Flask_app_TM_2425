@@ -6,28 +6,39 @@ Connect'Art
 
 {% block content %}
   <!--partie du milieux avec les trucs pour changer le mot de passe-->
-  <div id="centreMDP">
   <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Clée.png') }}" alt="Clée">
-  <div id="MDP">
-    <form method="post">
-        <label for="mail">Adresse mail...</label>
-        <br />
-        <input name="mail" id="mail" required class="login-grands-boutons">
-        <br />
-        <label for="code">Code envoyé à l'adresse mail...</label>
-        <br />
-        <input name="code" id="code" class="login-grands-boutons">
-        <br />
-        <label for="password">Nouveau mot de passe...</label>
-        <br />
-        <input type="password" name="password" id="password" required class="login-grands-boutons">
-        <br />
-        <label for="password">Confirmez le nouveau mot de passe...</label>
-        <br />
-        <input type="password" name="password" id="password" required class="login-dernier-grand-bouton">
-      </form>
-  </div>
-  </div>
+    <div class="MDP">
+      <div>
+          <form method="post">
+              <label for="mail">Adresse mail...</label>
+              <br />
+              <input name="mail" id="mail" required class="login-grands-boutons">
+              <br />
+              <label for="password">Nouveau mot de passe...</label>
+              <br />
+              <input type="password" name="password" id="password" required class="login-grands-boutons">
+              <br />
+              <label for="confirm_password">Confirmez le mot de passe...</label>
+              <br />
+              <input type="password" name="confirm_password" id="confirm_password" required class="login-grands-boutons">
+              <br />
+              {% if g.user %}
+              <nav id="login-petits-boutons">
+                <a href="{{url_for('user.show_profile')}}">Annuler</a>
+                <input type="submit" value="Confirmation" class="login-petits-boutons2">
+              </nav>
+              {% else %}
+              <nav id="login-petits-boutons">
+                <a href="{{ url_for('auth.login') }}">Annuler</a>
+                <input type="submit" value="Confirmation" class="login-petits-boutons2">
+              </nav>
+              {% endif %}
+          </form>
+      </div>
+      {% for message in get_flashed_messages() %}
+            <div class="flash">{{ message }}</div>
+      {% endfor %}
+    </div>
   <!--partie du milieux avec les trucs pour changer le mot de passe-->
 
 

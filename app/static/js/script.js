@@ -128,4 +128,16 @@ typeartboutons.forEach(button => {
   });
 });
 
+//pour les flash message plus beau
+window.onload = function() {
+    // Sélectionner tous les messages flash
+    var flash = document.querySelectorAll('.flash');
+
+    // Définir un délai de disparition en millisecondes (par exemple, 5 secondes)
+    setTimeout(function() {
+        flash.forEach(function(msg) {
+            msg.style.display = 'none';  // Masquer le message
+        });
+    }, 2000); 
+};
 

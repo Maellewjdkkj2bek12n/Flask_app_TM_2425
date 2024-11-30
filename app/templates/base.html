@@ -17,15 +17,16 @@
                         <input type="button" id = "switchToMenu11" value="Modifier le nom d’utilisateur" class="menuboutons">
                         <input type="button" id = "switchToMenu12" value="Modifier la photo de profil" class="menuboutons">
                         <input type="button" id = "switchToMenu13" value="Modifier la bio" class="menuboutons">
+                        <a href="{{ url_for('auth.MDP') }}">
                         <input type="button" value="Modifier le mot de passe" class="menuboutons">
+                        </a>
                         <input type="button" id = "switchToMenu14" value="Ajouter des photos d’œuvre" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
                         <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
                     </div>
 
                     <div id="menu11" class="menu11 hidden">
-                        <input type="texte" value="Entrez le nouveau nom d'utilisateur ici." class="menuboutons">
-                        </a>
+                        <input type="texte" value="Écrivez ici...." class="menuboutons">
                     </div>
 
                     <div id="menu12" class="menu12 hidden">
@@ -35,8 +36,7 @@
                     </div>
 
                     <div id="menu13" class="menu13 hidden">
-                        <input type="texte" value="Entrez la nouvelle bio ici." class="menuboutons">
-                        </a>
+                        <input type="bio" value="Écrivez ici...." class="menuboutons">
                     </div>
 
                     <div id="menu14" class="menu14 hidden">
@@ -45,7 +45,7 @@
                         </a>
                     </div>
 
-                {% elif page_type == 'profil_setting' %}
+                {% elif page_type == 'profil_setting' or page_type == 'MDP'  %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
                     </nav>
@@ -56,7 +56,7 @@
                         <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
                     </nav>
                     <div id="menu2" class="menu2 hidden">
-                        <input type="button" onclick="{{ url_for('home.landing_page') }}" value="Contacter" class="menuboutons">
+                        <input type="button" value="Contacter" class="menuboutons">
                         <input type="button" value="Suivre" class="menuboutons">
                         <input type="button" value="Bloquer" class="menuboutons">
                     </div>
@@ -92,7 +92,7 @@
                         <a href="{{ url_for('auth.login') }}">Connexion</a>
                     </nav>
                 {% endif %}
-             {% endif %}
+            {% endif %}
         </nav>
     </header> 
     <main id="main-content">

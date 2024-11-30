@@ -51,7 +51,7 @@ def register():
             except db.IntegrityError:
                 # La fonction flash dans Flask est utilisée pour stocker un message dans la session de l'utilisateur
                 # dans le but de l'afficher ultérieurement, généralement sur la page suivante après une redirection
-                error = "Utilisateur {username} déjà enregistré."
+                error = "Oups, l'utilisateur {username} déjà enregistré."
                 flash(error)
                 return redirect(url_for("auth.register"))
             
@@ -89,9 +89,9 @@ def login():
         # on crée une variable error 
         error = None
         if user is None:
-            error = "Nom d'utilisateur incorrect"
+            error = "Le nom d'utilisateur est incorrect."
         elif not check_password_hash(user['mot_passe'], password):
-            error = "Mot de passe incorrect"
+            error = "Le mot de passe est incorrect."
 
         # S'il n'y pas d'erreur, on ajoute l'id de l'utilisateur dans une variable de session
         # De cette manière, à chaque requête de l'utilisateur, on pourra récupérer l'id dans le cookie session
@@ -120,6 +120,7 @@ def logout():
 
 # Fonction automatiquement appelée à chaque requête (avant d'entrer dans la route) sur une route appartenant au blueprint 'auth_bp'
 # La fonction permet d'ajouter un attribut 'user' représentant l'utilisateur connecté dans l'objet 'g' 
+
 @auth_bp.before_app_request
 def load_logged_in_user():
 
@@ -141,11 +142,49 @@ def load_logged_in_user():
         close_db()
         
         
-@auth_bp.route('/MDP')
+@auth_bp.route('/MDP', methods=['GET', 'POST'])
 def MDP():
-    # Affichage de la page pour le mot de passe oublié
+    
     page_type = 'MDP'
-    return render_template('auth/MDP.html', page_type=page_type)
+    
+    
+    if request.method == 'POST':
+        mail = request.form['mail']
+        password = request.form['password']
+        confirm_password = request.form['confirm_password']
 
+        # Vérifier si l'e-mail, le mot de passe et la confirmation sont remplis
+        if not mail or not password or not confirm_password:
+            flash("Veuillez remplir tous les champs.")
+            return redirect(url_for('auth.MDP'))
 
+        # Vérifier si les mots de passe correspondent
+        if password != confirm_password:
+            flash("Les mots de passe ne correspondent pas.")
+            return redirect(url_for('auth.MDP'))
 
+        # Connexion à la base de données
+        db = get_db()
+
+        # Vérifier si l'utilisateur existe avec cet e-mail
+        user = db.execute('SELECT * FROM utilisateurs WHERE adresse_mail = ?', (mail,)).fetchone()
+
+        if user:
+            # Hacher le nouveau mot de passe
+            hashed_password = generate_password_hash(password)
+
+            # Mettre à jour le mot de passe dans la base de données
+            try:
+                db.execute('UPDATE utilisateurs SET mot_passe = ? WHERE adresse_mail = ?', (hashed_password, mail))
+                db.commit()
+                return redirect(url_for('auth.logout'))  # Rediriger vers la page de connexion après le changement de mot de passe
+            except Exception as e:
+                db.rollback()  # Annuler toute modification en cas d'erreur
+                flash("Une erreur est survenue lors de la mise à jour du mot de passe.")
+                return redirect(url_for('auth.MDP'))
+        else:
+            flash("Aucun utilisateur enregistré avec cet e-mail.")
+            return redirect(url_for('auth.MDP'))
+    else:
+        # Affichage du formulaire quand la requête est GET
+        return render_template('auth/MDP.html', page_type=page_type)

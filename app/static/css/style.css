@@ -269,7 +269,7 @@ header{
 
 /*apparence de la partie ou il faut écrire les noms ect*/
 
-.login-grands-boutons, .login-dernier-grand-bouton{
+.login-grands-boutons{
   background-color: #ffffff;
   box-shadow: 2px 4px 2px #0000004d;
   border: none;
@@ -284,7 +284,7 @@ header{
   transition: transform 0.3s ease;
 }
 
-#login-petits-boutons{
+#login-petits-boutons {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -312,7 +312,7 @@ header{
 }
 
 
-#login-petits-boutons a, #login-petits-boutons a:hover,.login-petits-boutons1 {
+#login-petits-boutons a,.login-petits-boutons1 {
   background: none;
   border: none;
   padding: 0;
@@ -328,7 +328,7 @@ header{
   transition: transform 0.3s ease;
 }
 
-#login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover {
+#login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover{
   font-size : 14px;
   cursor: pointer;
   transform: scale(1.1);
@@ -392,23 +392,12 @@ header{
 }
 
 /*partie du milieux avec les trucs pour changer le mot de passe*/
-#centreMDP{
-  position : fixed;
-  top:10px;
-  z-index: 3;
-
-  height: 100%;
-  width: 100%;
-
-  display: grid ;
-  grid-template-rows: 20vh [hautlogo] 45px [hautcarré] auto [reste];
-}
 
 .imageMDP{
   position : fixed;
-  grid-row-start: hautlogo;
-  grid-row-end: reste;
-  justify-self: center;
+  top: calc(20vh + 10px);
+  left: 50%;
+  transform: translate(-50%); 
   z-index: 5;
 
   object-fit: contain;
@@ -416,33 +405,29 @@ header{
   height: 90px;
 }
 
-#MDP{
+.MDP div{
   position : fixed;
-  grid-row-start: hautcarré;
-  grid-row-end: reste;
-  justify-self: center;
+  top: calc(20vh +  55px);
+  left: 50%;
+  transform: translate(-50%); 
   z-index: 4;
 
   background-color: #EFEDED;
   box-shadow: 2px 4px 3px #0000004d;
   width: 290px;
   height: 285px;
+  padding-top: 20px;
 
   display: flex;
   flex-flow: row wrap;
   justify-content: center;  
-  align-items: end; 
+  align-items: center; 
 
   font-size : 13px;
   color: #000000;
   font-family:'Inter-Light';
   text-align:left;
   line-height: 1,5;
-}
-
-.login-dernier-grand-bouton{
-  margin-bottom : 22px;
-  cursor: pointer;
 }
 
 /*partie profil*/
