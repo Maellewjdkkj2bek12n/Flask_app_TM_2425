@@ -26,7 +26,7 @@
                     </div>
 
                     <div id="menu11" class="menu11 hidden">
-                        <input type="texte" value="Écrivez ici...." class="menuboutons">
+                        <input type="username" value="Écrivez ici...." class="menuboutons">
                     </div>
 
                     <div id="menu12" class="menu12 hidden">
@@ -36,7 +36,9 @@
                     </div>
 
                     <div id="menu13" class="menu13 hidden">
-                        <input type="bio" value="Écrivez ici...." class="menuboutons">
+                        <form id="bio_form" action="{{ url_for('user.show_profile') }}" method="POST">
+                            <input type="bio" rows="1" placeholder="Écrivez ici...." class="menuboutons">
+                        </form>
                     </div>
 
                     <div id="menu14" class="menu14 hidden">
@@ -49,7 +51,7 @@
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
                     </nav>
-                {% elif page_type == 'profil_autres' %}
+                {% elif page_type == 'profil_autre' %}
                     <nav id="header-nav-droite3">
                         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
                         <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>

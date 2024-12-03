@@ -141,3 +141,11 @@ window.onload = function() {
     }, 2000); 
 };
 
+
+//pour enter la bio sans avior de bouton commit
+document.getElementById("bio").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  
+        event.preventDefault();   
+        document.getElementById("bio_form").submit();  // Soumet le formulaire
+    }
+});
