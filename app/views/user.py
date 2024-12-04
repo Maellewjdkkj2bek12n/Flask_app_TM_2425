@@ -19,6 +19,12 @@ def show_autreprofile() :
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 def show_profile():
+    
+    page_type = 'profil'
+    return render_template('user/profil.html', page_type=page_type, user=g.user)
+
+@user_bp.route('/profil', methods=('GET', 'POST'))
+def modifier_bio ():
     page_type = 'profil'
     
     if request.method == 'POST':
@@ -26,19 +32,14 @@ def show_profile():
         userid = g.user['id_utilisateur']  # Utilisateur connecté
         
         if bio:
-            # Connexion à la base de données
             db = get_db()
             try:
-                db.execute(
-                    'UPDATE utilisateurs set bio = ? WHERE id_utilisateur = ?',
-                    (bio, userid)
-                )
+                db.execute('UPDATE utilisateurs set bio = ? WHERE id_utilisateur = ?', (bio, userid))
                 db.commit()
             
             finally:
-                close_db()
-
-            return redirect(url_for('user.show_profile'))
+                db = close_db()
+                return redirect(url_for('user.show_profile'))
     
     # Affichage du formulaire quand la requête est GET
     return render_template('user/profil.html', page_type=page_type, user=g.user)

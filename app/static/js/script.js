@@ -146,6 +146,6 @@ window.onload = function() {
 document.getElementById("bio").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {  
         event.preventDefault();   
-        document.getElementById("bio_form").submit();  // Soumet le formulaire
+        document.getElementById("bio").submit();  // Soumet le formulaire
     }
 });
