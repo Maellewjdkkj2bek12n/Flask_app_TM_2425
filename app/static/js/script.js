@@ -142,7 +142,7 @@ window.onload = function() {
 };
 
 
-//pour enter la bio sans avior de bouton commit
+//Ici j'ai ajouté un code pour enter la bio sans avior de bouton commit, comme ça on peut envoyer le formulaire avec un retour à la ligne
 document.getElementById("bio").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {  
         event.preventDefault();   
