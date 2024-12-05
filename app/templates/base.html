@@ -15,14 +15,14 @@
                     
                 {% endblock %}
             {% else %}
-                {% else %}
+                
                     <nav id="header-nav-droite1">
                         <a href="{{ url_for('auth.register') }}">Inscription</a>
                     </nav>
                     <nav id="header-nav-droite2">
                         <a href="{{ url_for('auth.login') }}">Connexion</a>
                     </nav>
-                {% endif %}
+                
             {% endif %}
         </nav>
     </header> 
