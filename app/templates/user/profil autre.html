@@ -4,6 +4,19 @@
 Connect'Art 
 {% endblock %}
 
+{% block menu %}
+<nav id="header-nav-droite3">
+  <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+  <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+  <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
+</nav>
+<div id="menu2" class="menu2 hidden">
+  <input type="button" value="Contacter" class="menuboutons">
+  <input type="button" value="Suivre" class="menuboutons">
+  <input type="button" value="Bloquer" class="menuboutons">
+</div>
+{% endblock %}
+
 {% block content %}
   <div id="profil">
     <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">

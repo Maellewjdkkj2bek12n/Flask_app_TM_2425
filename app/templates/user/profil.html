@@ -4,6 +4,47 @@
 Connect'Art 
 {% endblock %}
 
+{% block menu %} 
+  <nav id="header-nav-droite3">
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+    <a><img id = "menu-toggle1" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
+</nav>
+
+<div id="menu1" class="menu1 hidden">
+    <input type="button" id = "switchToMenu11" value="Modifier le nom d’utilisateur" class="menuboutons">
+    <input type="button" id = "switchToMenu12" value="Modifier la photo de profil" class="menuboutons">
+    <input type="button" id = "switchToMenu13" value="Modifier la bio" class="menuboutons">
+    <a href="{{ url_for('auth.MDP') }}">
+    <input type="button" value="Modifier le mot de passe" class="menuboutons">
+    </a>
+    <input type="button" id = "switchToMenu14" value="Ajouter des photos d’œuvre" class="menuboutons">
+    <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
+    <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
+</div>
+
+<div id="menu11" class="menu11 hidden">
+    <input type="username" value="Écrivez ici...." class="menuboutons">
+</div>
+
+<div id="menu12" class="menu12 hidden">
+    <a href="{{url_for('creation.upload')}}">
+    <input type="button" value="Parcourir les fichiers" class="menuboutons">
+    </a>
+</div>
+
+<div id="menu13" class="menu13 hidden">
+    <form id="bio_form" method="POST">
+        <input type="bio" name="password" rows="1" placeholder="Écrivez ici...." class="menuboutons">
+    </form>
+</div>
+
+<div id="menu14" class="menu14 hidden">
+    <a href="{{url_for('creation.upload')}}">
+    <input type="button" value="Parcourir les fichiers" class="menuboutons">
+    </a>
+</div>
+{% endblock %}  
+
 {% block content %}
   <div id="profil">
     <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">

@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #cbcbcb, #ffffff);
+    background : linear-gradient(to top, #c0c0c0, #ffffff);
     background-attachment: fixed; 
   }
   
@@ -68,6 +68,13 @@
 @font-face {
   font-family: 'Inter'; 
   src: url('../fonts/InterTight-SemiBold.ttf') format('truetype');
+  font-weight: normal; 
+  font-style: normal; 
+}
+
+@font-face {
+  font-family: 'Inter-Bold'; 
+  src: url('../fonts/InterTight-Bold.ttf') format('truetype');
   font-weight: normal; 
   font-style: normal; 
 }
@@ -731,7 +738,7 @@ header{
   font-size: 25px;
   line-height: 1.2;
   color: #464646;
-  font-family:'Inter';
+  font-family:'Inter-Bold';
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease;

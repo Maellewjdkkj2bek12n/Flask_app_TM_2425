@@ -19,28 +19,17 @@ def show_autreprofile() :
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 def show_profile():
-    
-    page_type = 'profil'
-    return render_template('user/profil.html', page_type=page_type, user=g.user)
-
-#Ici c'est où je pense qu'il y a le problème, normalement grâce à ça la bio devrait changer mais ça ne fonctionne pas
-@user_bp.route('/profil', methods=('GET', 'POST'))
-def modifier_bio ():
-    page_type = 'profil'
-    
     if request.method == 'POST':
-        bio = request.form['bio']
+        bio = request.form.get('bio', '').strip()
         user_id = session.get('user_id')
         
         if bio:
             db = get_db()
             try:
-                db.execute('UPDATE utilisateurs SET bio = ? WHERE id_utilisateur = ?', (bio, user_id))
+                db.execute('UPDATE utilisateurs SET bio = ? WHERE id_utilisateur = 10', (bio))
                 db.commit()
             
             finally:
                 db = close_db()
                 return redirect(url_for('user.show_profile'))
-    
-    # Affichage du formulaire quand la requête est GET
-    return render_template('user/profil.html', page_type=page_type, user=g.user)
+    return render_template('user/profil.html', user=g.user)

@@ -13,5 +13,5 @@ def affichage():
 @creation_bp.route('/upload', methods=('GET', 'POST'))
 def upload():
     # mettre image dans site 
-    page_type='profil_setting'
-    return render_template('creation/upload.html', page_type=page_type)
+    #page_type='profil_setting'
+    return render_template('creation/upload.html')

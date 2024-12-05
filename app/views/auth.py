@@ -143,9 +143,10 @@ def load_logged_in_user():
         
         
 @auth_bp.route('/MDP', methods=['GET', 'POST'])
+# AJOUT PERC_JOBJ
 def MDP():
     
-    page_type = 'MDP'
+    #page_type = 'MDP'
     
     
     if request.method == 'POST':
@@ -182,9 +183,15 @@ def MDP():
                 db.rollback()  # Annuler toute modification en cas d'erreur
                 flash("Une erreur est survenue lors de la mise à jour du mot de passe.")
                 return redirect(url_for('auth.MDP'))
+            finally:
+                db = close_db()
+                return redirect(url_for('auth.MDP'))
         else:
             flash("Aucun utilisateur enregistré avec cet e-mail.")
+            db = close_db()
             return redirect(url_for('auth.MDP'))
+        
+        
     else:
         # Affichage du formulaire quand la requête est GET
-        return render_template('auth/MDP.html', page_type=page_type)
+        return render_template('auth/MDP.html')
