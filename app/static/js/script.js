@@ -141,11 +141,12 @@ window.onload = function() {
     }, 2000); 
 };
 
+//pour envoyer nom utilisateur avec retour à la ligne
 
-//Ici j'ai ajouté un code pour enter la bio sans avior de bouton commit, comme ça on peut envoyer le formulaire avec un retour à la ligne
-document.getElementById("bio").addEventListener("keydown", function(event) {
+document.getElementById("username").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {  
         event.preventDefault();   
-        document.getElementById("bio").submit();  // Soumet le formulaire
+        document.getElementById("username").submit();  // Soumet le formulaire
     }
 });
+

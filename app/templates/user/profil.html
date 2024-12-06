@@ -23,7 +23,9 @@ Connect'Art
 </div>
 
 <div id="menu11" class="menu11 hidden">
-    <input type="username" value="Écrivez ici...." class="menuboutons">
+    <form id="username_form" method="POST" action="{{ url_for('user.change_username') }}">
+        <input type="text" name="username" placeholder="Écrivez ici...." class="menuboutons">
+    </form>
 </div>
 
 <div id="menu12" class="menu12 hidden">
@@ -33,8 +35,9 @@ Connect'Art
 </div>
 
 <div id="menu13" class="menu13 hidden">
-    <form id="bio_form" method="POST">
-        <input type="bio" name="password" rows="1" placeholder="Écrivez ici...." class="menuboutons">
+    <form id="bio_form" method="POST" action="{{ url_for('user.change_bio') }}">
+        <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="menuboutons"></textarea>
+        <button type="submit" class="submit-button">Mettre à jour</button>
     </form>
 </div>
 
@@ -43,19 +46,23 @@ Connect'Art
     <input type="button" value="Parcourir les fichiers" class="menuboutons">
     </a>
 </div>
+{% for message in get_flashed_messages() %}
+    <nav class="flash" id="flash_menucachés">{{ message }}</nav>
+{% endfor %}
 {% endblock %}  
 
 {% block content %}
   <div id="profil">
     <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
     <div id="Infoutilisateur">
-        <ul>
-          <li id= "nomutilisateur">{{g.user['nom_utilisateur']}}</li>
-          <li id= "bio">{{g.user['bio']}}</li>
-        </ul>
+        <div>
+            <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
+        </br>
+            <a id= "bioutilisateur">{{ g.user['bio'].replace('\n', '<br>')|safe }}</a>
+        </div>
     </div>
-        <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-        <a class='Aucune_création'>Aucune création </a>
+    <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
+    <a class='Aucune_création'>Aucune création </a>
   </div>  
   
 {% endblock %}
