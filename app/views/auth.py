@@ -143,7 +143,6 @@ def load_logged_in_user():
         
         
 @auth_bp.route('/MDP', methods=['GET', 'POST'])
-# AJOUT PERC_JOBJ
 def MDP():
     
     #page_type = 'MDP'
@@ -182,10 +181,9 @@ def MDP():
             except Exception as e:
                 db.rollback()  # Annuler toute modification en cas d'erreur
                 flash("Une erreur est survenue lors de la mise à jour du mot de passe.")
-                return redirect(url_for('auth.MDP'))
             finally:
                 db = close_db()
-                return redirect(url_for('auth.MDP'))
+                return render_template('home/index.html')
         else:
             flash("Aucun utilisateur enregistré avec cet e-mail.")
             db = close_db()
