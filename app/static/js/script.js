@@ -150,3 +150,12 @@ document.getElementById("username").addEventListener("keydown", function(event) 
     }
 });
 
+//pour envoyer upload avec retour à la ligne
+
+document.getElementById("upload").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  
+        event.preventDefault();   
+        document.getElementById("upload").submit();  // Soumet le formulaire
+    }
+});
+

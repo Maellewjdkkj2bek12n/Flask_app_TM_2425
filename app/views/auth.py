@@ -1,3 +1,4 @@
+from enum import auto
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db.db import get_db, close_db
@@ -9,7 +10,10 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 # Route /auth/register
 @auth_bp.route('/register', methods=('GET', 'POST'))
 def register():
-
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
+    
     # Si des données de formulaire sont envoyées vers la route /register (ce qui est le cas lorsque le formulaire d'inscription est envoyé) c'est une requete post
     if request.method == 'POST':
 
@@ -63,11 +67,14 @@ def register():
             return redirect(url_for("auth.login"))
     else:
         # Si aucune donnée de formulaire n'est envoyée, on affiche le formulaire d'inscription (on a fait une requete get)
-        return render_template('auth/register.html')
+        return render_template('auth/register.html', photo=photo)
 
 # Route /auth/login
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
     # Si des données de formulaire sont envoyées vers la route /login (ce qui est le cas lorsque le formulaire de login est envoyé)
     if request.method == 'POST':
 
@@ -106,7 +113,7 @@ def login():
             flash(error)
             return redirect(url_for("auth.login"))
     else:
-        return render_template('auth/login.html')
+        return render_template('auth/login.html', photo=photo)
 
 # Route /auth/logout
 @auth_bp.route('/logout')
@@ -120,6 +127,7 @@ def logout():
 
 # Fonction automatiquement appelée à chaque requête (avant d'entrer dans la route) sur une route appartenant au blueprint 'auth_bp'
 # La fonction permet d'ajouter un attribut 'user' représentant l'utilisateur connecté dans l'objet 'g' 
+
 
 @auth_bp.before_app_request
 def load_logged_in_user():
@@ -144,9 +152,9 @@ def load_logged_in_user():
         
 @auth_bp.route('/MDP', methods=['GET', 'POST'])
 def MDP():
-    
-    #page_type = 'MDP'
-    
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
     
     if request.method == 'POST':
         mail = request.form['mail']
@@ -183,7 +191,7 @@ def MDP():
                 flash("Une erreur est survenue lors de la mise à jour du mot de passe.")
             finally:
                 db = close_db()
-                return render_template('home/index.html')
+                return render_template('home/index.html', photo=photo)
         else:
             flash("Aucun utilisateur enregistré avec cet e-mail.")
             db = close_db()
@@ -192,4 +200,4 @@ def MDP():
         
     else:
         # Affichage du formulaire quand la requête est GET
-        return render_template('auth/MDP.html')
+        return render_template('auth/MDP.html', photo=photo)

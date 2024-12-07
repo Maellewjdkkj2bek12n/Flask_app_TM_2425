@@ -29,9 +29,8 @@ Connect'Art
 </div>
 
 <div id="menu12" class="menu12 hidden">
-    <a href="{{url_for('creation.upload')}}">
-    <input type="button" value="Parcourir les fichiers" class="menuboutons">
-    </a>
+    <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="menuboutons"></textarea>
+    <button type="submit" class="submit-button">Mettre à jour</button>
 </div>
 
 <div id="menu13" class="menu13 hidden">
@@ -42,9 +41,9 @@ Connect'Art
 </div>
 
 <div id="menu14" class="menu14 hidden">
-    <a href="{{url_for('creation.upload')}}">
-    <input type="button" value="Parcourir les fichiers" class="menuboutons">
-    </a>
+    <form id="upload_form" method="POST" action="{{ url_for('user.chemin_fichier') }}">
+        <input type="text" name="upload" placeholder="Entrez chemin fichier" class="menuboutons">
+    </form>
 </div>
 {% for message in get_flashed_messages() %}
     <nav class="flash" id="flash_menucachés">{{ message }}</nav>

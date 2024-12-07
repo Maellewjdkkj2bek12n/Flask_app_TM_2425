@@ -14,7 +14,11 @@ Connect'Art
 {% block content %}
 
     <div id= "arrièrephotoupload">
-        <img id= "photoagrandie" src="https://i.etsystatic.com/8711792/r/il/853ff8/516391349/il_570xN.516391349_i9lw.jpg" alt="Magnifique image de Picasso">
+        {% if image_url %}
+            <img id="photoagrandie" src="{{ image_url }}" alt="Image provenant de la base de données">
+        {% else %}
+            <p>Aucune image disponible.</p>
+        {% endif %}
     </div>
     <div class="upload">
         <div class="uploadeecriture">

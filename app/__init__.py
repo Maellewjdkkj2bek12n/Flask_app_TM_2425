@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from app.db.db import *
 from app.utils import *
 
 # Importation des blueprints de l'application
