@@ -14,26 +14,28 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 # Route /user/profile accessible uniquement à un utilisateur connecté grâce au décorateur @login_required
 @user_bp.route('/profil_autre', methods=('GET', 'POST')) 
 def show_autreprofile() :
-    db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    db = get_db()
+    user_id = request.args.get('user')
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+    user = db.execute("SELECT nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
     close_db()
     
-    return render_template('user/profil autre.html',photo=photo)
-
+    return render_template('user/profil autre.html',photo_user=photo_user, user=user)
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 @login_required
 def show_profile():
+    user_id = session.get('user_id')
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
-    return render_template('user/profil.html', user=g.user,photo=photo)
+    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
 @user_bp.route('/bio', methods=('GET', 'POST'))
 def change_bio():
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
     close_db()
     
     if request.method == 'POST':
@@ -55,7 +57,7 @@ def change_bio():
             finally:
                 db = close_db()
                 return redirect(url_for('user.show_profile'))
-    return render_template('user/profil.html', user=g.user, photo=photo)
+    return render_template('user/profil.html', user=g.user, photo_user=photo_user)
 
 @user_bp.route('/username', methods=('GET', 'POST'))
 def change_username():

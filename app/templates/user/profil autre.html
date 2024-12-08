@@ -24,25 +24,32 @@ Connect'Art
 {% endblock %}
 
 {% block content %}
-  <div id="profil">
-    <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
-    <div id="Infoutilisateur">
+<div id="profil">
+  {% if user['photo_profil'] %}
+      <img class= "photodeprofil" src="{{ user['photo_profil'] }}" alt="photodeprofil">
+  {% else %}
+      <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+  {% endif %}
+  <div id="Infoutilisateur">
       <div>
-        <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
-        </br>
-        {% if g.user['bio'] %}
-            <a id= "bioutilisateur">{{ g.user['bio'].replace('\n', '<br>')|safe }}</a>
-        {% else %}
-            <a id= "bioutilisateur">Aucune bio</a>
-        {% endif %}
+          <a id= "nomutilisateur">{{user['nom_utilisateur']}}</a>
+      </br>
+      {% if user['bio'] %}
+          <a id= "bioutilisateur">{{ user['bio'].replace('\n', '<br>')|safe }}</a>
+      {% else %}
+          <a id= "bioutilisateur">Aucune bio</a>
+      {% endif %}
       </div>
-    </div>
-          <!--minie galerie-->
-          <div id="galerierapetissieuser">
-            {% for photo in photo %}
-            <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
-            {% endfor %}
-          </div>
-          <!-- fin minie gelarie-->
   </div>
+  {% if photo_user %}
+      <div id="galerierapetissieuser">
+      {% for photo_user in photo_user %}
+          <a href="{{ url_for('creation.affichage', photogrand_id=photo_user['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo_user.chemin_fichier }}"alt="Oeuvres"></a>
+      {% endfor %}
+      </div>
+  {% else %}
+      <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
+      <a class='Aucune_création'>Aucune création </a>
+  {% endif %}
+</div>  
 {% endblock %}

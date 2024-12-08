@@ -24,8 +24,12 @@ def affichage():
     
     db = get_db()
     photoagrandie_id = request.args.get('photogrand_id', )
-    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
     close_db()
-
-    return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories)
+    
+    db = get_db()
+    user_id = photoagrandie['utilisateur']
+    user = db.execute("SELECT nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+    close_db()
+    return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user)
 
