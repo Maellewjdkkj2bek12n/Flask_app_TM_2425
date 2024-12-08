@@ -14,19 +14,18 @@ creation_bp = Blueprint('creation', __name__)
 # Route /affichage
 @creation_bp.route('/affichage', methods=('GET', 'POST'))
 def affichage():
+    db = get_db()
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+    close_db()
+    
     db = get_db()  
     photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
     close_db()
     
-    db = get_db()  
-    username = session.get('user_id')  # Récupère l'utilisateur en cours
-    image = db.execute(
-        "SELECT chemin_fichier FROM oeuvres WHERE utilisateur = ? ORDER BY id_oeuvre DESC LIMIT 1", (username,)).fetchone()
+    db = get_db()
+    photoagrandie_id = request.args.get('photogrand_id', )
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    close_db()
 
-    if image:
-        image_url = image['chemin_fichier']  # Récupère le chemin stocké
-    else:
-        image_url = None  # Si aucun fichier trouvé, mettre à None
-
-    return render_template('creation/affichage.html', image_url=image_url, photo=photo)
+    return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories)
 

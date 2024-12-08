@@ -85,8 +85,8 @@ def change_username():
 
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
 def chemin_fichier():
-    db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    db = get_db()
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
     close_db()
     
     upload = request.form['upload']
@@ -101,20 +101,10 @@ def chemin_fichier():
                 db.commit()
             finally:
                 db = close_db()
-                return redirect(url_for('user.show_profile'))
-    
-        
-        if upload:
-            image_url = upload 
-    else:
-        image_url = None 
+                image_url = upload
+                return render_template('user/upload.html', image_url=image_url, categories=categories)
 
-    return render_template('user/upload.html', image_url=image_url, photo=photo)
+    return render_template('user/upload.html', image_url=image_url, categories=categories)
 
-@user_bp.route('/upload', methods=['GET'])
-def upload():
-    db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
-    close_db()
+
     
-    return render_template('user/upload.html', user=g.user, photo=photo)

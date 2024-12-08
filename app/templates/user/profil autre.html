@@ -29,7 +29,7 @@ Connect'Art
           <!--minie galerie-->
           <div id="galerierapetissieuser">
             {% for photo in photo %}
-            <a href="{{ url_for('creation.affichage') }}"><img class="imagerapetissieuser" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
+            <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
             {% endfor %}
           </div>
           <!-- fin minie gelarie-->
