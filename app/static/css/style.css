@@ -152,11 +152,11 @@ header{
 }
 
 .logo :hover, .logo_profil :hover, #menu-toggle1 :hover, #menu-toggle2 :hover, #menu-toggle3 :hover {
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .logo_profil{
-  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.32);
+  box-shadow: 1.2px 1.2px 2.5px rgba(0, 0, 0, 0.267);
   border-radius: 50%;
   object-fit: cover;
   width: 37px;
@@ -192,7 +192,7 @@ header{
 
 #header-nav a:hover{
   font-size : 16px;
-  transform: scale(1.05);
+  transform: scale(1.0001);
 }
 
 /* fond avec toutes les ptites images de la galerie*/
@@ -350,7 +350,7 @@ header{
 #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover{
   font-size : 14px;
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.0005);
 }
 
 /*highlight des boutons quand on clique dessus*/
@@ -674,7 +674,7 @@ header{
   display: none;
 }
 
-.createur, .createur a, #tiret, #tiret :hover{
+.createur, .createur a {
   grid-column-start: débutphotoengrand;
   grid-column-end: fingalerie;
   grid-row-start: finhaut;
@@ -689,20 +689,8 @@ header{
   justify-content: start space-between;
   align-items: center;
   gap: 5px;
-}
-
-#createurphoto{
-  border-radius: 50%;
-  width: 5vh;
-  height: 5vh;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  cursor: pointer;
-  margin-left: 5px;
-}
-
-.createur, .createur a{
   font-size : 13px;
+
   color: #000000;
   font-family:'Inter-Black';
   text-align: center;
@@ -711,6 +699,16 @@ header{
   transition: transform 0.3s ease;
 }
 
+#createurphoto{
+  border-radius: 50%;
+  width: 5vh;
+  height: 5vh;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  margin-left: 8px;
+  margin-right: 5px;
+  box-shadow: 1.2px 1.2px 2.5px rgba(0, 0, 0, 0.267);
+}
 
 .createur :hover, .createurphoto :hover, .createur a:hover {
   transform: scale(1.03);
