@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #b5b5b5, #ffffff);
+    background : linear-gradient(to top, #a0a0a0, #ffffff);
     background-attachment: fixed; 
   }
   
@@ -152,10 +152,11 @@ header{
 }
 
 .logo :hover, .logo_profil :hover, #menu-toggle1 :hover, #menu-toggle2 :hover, #menu-toggle3 :hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .logo_profil{
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.32);
   border-radius: 50%;
   object-fit: cover;
   width: 37px;
@@ -191,7 +192,7 @@ header{
 
 #header-nav a:hover{
   font-size : 16px;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /* fond avec toutes les ptites images de la galerie*/
@@ -210,6 +211,7 @@ header{
 }
 
 .image{
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   object-fit: cover;
   width: 180px;
   height: 180px;
@@ -218,7 +220,7 @@ header{
 }
 
 .image:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 
@@ -348,7 +350,7 @@ header{
 #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover{
   font-size : 14px;
   cursor: pointer;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /*highlight des boutons quand on clique dessus*/
@@ -394,7 +396,7 @@ header{
 #highligh-login a:hover, #highligh-register a:hover{
   font-size : 16px;
   cursor: pointer;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 /*assombrissement de la galerie pour la page d'accueil*/
@@ -463,6 +465,7 @@ header{
 }
 
 .photodeprofil{
+  box-shadow: 2px 4px 3px #0000004d;
   position : absolute;
   grid-row-start: info;
   grid-row-end: fininfo;
@@ -524,6 +527,7 @@ header{
 }
 
 .imagerapetissieuser {
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   align-self: center;
   object-fit: cover;
   width: 100%;
@@ -533,7 +537,7 @@ header{
 }
 
 #galerierapetissieuser :hover{
-  transform: scale(1.07);
+  transform: scale(1.008);
 }
 
 #Infoutilisateur{
@@ -591,7 +595,7 @@ header{
 }
 
 #arrièrephotoagrandie{
-  position : fixed;
+  position : absolute;
   grid-column-start: débutphotoengrand;
   grid-column-end: finphotoengrand;
   grid-row-start: haut;
@@ -612,9 +616,10 @@ header{
 }
 
 #photoagrandie{
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   object-fit: contain;
-  width: 55vw;
-  height: 70vh;
+  max-width: calc(60vw - 20px);
+  max-height: calc(75vh - 20px);
 }
 
 #liengalerie {
@@ -658,6 +663,7 @@ header{
 }
 
 .imagerapetissie {
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   align-self: center;
   object-fit: cover;
   width:  100%;
@@ -692,6 +698,7 @@ header{
   cursor: pointer;
   transition: transform 0.3s ease;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .createur, .createur a{
@@ -779,7 +786,7 @@ header{
 }
 
 .uploadgrandsboutons:hover, .uploadpetitsboutons:hover{
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .uploadpetit{
@@ -875,7 +882,7 @@ header{
   transition: transform 0.3s ease;
 }
 .menuboutons:hover, .typeartboutons:hover,.submit-button:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .menu1.hidden, .menu11.hidden, .menu12.hidden, .menu13.hidden, .menu14.hidden, .menu2.hidden, .menu3.hidden {
