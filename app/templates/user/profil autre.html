@@ -7,7 +7,13 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
   <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-  <a href="{{url_for('user.show_profile')}}"><img class= "logo" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+
+  {% if g.user['photo_profil'] %}
+    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+  {% else %}
+    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+  {% endif %}
+
   <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
 <div id="menu2" class="menu2 hidden">
@@ -21,10 +27,15 @@ Connect'Art
   <div id="profil">
     <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
     <div id="Infoutilisateur">
-        <ul>
-          <li id= "nomutilisateur">{{g.user.username}}</li>
-          <li id= "bio">{{g.user.bio}}</li>
-        </ul>
+      <div>
+        <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
+        </br>
+        {% if g.user['bio'] %}
+            <a id= "bioutilisateur">{{ g.user['bio'].replace('\n', '<br>')|safe }}</a>
+        {% else %}
+            <a id= "bioutilisateur">Aucune bio</a>
+        {% endif %}
+      </div>
     </div>
           <!--minie galerie-->
           <div id="galerierapetissieuser">
@@ -33,4 +44,5 @@ Connect'Art
             {% endfor %}
           </div>
           <!-- fin minie gelarie-->
+  </div>
 {% endblock %}

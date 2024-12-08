@@ -106,5 +106,33 @@ def chemin_fichier():
 
     return render_template('user/upload.html', image_url=image_url, categories=categories)
 
+@user_bp.route('/photo_profil', methods=('GET', 'POST'))
+def change_photo_profil():  
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
+    
+    photo_profil = request.form['photo_profil']
+    user_id = session.get('user_id')
+    if request.method == 'POST':
+        
+        if photo_profil :
+            db = get_db()  
+            try:
+                    db.execute('UPDATE utilisateurs SET photo_profil = ? WHERE id_utilisateur = ?', (photo_profil, user_id))
+                    db.commit()
+                
+            except db.IntegrityError:
+                    error = "Oups, l'utilisateur {username} déjà enregistré."
+                    flash(error)
+                    return redirect(url_for("user.show_profile"))
+                
+            finally:
+                    db = close_db()
+                    return redirect(url_for('user.show_profile'))
+
+    return render_template('user/profil.html', user=g.user,photo=photo)
+    
+
 
     

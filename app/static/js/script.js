@@ -159,4 +159,13 @@ document.getElementById("upload").addEventListener("keydown", function(event) {
     }
 });
 
+//pour envoyer photo de profil avec retour à la ligne
+
+document.getElementById("photo_profil").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {  
+        event.preventDefault();   
+        document.getElementById("photo_profil").submit();  // Soumet le formulaire
+    }
+});
+
 

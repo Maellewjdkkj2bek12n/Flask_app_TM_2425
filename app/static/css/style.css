@@ -151,8 +151,17 @@ header{
   transition: transform 0.3s ease;
 }
 
-.logo, #menu-toggle1, #menu-toggle2, #menu-toggle3 :hover {
+.logo :hover, .logo_profil :hover, #menu-toggle1 :hover, #menu-toggle2 :hover, #menu-toggle3 :hover {
   transform: scale(1.1);
+}
+
+.logo_profil{
+  border-radius: 50%;
+  object-fit: cover;
+  width: 37px;
+  height: 37px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 /*boutons du haut à gauche*/
@@ -463,7 +472,8 @@ header{
   align-self: center;
   z-index: 3;
 
-  object-fit: contain;
+  border-radius: 50%;
+  object-fit: cover;
   width: 180px;
   height: 180px;
 }
@@ -676,6 +686,7 @@ header{
 }
 
 #createurphoto{
+  border-radius: 50%;
   width: 5vh;
   height: 5vh;
   cursor: pointer;

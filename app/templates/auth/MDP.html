@@ -1,15 +1,5 @@
 {% extends 'base.html' %}
 
-{% block menu %} 
-    {% if g.user %}
-    <nav id="header-nav-droite3"> 
-        <a href="{{ url_for('home.landing_page') }}">Galerie</a> 
-    </nav> 
-    {% else %}
-    
-    {% endif %}
-{% endblock %}
-
 {% block content %}
   <!--partie du milieux avec les trucs pour changer le mot de passe-->
   <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Clée.png') }}" alt="Clée">

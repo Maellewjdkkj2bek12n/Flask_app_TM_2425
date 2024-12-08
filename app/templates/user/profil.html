@@ -29,8 +29,9 @@ Connect'Art
 </div>
 
 <div id="menu12" class="menu12 hidden">
-    <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="menuboutons"></textarea>
-    <button type="submit" class="submit-button">Mettre à jour</button>
+    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil') }}">
+        <input type="text" name="photo_profil" placeholder="Entrez chemin fichier" class="menuboutons">
+    </form>
 </div>
 
 <div id="menu13" class="menu13 hidden">
@@ -52,12 +53,20 @@ Connect'Art
 
 {% block content %}
   <div id="profil">
-    <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+    {% if g.user['photo_profil'] %}
+        <img class= "photodeprofil" src="{{ g.user['photo_profil'] }}" alt="photodeprofil">
+    {% else %}
+        <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+    {% endif %}
     <div id="Infoutilisateur">
         <div>
             <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
         </br>
+        {% if g.user['bio'] %}
             <a id= "bioutilisateur">{{ g.user['bio'].replace('\n', '<br>')|safe }}</a>
+        {% else %}
+            <a id= "bioutilisateur">Aucune bio</a>
+        {% endif %}
         </div>
     </div>
     <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
