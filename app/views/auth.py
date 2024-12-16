@@ -152,9 +152,16 @@ def load_logged_in_user():
         
 @auth_bp.route('/MDP', methods=['GET', 'POST'])
 def MDP():
-    db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
-    close_db()
+    user_id = session.get('user_id')
+    if user_id:
+        db = get_db()  
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
+        close_db()
+    
+    if not user_id:
+        db = get_db()  
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+        close_db()
     
     if request.method == 'POST':
         mail = request.form['mail']

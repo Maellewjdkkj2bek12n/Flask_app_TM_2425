@@ -25,18 +25,18 @@ Connect'Art
             <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
         <div>
-            <form id="categorie_form" method="POST" >
+            <form method="POST" action="{{ url_for('user.change_categorie', oeuvre=oeuvre['id_oeuvre'])}}">
                 {% for categories in categories %}
-                <input type="button" value="{{ categories.nom }}" class="uploadgrandsboutons">
+                <input type="button" name"{{ categories.id_categorie }}" value="{{ categories.nom }}" class="uploadgrandsboutons">
                 {% endfor %}
-            <form>
         </div>
     </div>
     <div class=uploadpetit>
         <a href="{{url_for('user.show_profile')}}">
         <input type="button" value="Annuler" class="uploadpetitsboutons">
         </a>
-        <input type="button" value="Publier !" class="uploadpetitsboutons">
+        <input type="submit" value="Publier !" class="uploadpetitsboutons">
+        </form>
     </div>
 
 {% endblock %}

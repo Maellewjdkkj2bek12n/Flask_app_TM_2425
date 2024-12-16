@@ -1,4 +1,4 @@
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
+from flask import (Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for)
 from app.utils import *
 from flask import Flask, request, redirect, url_for, flash, render_template
 import sqlite3
@@ -6,7 +6,7 @@ import sqlite3
 from app.db.db import get_db, close_db
 import os
 
-from werkzeug.utils import secure_filename
+
 
 # Routes /user/...
 user_bp = Blueprint('user', __name__, url_prefix='/user')
@@ -32,10 +32,12 @@ def show_profile():
     
     return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
+#pour changer la bio
 @user_bp.route('/bio', methods=('GET', 'POST'))
 def change_bio():
+    user_id = session.get('user_id')
     db = get_db()  
-    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
     if request.method == 'POST':
@@ -59,10 +61,12 @@ def change_bio():
                 return redirect(url_for('user.show_profile'))
     return render_template('user/profil.html', user=g.user, photo_user=photo_user)
 
+#pour changer le nom d'utilisateur
 @user_bp.route('/username', methods=('GET', 'POST'))
 def change_username():
+    user_id = session.get('user_id')
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
     if request.method == 'POST':
@@ -83,35 +87,14 @@ def change_username():
             finally:
                 db = close_db()
                 return redirect(url_for('user.show_profile'))
-    return render_template('user/profil.html', user=g.user, photo=photo)
+    return render_template('user/profil.html', user=g.user, photo_user=photo_user)
 
-@user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
-def chemin_fichier():
-    db = get_db()
-    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
-    close_db()
-    
-    upload = request.form['upload']
-    user_id = session.get('user_id')
-    
-    if request.method == 'POST':
-        
-        if upload :
-            db = get_db()
-            try:
-                db.execute("INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)",(upload , user_id))
-                db.commit()
-            finally:
-                db = close_db()
-                image_url = upload
-                return render_template('user/upload.html', image_url=image_url, categories=categories)
-
-    return render_template('user/upload.html', image_url=image_url, categories=categories)
-
+#pour changer la photo de profil
 @user_bp.route('/photo_profil', methods=('GET', 'POST'))
 def change_photo_profil():  
+    user_id = session.get('user_id')
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
     photo_profil = request.form['photo_profil']
@@ -133,7 +116,80 @@ def change_photo_profil():
                     db = close_db()
                     return redirect(url_for('user.show_profile'))
 
-    return render_template('user/profil.html', user=g.user,photo=photo)
+    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
+
+#pour ajouter des oeuvres
+@user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
+def chemin_fichier():
+    db = get_db()
+
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+
+    if request.method == 'POST':
+        if 'image' not in request.files:
+            return "Aucun fichier envoyé", 400
+
+        file = request.files['image']
+
+        if file.filename == '':
+            return "Fichier sans nom", 400
+        
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+        if not allowed_file(file.filename):
+            return "Type de fichier non autorisé", 400
+
+        if file:
+            filename = file.filename
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+
+            file.save(filepath)
+
+            image_url = filepath
+
+            user_id = session.get('user_id') 
+            if user_id is None:
+                return "Utilisateur non connecté", 403
+
+            try:
+                db.execute(
+                    "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)",(image_url, user_id),)
+                db.commit()
+
+                oeuvre = db.execute(
+                    "SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?",(image_url,),).fetchone()
+            except Exception as e:
+                db.rollback()
+                return f"Erreur lors de l'enregistrement : {e}", 500
+            finally:
+                close_db()
+            return render_template('user/upload.html',oeuvre=oeuvre,image_url=image_url,categories=categories,)
+
+
+# pour selectionner les catégories 
+@user_bp.route('/change_categorie', methods=('GET', 'POST'))
+def change_categorie():
+    user_id = session.get('user_id')
+    db = get_db()  
+    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+    close_db()
+    
+    categorie_id = request.form.get('categorie_id')
+    oeuvre_id = request.args.get("oeuvre_id")
+    if not oeuvre_id:
+        return "Erreur : aucune œuvre trouvée pour ce chemin de fichier.", 404
+    if categorie_id :
+        db = get_db()
+        db.execute("INSERT INTO categorisations (categorie, oeuvre) VALUES (?, ?)",(categorie_id , 3))
+        db.commit()
+        db = close_db()
+        return redirect(url_for('user.show_profile'))
+    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
+
+
     
 
 

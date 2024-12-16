@@ -42,8 +42,11 @@ Connect'Art
 </div>
 
 <div id="menu14" class="menu14 hidden">
-    <form id="upload_form" method="POST" action="{{ url_for('user.chemin_fichier') }}">
-        <input type="text" name="upload" placeholder="Entrez chemin fichier" class="menuboutons">
+    <form id="upload_form" method="POST" action="{{ url_for('user.chemin_fichier') }}" enctype="multipart/form-data">
+        <input type="file" class="menuboutons" id="file" name="image" required>
+        <button type="submit" class="submit-button">Télécharger</button>
+        
+        <!-- <input type="text" name="upload" placeholder="Entrez chemin fichier" class="menuboutons">-->
     </form>
 </div>
 {% for message in get_flashed_messages() %}

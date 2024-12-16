@@ -18,8 +18,9 @@ def affichage():
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
     close_db()
     
+    user_id = session.get('user_id')
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
     close_db()
     
     db = get_db()
