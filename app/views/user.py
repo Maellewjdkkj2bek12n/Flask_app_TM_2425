@@ -116,18 +116,18 @@ def change_photo_profil():
 
         if file:
             filename = file.filename
-            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
 
             
-            if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
-                os.makedirs(current_app.config['UPLOAD_FOLDER'])
+            if not os.path.exists(current_app.config['IMAGE_FOLDER']):
+                os.makedirs(current_app.config['IMAGE_FOLDER'])
 
             try:
                 file.save(filepath)
             except Exception as e:
                 return f"Erreur lors de la sauvegarde du fichier : {e}", 500
 
-            photo_profil = url_for('static', filename=f'uploads/{filename}', _external=True)
+            photo_profil = url_for('static', filename=f'images/{filename}', _external=True)
 
             user_id = session.get('user_id') 
             if user_id is None:
@@ -140,7 +140,7 @@ def change_photo_profil():
                         db.commit()
                     
                 except db.IntegrityError:
-                        error = "Oups, l'utilisateur {username} déjà enregistré."
+                        error = "Oups, l'utilisateur {username} est déjà enregistré."
                         flash(error)
                         return redirect(url_for("user.show_profile"))
                     
@@ -158,10 +158,10 @@ def chemin_fichier():
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
     if request.method == 'POST':
-        if 'image' not in request.files:
+        if 'upload' not in request.files:
             return "Aucun fichier envoyé", 400
 
-        file = request.files['image']
+        file = request.files['upload']
 
         if file.filename == '':
             return "Fichier sans nom", 400
@@ -178,7 +178,7 @@ def chemin_fichier():
             filename = file.filename
             filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
 
-            
+            # Vérifiez si le répertoire existe, sinon créez-le
             if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
                 os.makedirs(current_app.config['UPLOAD_FOLDER'])
 
@@ -187,25 +187,26 @@ def chemin_fichier():
             except Exception as e:
                 return f"Erreur lors de la sauvegarde du fichier : {e}", 500
 
+            # Utilisez url_for pour générer l'URL du fichier
             image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
 
             user_id = session.get('user_id') 
             if user_id is None:
                 return "Utilisateur non connecté", 403
 
-            try:
-                db.execute(
-                    "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)", (image_url, user_id))
-                db.commit()
+            if image_url and user_id: 
+                db = get_db()
+                try:
+                    db.execute(
+                        "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)", (image_url, user_id))
+                    db.commit()
+                except Exception as e:
+                    db.rollback()
+                    return f"Erreur lors de l'enregistrement : {e}", 500
+                finally:
+                    close_db()
+                return render_template('user/upload.html', image_url=image_url, categories=categories)
 
-                oeuvre = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url,)).fetchone()
-            except Exception as e:
-                db.rollback()
-                return f"Erreur lors de l'enregistrement : {e}", 500
-            finally:
-                close_db()
-            return render_template('user/upload.html', oeuvre=oeuvre, image_url=image_url, categories=categories)
 
 # pour selectionner les catégories 
 @user_bp.route('/change_categorie', methods=('GET', 'POST'))
@@ -216,12 +217,14 @@ def change_categorie():
     close_db()
     
     categorie_id = request.form.get('categorie_id')
-    oeuvre_id = request.args.get("oeuvre_id")
-    if not oeuvre_id:
+    image_url = request.args.get("image_url")
+    oeuvre = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url,)).fetchone()
+    oeuvre_id = oeuvre['id_oeuvre']
+    if not image_url:
         return "Erreur : aucune œuvre trouvée pour ce chemin de fichier.", 404
     if categorie_id :
         db = get_db()
-        db.execute("INSERT INTO categorisations (categorie, oeuvre) VALUES (?, ?)",(categorie_id , 3))
+        db.execute("INSERT INTO categorisations (categorie, oeuvre) VALUES (?, ?)",(categorie_id , oeuvre_id))
         db.commit()
         db = close_db()
         return redirect(url_for('user.show_profile'))

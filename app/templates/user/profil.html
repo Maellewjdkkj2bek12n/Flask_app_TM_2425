@@ -30,23 +30,23 @@ Connect'Art
 
 <div id="menu12" class="menu12 hidden">
     <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil') }}" enctype="multipart/form-data"> 
-        <input type="file" class="file-input" id="file" name="image" required>
-        <label for="file" class="menuboutons">Choisir un fichier</label>
+        <input type="file" class="file-input" id="photo_profil" name="image" required>
+        <label for="photo_profil" class="menuboutons">Choisir un fichier</label>
         <button type="submit" class="submit-button">Télécharger</button>
     </form>
 </div>
 
 <div id="menu13" class="menu13 hidden">
-    <form id="bio_form" method="POST" action="{{ url_for('user.change_bio') }}">
+    <form method="POST" action="{{ url_for('user.change_bio') }}">
         <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="menuboutons"></textarea>
         <button type="submit" class="submit-button">Mettre à jour</button>
     </form>
 </div>
 
 <div id="menu14" class="menu14 hidden">
-    <form id="upload_form" method="POST" action="{{ url_for('user.chemin_fichier') }}" enctype="multipart/form-data">
-        <input type="file" class="file-input" id="file" name="image" required>
-        <label for="file" class="menuboutons">Choisir un fichier</label>
+    <form method="POST" action="{{ url_for('user.chemin_fichier') }}" enctype="multipart/form-data">
+        <input type="file" id="upload" class="file-input" id="file" name="upload" required>
+        <label for="upload" class="menuboutons">Choisir un fichier</label>
         <button type="submit" class="submit-button">Télécharger</button>
     </form>
 </div>

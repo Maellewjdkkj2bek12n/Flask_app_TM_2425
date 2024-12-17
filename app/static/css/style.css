@@ -866,7 +866,8 @@ header{
 }
 
 .file-input { 
-  display: none; 
+  opacity: 0;
+  position: absolute;
 }
 
 .submit-button{

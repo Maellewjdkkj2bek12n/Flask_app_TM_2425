@@ -149,23 +149,3 @@ document.getElementById("username").addEventListener("keydown", function(event) 
         document.getElementById("username").submit();  // Soumet le formulaire
     }
 });
-
-//pour envoyer upload avec retour à la ligne
-
-document.getElementById("upload").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {  
-        event.preventDefault();   
-        document.getElementById("upload").submit();  // Soumet le formulaire
-    }
-});
-
-//pour envoyer photo de profil avec retour à la ligne
-
-document.getElementById("photo_profil").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {  
-        event.preventDefault();   
-        document.getElementById("photo_profil").submit();  // Soumet le formulaire
-    }
-});
-
-
