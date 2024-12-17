@@ -845,6 +845,9 @@ header{
 }
 
 .menuboutons, .typeartboutons{
+  display: flex;
+  justify-content: center;  
+  align-items: center;
   background-color: #ffffff;
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
@@ -860,6 +863,10 @@ header{
   font-family:'Inter-Light';
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+.file-input { 
+  display: none; 
 }
 
 .submit-button{

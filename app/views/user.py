@@ -97,26 +97,58 @@ def change_photo_profil():
     photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
-    photo_profil = request.form['photo_profil']
-    user_id = session.get('user_id')
     if request.method == 'POST':
-        
-        if photo_profil :
-            db = get_db()  
-            try:
-                    db.execute('UPDATE utilisateurs SET photo_profil = ? WHERE id_utilisateur = ?', (photo_profil, user_id))
-                    db.commit()
-                
-            except db.IntegrityError:
-                    error = "Oups, l'utilisateur {username} déjà enregistré."
-                    flash(error)
-                    return redirect(url_for("user.show_profile"))
-                
-            finally:
-                    db = close_db()
-                    return redirect(url_for('user.show_profile'))
+        if 'image' not in request.files:
+            return "Aucun fichier envoyé", 400
 
-    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
+        file = request.files['image']
+
+        if file.filename == '':
+            return "Fichier sans nom", 400
+        
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+
+        def allowed_file(filename):
+            return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
+
+        if not allowed_file(file.filename):
+            return "Type de fichier non autorisé", 400
+
+        if file:
+            filename = file.filename
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+
+            
+            if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
+                os.makedirs(current_app.config['UPLOAD_FOLDER'])
+
+            try:
+                file.save(filepath)
+            except Exception as e:
+                return f"Erreur lors de la sauvegarde du fichier : {e}", 500
+
+            photo_profil = url_for('static', filename=f'uploads/{filename}', _external=True)
+
+            user_id = session.get('user_id') 
+            if user_id is None:
+                return "Utilisateur non connecté", 403
+        
+            if photo_profil :
+                db = get_db()  
+                try:
+                        db.execute('UPDATE utilisateurs SET photo_profil = ? WHERE id_utilisateur = ?', (photo_profil, user_id))
+                        db.commit()
+                    
+                except db.IntegrityError:
+                        error = "Oups, l'utilisateur {username} déjà enregistré."
+                        flash(error)
+                        return redirect(url_for("user.show_profile"))
+                    
+                finally:
+                        db = close_db()
+                        return redirect(url_for('user.show_profile'))
+
+        return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
 #pour ajouter des oeuvres
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
@@ -146,9 +178,16 @@ def chemin_fichier():
             filename = file.filename
             filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
 
-            file.save(filepath)
+            
+            if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
+                os.makedirs(current_app.config['UPLOAD_FOLDER'])
 
-            image_url = filepath
+            try:
+                file.save(filepath)
+            except Exception as e:
+                return f"Erreur lors de la sauvegarde du fichier : {e}", 500
+
+            image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
 
             user_id = session.get('user_id') 
             if user_id is None:
@@ -156,18 +195,17 @@ def chemin_fichier():
 
             try:
                 db.execute(
-                    "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)",(image_url, user_id),)
+                    "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)", (image_url, user_id))
                 db.commit()
 
                 oeuvre = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?",(image_url,),).fetchone()
+                    "SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url,)).fetchone()
             except Exception as e:
                 db.rollback()
                 return f"Erreur lors de l'enregistrement : {e}", 500
             finally:
                 close_db()
-            return render_template('user/upload.html',oeuvre=oeuvre,image_url=image_url,categories=categories,)
-
+            return render_template('user/upload.html', oeuvre=oeuvre, image_url=image_url, categories=categories)
 
 # pour selectionner les catégories 
 @user_bp.route('/change_categorie', methods=('GET', 'POST'))

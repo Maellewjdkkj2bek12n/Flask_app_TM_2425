@@ -29,8 +29,10 @@ Connect'Art
 </div>
 
 <div id="menu12" class="menu12 hidden">
-    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil') }}">
-        <input type="text" name="photo_profil" placeholder="Entrez chemin fichier" class="menuboutons">
+    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil') }}" enctype="multipart/form-data"> 
+        <input type="file" class="file-input" id="file" name="image" required>
+        <label for="file" class="menuboutons">Choisir un fichier</label>
+        <button type="submit" class="submit-button">Télécharger</button>
     </form>
 </div>
 
@@ -43,10 +45,9 @@ Connect'Art
 
 <div id="menu14" class="menu14 hidden">
     <form id="upload_form" method="POST" action="{{ url_for('user.chemin_fichier') }}" enctype="multipart/form-data">
-        <input type="file" class="menuboutons" id="file" name="image" required>
+        <input type="file" class="file-input" id="file" name="image" required>
+        <label for="file" class="menuboutons">Choisir un fichier</label>
         <button type="submit" class="submit-button">Télécharger</button>
-        
-        <!-- <input type="text" name="upload" placeholder="Entrez chemin fichier" class="menuboutons">-->
     </form>
 </div>
 {% for message in get_flashed_messages() %}
