@@ -42,7 +42,11 @@ Connect'Art
         </a>
         <!-- fin minie gelarie-->
     <div class="createur">
-        <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}><img id= "createurphoto"  src="{{ user['photo_profil'] }}" alt="Clée"></a>
+        {% if user['photo_profil'] %}
+        <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}><img id= "createurphoto"  src="{{user['photo_profil']}}" alt="Clée"></a>
+        {% else %}
+        <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}><img id= "createurphoto"  src="{{ url_for('static', filename='imgs/Profil.png') }}"  alt="Clée"></a>
+       {% endif %}  
         <div class="createur">
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}>{{user['nom_utilisateur']}}</a>
         <a>-</a>
