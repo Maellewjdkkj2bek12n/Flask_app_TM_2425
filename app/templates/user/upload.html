@@ -23,8 +23,6 @@ Connect'Art
             <label for="upload" class="menuboutons">Choisir un fichier</label>
             <button type="submit" class="submit-button">Télécharger</button>
         </form>
-        
-            
         {% endif %}
     </div>
     <div class="upload">
@@ -32,20 +30,31 @@ Connect'Art
             <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
         <Div>
-<form method="POST" id="categorie_form" action="{{ url_for('user.change_categorie', chemin_fichier=image_url) }}">
-                {% for categories in categories %}
-                    <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categories }}">
-                {% endfor %}
+{% if image_url %}
+    <form method="POST" id="categorie_form" action="{{ url_for('user.change_categorie',  oeuvre_id=oeuvres['id_oeuvre']) }}">
+                    {% for categories in categories %}
+                        <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categories }}">
+                    {% endfor %}
+            </div>
         </div>
+        <div class= "uploadpetit">
+            <a href="{{url_for('user.show_profile')}}">
+            <input type="button" value="Annuler" class="uploadpetitsboutons">
+            </a>
+            <input type="submit" value="Publier !" class="uploadpetitsboutons">
+        </div>
+    </form>
+{% else %}
+    {% for categories in categories %}
+        <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categories }}">
+    {% endfor %}
+    </div>
     </div>
     <div class= "uploadpetit">
         <a href="{{url_for('user.show_profile')}}">
         <input type="button" value="Annuler" class="uploadpetitsboutons">
         </a>
         <input type="submit" value="Publier !" class="uploadpetitsboutons">
-        {% for message in get_flashed_messages() %}
-            <nav class="flash" id="flash_menucachés">{{ message }}</nav>
-        {% endfor %}
     </div>
-</form>
+{% endif %}
 {% endblock %}

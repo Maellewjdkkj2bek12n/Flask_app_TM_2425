@@ -1,6 +1,7 @@
 from flask import (Blueprint, current_app, flash, g, json, redirect, render_template, request, session, url_for)
 from app.utils import *
 from flask import Flask, request, redirect, url_for, flash, render_template
+from werkzeug.security import check_password_hash
 import sqlite3
 
 from app.db.db import get_db, close_db
@@ -132,7 +133,7 @@ def change_photo_profil():
             while os.path.exists(filepath):
                 # Ajouter un suffixe sous la forme _1, _2, etc.
                 filename = f"{base_name}_{count}{extension}"
-                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
                 count += 1
 
             if not os.path.exists(current_app.config['IMAGE_FOLDER']):
@@ -172,7 +173,6 @@ def change_photo_profil():
 @login_required
 def chemin_fichier():
     db = get_db()
-
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
     if request.method == 'POST':
@@ -217,6 +217,7 @@ def chemin_fichier():
             try:
                 file.save(filepath)
             except Exception as e:
+                close_db()
                 error ="Erreur lors de la sauvegarde du fichier"
                 flash(error)
                 return redirect(url_for("user.chemin_fichier"))
@@ -228,17 +229,18 @@ def chemin_fichier():
             if image_url and user_id: 
                 db = get_db()
                 try:
-                    db.execute(
-                        "INSERT INTO oeuvres (chemin_fichier, utilisateur) VALUES (?, ?)", (image_url, user_id))
+                    db.execute("INSERT INTO oeuvres (chemin_fichier, utilisateur, nom) VALUES (?, ?, ?)", (image_url, user_id, filename))
                     db.commit()
                 except Exception as e:
                     db.rollback()
+                    close_db()
                     error ="Erreur lors de l'enregistrement"
                     flash(error)
                     return redirect(url_for("user.chemin_fichier"))
                 finally:
+                    oeuvres = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url ,)).fetchone()
                     close_db()
-                return render_template('user/upload.html', image_url=image_url, categories=categories)
+                return render_template('user/upload.html',image_url=image_url, oeuvres=oeuvres, categories=categories)
     return render_template('user/upload.html', categories=categories)
 
 
@@ -248,10 +250,7 @@ def chemin_fichier():
 def change_categorie():
     clicked_categories = request.form.get('clicked_categories')
     db = get_db()
-    chemin_fichier = request.args.get('chemin_fichier', )
-    oeuvres = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (chemin_fichier,)).fetchone()
-    oeuvre_id = oeuvres['id_oeuvre']
-    close_db()
+    oeuvre_id = request.args.get('oeuvre_id', )
     
     if not clicked_categories:
         error = "Veuillez sélectionner au moins une catégorie."
@@ -281,6 +280,7 @@ def change_categorie():
 
         except Exception as e:
             db.rollback()
+            close_db()
             error ="Erreur lors de la séléction des catégories"
             flash(error)
             return redirect(url_for("user.chemin_fichier"))
@@ -289,3 +289,48 @@ def change_categorie():
             return redirect(url_for('user.show_profile'))
     
     return redirect(url_for('user.show_profile'))
+
+@user_bp.route('/supprimer_utilisateur', methods=['POST'])
+@login_required
+def supprimer_utilisateur():
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
+    
+    password = request.form.get('password')
+    user_id = session.get('user_id') 
+
+    if not password:
+        flash("Le mot de passe est requis pour supprimer votre compte.", "error")
+        return redirect(url_for("user.show_profile"))
+
+    db = get_db()
+
+    try:
+        user = db.execute('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', (user_id,)).fetchone()
+
+        if not user:
+            flash("Utilisateur introuvable.", "error")
+            return redirect(url_for("user.show_profile"))
+
+        if not check_password_hash(user['mot_passe'], password):
+            flash("Le mot de passe est incorrect.", "error")
+            return redirect(url_for("user.show_profile"))
+
+        db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
+        db.commit()
+        db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
+        db.commit()
+        flash("Votre compte a été supprimé avec succès.", "success")
+        
+        session.clear()
+        return render_template('home/index.html', photo=photo)
+
+    except Exception as e:
+        db.rollback() 
+        flash("Une erreur est survenue lors de la suppression de votre compte.", "error")
+        return redirect(url_for("user.show_profile"))
+
+    finally:
+        close_db()  
+

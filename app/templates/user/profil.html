@@ -5,7 +5,7 @@ Connect'Art
 {% endblock %}
 
 {% block menu %} 
-  <nav id="header-nav-droite3">
+<nav id="header-nav-droite3">
     <a href="{{ url_for('home.landing_page') }}">Galerie</a>
     <a><img id = "menu-toggle1" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
@@ -22,6 +22,7 @@ Connect'Art
     </a>
     <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
     <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
+    <input type="button" id = "switchToMenu14" value="Supprimer le compte" class="menuboutons">
 </div>
 
 <div id="menu11" class="menu11 hidden">
@@ -45,8 +46,14 @@ Connect'Art
     </form>
 </div>
 
+<div id="menu14" class="menu14 hidden">
+    <form method="post" action="{{ url_for('user.supprimer_utilisateur') }}">
+        <input  type="password" name="password" id="password" placeholder="Entrez le mot de passe ici...." class="menuboutons"></textarea>
+        <button type="submit" class="submit-button">Supprimer le compte définitivement</button>
+    </form>
+</div>
 {% for message in get_flashed_messages() %}
-    <nav class="flash" id="flash_menucachés">{{ message }}</nav>
+        <div class="flash">{{ message }}</div>
 {% endfor %}
 {% endblock %}  
 
@@ -71,7 +78,7 @@ Connect'Art
     {% if photo_user %}
         <div id="galerierapetissieuser">
         {% for photo_user in photo_user %}
-            <a href="{{ url_for('creation.affichage', photogrand_id=photo_user['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo_user.chemin_fichier }}"alt="Oeuvres"></a>
+            <a href="{{ url_for('creation.affichage_perso', photogrand_id=photo_user['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo_user.chemin_fichier }}"alt="Oeuvres"></a>
         {% endfor %}
         </div>
     {% else %}

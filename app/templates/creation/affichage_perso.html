@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+{% block menu %}
+<nav id="header-nav-droite3">
+        <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div id= "affichage"> 
+        <div id= "arrièrephotoagrandie">
+        {% if photoagrandie %}
+            <img id="photoagrandie" src="{{ photoagrandie.chemin_fichier }}">    
+        {% else %}
+            <p>Oups, aucune image disponible!</p>
+        {% endif %}
+        </div>
+    
+        <!--minie galerie-->
+        <a href="{{ url_for('user.show_profile') }}" id="liengalerie">
+        <div id="galerierapetissie">
+            {% for photo in photo %}
+            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+            {% endfor %}
+        </div>
+        </a>
+        <!-- fin minie gelarie-->
+    <div class="createur">
+        
+    </div>
+</div>   
+<div class= "uploadpetit">
+<a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
+    <input type="button" value="Supprimer l'oeuvre" class="uploadpetitsboutons">
+</a>      
+{% endblock %}

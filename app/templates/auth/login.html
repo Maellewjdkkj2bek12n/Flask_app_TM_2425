@@ -32,10 +32,6 @@ Connect'Art
         </nav>
       </form>
     </div>
-    {% for message in get_flashed_messages() %}
-    <nav class="flash" id="flash">{{ message }}</nav>
-    {% endfor %}
-  
   </div>
   <!-- fin petits blocks du haut avec les boutons de connection-->
         <div id="zone-texte">
@@ -48,4 +44,5 @@ Connect'Art
             {% endfor %}
           </div>
           <!-- fin Zone du mileux qui ne bouge pas-->
+
 {% endblock %}

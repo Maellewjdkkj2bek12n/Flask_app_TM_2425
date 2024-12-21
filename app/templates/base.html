@@ -11,9 +11,8 @@
                 <nav id="header-nav-gauche">
                     <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
                 </nav>
-                {% block menu %} 
-                    
-                {% endblock %}
+                {% block menu %}{% endblock %}
+                
             {% else %}
                 
                     <nav id="header-nav-droite1">
@@ -22,13 +21,16 @@
                     <nav id="header-nav-droite2">
                         <a href="{{ url_for('auth.login') }}">Connexion</a>
                     </nav>
-                
             {% endif %}
         </nav>
     </header> 
     <main id="main-content">
         {% block content %}{% endblock %}
-    </main>
+    
+        {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+        {% endfor %}
 
-    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+    </main>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>

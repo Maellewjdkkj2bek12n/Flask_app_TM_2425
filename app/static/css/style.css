@@ -714,6 +714,12 @@ header{
   transform: scale(1.03);
 }
 
+#photoagrandie_perso{
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
+  object-fit: contain;
+  max-width: calc(100vw - 40px);
+  max-height: calc(100vh - 83px);
+}
 /*page uploade*/
 .upload{
   position: fixed;
@@ -904,14 +910,22 @@ header{
 }
 
 /*pour avoir des flash messages jolis dans les menu cachés*/
-#flash_menucachés{
-  position : fixed;
-  z-index: 10;
-  top:53px;
-  right:10px;
+.flash {
+  position: fixed;
+  top: 5px;   
+  height: 43px;
+  left: 50%;   
+  transform: translateX(-50%);  
+  padding: 10px 20px;
+  background-color: #ffffff;  
+  color: #6D6D6D;  
+  font-size: 16px;
+  font-family:'Inter-Bold';
+  z-index: 9999;   
+  transition: opacity 1s ease-out; 
+}
 
-  color: #ff0000;
-  text-shadow: 2px 2px 3px rgb(255, 255, 255);
-  font-size: 13px;
-  font-family:'Inter-bold';
+.flash.hide {
+  opacity: 0;
+  pointer-events: none; 
 }
