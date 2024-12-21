@@ -17,7 +17,9 @@ Connect'Art
     <a href="{{ url_for('auth.MDP') }}">
     <input type="button" value="Modifier le mot de passe" class="menuboutons">
     </a>
-    <input type="button" id = "switchToMenu14" value="Ajouter des photos d’œuvre" class="menuboutons">
+    <a href="{{ url_for('user.chemin_fichier') }}">
+    <input type="button" value="Ajouter des photos d’œuvre" class="menuboutons">
+    </a>
     <input type="button" value="Voir les utilisateurs suivis" class="menuboutons">
     <input type="button" value="Voir les utilisateurs bloqués" class="menuboutons">
 </div>
@@ -43,13 +45,6 @@ Connect'Art
     </form>
 </div>
 
-<div id="menu14" class="menu14 hidden">
-    <form method="POST" action="{{ url_for('user.chemin_fichier') }}" enctype="multipart/form-data">
-        <input type="file" id="upload" class="file-input" id="file" name="upload" required>
-        <label for="upload" class="menuboutons">Choisir un fichier</label>
-        <button type="submit" class="submit-button">Télécharger</button>
-    </form>
-</div>
 {% for message in get_flashed_messages() %}
     <nav class="flash" id="flash_menucachés">{{ message }}</nav>
 {% endfor %}

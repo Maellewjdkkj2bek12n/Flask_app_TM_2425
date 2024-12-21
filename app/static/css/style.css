@@ -771,7 +771,7 @@ header{
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 100%; 
+  width: calc(40vw - 30px); 
   height: 45px;
   cursor: pointer;
   margin-top: 5px;
@@ -786,6 +786,7 @@ header{
 .uploadgrandsboutons:hover, .uploadpetitsboutons:hover{
   transform: scale(1.05);
 }
+
 
 .uploadpetit{
   position: fixed;

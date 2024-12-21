@@ -9,13 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const switchToMenu11 = document.getElementById('switchToMenu11');
         const switchToMenu12 = document.getElementById('switchToMenu12');
         const switchToMenu13 = document.getElementById('switchToMenu13');
-        const switchToMenu14 = document.getElementById('switchToMenu14');
 
         const menu1 = document.getElementById('menu1');
         const menu11 = document.getElementById('menu11');
         const menu12 = document.getElementById('menu12');
         const menu13 = document.getElementById('menu13');
-        const menu14 = document.getElementById('menu14');
 
         // Ajouter un événement de clic à logo
         menuToggle1.addEventListener('click', () => {
@@ -24,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
             menu11.classList.add('hidden');
             menu12.classList.add('hidden');
             menu13.classList.add('hidden');
-            menu14.classList.add('hidden');
 
             if (!menu1.classList.contains('hidden')) {
                 menuToggle1.src = '/static/imgs/SettingsA.png';
@@ -33,8 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (!menu12.classList.contains('hidden')) {
                 menuToggle1.src = '/static/imgs/SettingsA.png';
             } else if (!menu13.classList.contains('hidden')) {
-                menuToggle1.src = '/static/imgs/SettingsA.png';
-            } else if (!menu14.classList.contains('hidden')) {
                 menuToggle1.src = '/static/imgs/SettingsA.png';
             } else {
                 menuToggle1.src = '/static/imgs/Settings.png';
@@ -45,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             menu1.classList.add('hidden');
             menu12.classList.add('hidden');
             menu13.classList.add('hidden');
-            menu14.classList.add('hidden');
             menu11.classList.remove('hidden');
         });
 
@@ -53,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             menu1.classList.add('hidden');
             menu11.classList.add('hidden');
             menu13.classList.add('hidden');
-            menu14.classList.add('hidden');
             menu12.classList.remove('hidden');
         });
 
@@ -61,16 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menu1.classList.add('hidden');
             menu11.classList.add('hidden');
             menu12.classList.add('hidden');
-            menu14.classList.add('hidden');
             menu13.classList.remove('hidden');
-        });
-
-        switchToMenu14.addEventListener('click', () => {
-            menu1.classList.add('hidden');
-            menu11.classList.add('hidden');
-            menu12.classList.add('hidden');
-            menu13.classList.add('hidden');
-            menu14.classList.remove('hidden');
         });
 });
 
@@ -120,6 +104,24 @@ const uploadgrandsboutons = document.querySelectorAll('.uploadgrandsboutons');
       });
     });
 
+document.getElementById('categorie_form').addEventListener('submit', function(event) {
+    const clickedCategories = [];
+        
+        // Récupérer les catégories qui ont la classe 'clicked'
+    categoryButtons.forEach(button => {
+        if (button.classList.contains('clicked')) {
+            clickedCategories.push(button.getAttribute('data-id'));
+        }
+    });
+
+        // Ajouter les IDs des catégories cliquées comme un champ caché dans le formulaire
+    const input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'clicked_categories'; // Le nom que le serveur attend
+    input.value = JSON.stringify(clickedCategories); // Envoyer les IDs cliqués en tant que chaîne JSON
+    this.appendChild(input);
+});
+
 //pour changer les boutons quand on séléctionne un type d'art à filtrer
 const typeartboutons = document.querySelectorAll('.typeartboutons');
 typeartboutons.forEach(button => {
@@ -129,6 +131,7 @@ typeartboutons.forEach(button => {
 });
 
 //pour les flash message plus beau
+
 window.onload = function() {
     // Sélectionner tous les messages flash
     var flash = document.querySelectorAll('.flash');
@@ -138,7 +141,7 @@ window.onload = function() {
         flash.forEach(function(msg) {
             msg.style.display = 'none';  // Masquer le message
         });
-    }, 2000); 
+    }, 200); 
 };
 
 //pour envoyer nom utilisateur avec retour à la ligne
@@ -149,3 +152,8 @@ document.getElementById("username").addEventListener("keydown", function(event) 
         document.getElementById("username").submit();  // Soumet le formulaire
     }
 });
+
+
+
+
+

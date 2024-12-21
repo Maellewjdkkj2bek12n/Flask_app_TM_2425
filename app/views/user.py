@@ -1,4 +1,4 @@
-from flask import (Blueprint, current_app, flash, g, redirect, render_template, request, session, url_for)
+from flask import (Blueprint, current_app, flash, g, json, redirect, render_template, request, session, url_for)
 from app.utils import *
 from flask import Flask, request, redirect, url_for, flash, render_template
 import sqlite3
@@ -34,6 +34,7 @@ def show_profile():
 
 #pour changer la bio
 @user_bp.route('/bio', methods=('GET', 'POST'))
+@login_required
 def change_bio():
     user_id = session.get('user_id')
     db = get_db()  
@@ -63,6 +64,7 @@ def change_bio():
 
 #pour changer le nom d'utilisateur
 @user_bp.route('/username', methods=('GET', 'POST'))
+@login_required
 def change_username():
     user_id = session.get('user_id')
     db = get_db()  
@@ -80,7 +82,7 @@ def change_username():
                 db.commit()
             
             except db.IntegrityError:
-                error = "Oups, l'utilisateur {username} déjà enregistré."
+                error = "Oups, l'utilisateur est déjà enregistré."
                 flash(error)
                 return redirect(url_for("user.show_profile"))
             
@@ -91,6 +93,7 @@ def change_username():
 
 #pour changer la photo de profil
 @user_bp.route('/photo_profil', methods=('GET', 'POST'))
+@login_required
 def change_photo_profil():  
     user_id = session.get('user_id')
     db = get_db()  
@@ -99,12 +102,16 @@ def change_photo_profil():
     
     if request.method == 'POST':
         if 'image' not in request.files:
-            return "Aucun fichier envoyé", 400
+            error = "Aucune image selectionnée."
+            flash(error)
+            return redirect(url_for("user.show_profile"))
 
         file = request.files['image']
 
         if file.filename == '':
-            return "Fichier sans nom", 400
+            error ="Veuillez nommer votre fichier."
+            flash(error)
+            return redirect(url_for("user.chemin_fichier"))
         
         allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -112,26 +119,36 @@ def change_photo_profil():
             return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
         if not allowed_file(file.filename):
-            return "Type de fichier non autorisé", 400
+            error= "Type de fichier non autorisé."
+            flash(error)
+            return redirect(url_for("user.show_profile"))
 
         if file:
             filename = file.filename
-            filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
-
+            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             
+            base_name, extension = os.path.splitext(filename)
+            count = 1
+            while os.path.exists(filepath):
+                # Ajouter un suffixe sous la forme _1, _2, etc.
+                filename = f"{base_name}_{count}{extension}"
+                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                count += 1
+
             if not os.path.exists(current_app.config['IMAGE_FOLDER']):
                 os.makedirs(current_app.config['IMAGE_FOLDER'])
 
             try:
                 file.save(filepath)
             except Exception as e:
-                return f"Erreur lors de la sauvegarde du fichier : {e}", 500
+                error = "Erreur lors de la sauvegarde du fichier."
+                flash(error)
+                return redirect(url_for("user.show_profile"))
 
             photo_profil = url_for('static', filename=f'images/{filename}', _external=True)
 
             user_id = session.get('user_id') 
-            if user_id is None:
-                return "Utilisateur non connecté", 403
+           
         
             if photo_profil :
                 db = get_db()  
@@ -140,7 +157,7 @@ def change_photo_profil():
                         db.commit()
                     
                 except db.IntegrityError:
-                        error = "Oups, l'utilisateur {username} est déjà enregistré."
+                        error = "Erreur lors de la sauvegarde du fichier."
                         flash(error)
                         return redirect(url_for("user.show_profile"))
                     
@@ -152,6 +169,7 @@ def change_photo_profil():
 
 #pour ajouter des oeuvres
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
+@login_required
 def chemin_fichier():
     db = get_db()
 
@@ -159,12 +177,16 @@ def chemin_fichier():
 
     if request.method == 'POST':
         if 'upload' not in request.files:
-            return "Aucun fichier envoyé", 400
+            error= "Aucun fichier envayé."
+            flash(error)
+            return redirect(url_for("user.show_profile"))
 
         file = request.files['upload']
 
         if file.filename == '':
-            return "Fichier sans nom", 400
+            error= "Veuillez nommer votre fichier."
+            flash(error)
+            return redirect(url_for("user.show_profile"))
         
         allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -172,11 +194,21 @@ def chemin_fichier():
             return '.' in filename and filename.rsplit('.', 1)[1].lower() in allowed_extensions
 
         if not allowed_file(file.filename):
-            return "Type de fichier non autorisé", 400
+            error= "Type de fichier non autorisé."
+            flash(error)
+            return redirect(url_for("user.show_profile"))
 
         if file:
             filename = file.filename
             filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            
+            base_name, extension = os.path.splitext(filename)
+            count = 1
+            while os.path.exists(filepath):
+                # Ajouter un suffixe sous la forme _1, _2, etc.
+                filename = f"{base_name}_{count}{extension}"
+                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                count += 1
 
             # Vérifiez si le répertoire existe, sinon créez-le
             if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
@@ -185,14 +217,13 @@ def chemin_fichier():
             try:
                 file.save(filepath)
             except Exception as e:
-                return f"Erreur lors de la sauvegarde du fichier : {e}", 500
+                error ="Erreur lors de la sauvegarde du fichier"
+                flash(error)
+                return redirect(url_for("user.chemin_fichier"))
 
             # Utilisez url_for pour générer l'URL du fichier
             image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
-
             user_id = session.get('user_id') 
-            if user_id is None:
-                return "Utilisateur non connecté", 403
 
             if image_url and user_id: 
                 db = get_db()
@@ -202,36 +233,59 @@ def chemin_fichier():
                     db.commit()
                 except Exception as e:
                     db.rollback()
-                    return f"Erreur lors de l'enregistrement : {e}", 500
+                    error ="Erreur lors de l'enregistrement"
+                    flash(error)
+                    return redirect(url_for("user.chemin_fichier"))
                 finally:
                     close_db()
                 return render_template('user/upload.html', image_url=image_url, categories=categories)
+    return render_template('user/upload.html', categories=categories)
 
 
 # pour selectionner les catégories 
-@user_bp.route('/change_categorie', methods=('GET', 'POST'))
+@user_bp.route('/change_categorie', methods=['POST'])
+@login_required
 def change_categorie():
-    user_id = session.get('user_id')
-    db = get_db()  
-    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+    clicked_categories = request.form.get('clicked_categories')
+    db = get_db()
+    chemin_fichier = request.args.get('chemin_fichier', )
+    oeuvres = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (chemin_fichier,)).fetchone()
+    oeuvre_id = oeuvres['id_oeuvre']
     close_db()
     
-    categorie_id = request.form.get('categorie_id')
-    image_url = request.args.get("image_url")
-    oeuvre = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url,)).fetchone()
-    oeuvre_id = oeuvre['id_oeuvre']
-    if not image_url:
-        return "Erreur : aucune œuvre trouvée pour ce chemin de fichier.", 404
-    if categorie_id :
+    if not clicked_categories:
+        error = "Veuillez sélectionner au moins une catégorie."
+        flash(error)
+        return redirect(url_for("user.chemin_fichier"))
+    
+    if not chemin_fichier:
+        error = "Veuillez sélectionner un fichier."
+        flash(error)
+        return redirect(url_for("user.chemin_fichier"))
+
+    if clicked_categories and oeuvre_id :
+        # Convertir la chaîne JSON en liste
+        clicked_categories = json.loads(clicked_categories)
+        
         db = get_db()
-        db.execute("INSERT INTO categorisations (categorie, oeuvre) VALUES (?, ?)",(categorie_id , oeuvre_id))
-        db.commit()
-        db = close_db()
-        return redirect(url_for('user.show_profile'))
-    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
+        try:
+            # Traiter les catégories cliquées, par exemple, les enregistrer dans la base de données
+            for id_categories in clicked_categories:
+                # Exemple d'ajout à la base de données
+                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (id_categories, oeuvre_id))
+            db.commit()
 
+            # Retourner un message de succès ou rediriger
+            return redirect(url_for('user.chemin_fichier'))
+
+        except Exception as e:
+            db.rollback()
+            error ="Erreur lors de la séléction des catégories"
+            flash(error)
+            return redirect(url_for("user.chemin_fichier"))
+        finally:
+            close_db()
+            return redirect(url_for('user.show_profile'))
     
-
-
-    
+    return redirect(url_for('user.show_profile'))
