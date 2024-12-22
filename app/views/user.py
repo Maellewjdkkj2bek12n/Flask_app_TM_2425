@@ -59,7 +59,7 @@ def change_bio():
                 return redirect(url_for("user.show_profile"))
             
             finally:
-                db = close_db()
+                close_db()
                 return redirect(url_for('user.show_profile'))
     return render_template('user/profil.html', user=g.user, photo_user=photo_user)
 
@@ -88,7 +88,7 @@ def change_username():
                 return redirect(url_for("user.show_profile"))
             
             finally:
-                db = close_db()
+                close_db()
                 return redirect(url_for('user.show_profile'))
     return render_template('user/profil.html', user=g.user, photo_user=photo_user)
 
@@ -163,7 +163,7 @@ def change_photo_profil():
                         return redirect(url_for("user.show_profile"))
                     
                 finally:
-                        db = close_db()
+                        close_db()
                         return redirect(url_for('user.show_profile'))
 
         return render_template('user/profil.html', user=g.user,photo_user=photo_user)
@@ -217,7 +217,6 @@ def chemin_fichier():
             try:
                 file.save(filepath)
             except Exception as e:
-                close_db()
                 error ="Erreur lors de la sauvegarde du fichier"
                 flash(error)
                 return redirect(url_for("user.chemin_fichier"))
@@ -233,7 +232,6 @@ def chemin_fichier():
                     db.commit()
                 except Exception as e:
                     db.rollback()
-                    close_db()
                     error ="Erreur lors de l'enregistrement"
                     flash(error)
                     return redirect(url_for("user.chemin_fichier"))
@@ -249,53 +247,50 @@ def chemin_fichier():
 @login_required
 def change_categorie():
     clicked_categories = request.form.get('clicked_categories')
-    db = get_db()
-    oeuvre_id = request.args.get('oeuvre_id', )
+    oeuvre_id = request.args.get('oeuvre_id')
     
     if not clicked_categories:
         error = "Veuillez sélectionner au moins une catégorie."
         flash(error)
         return redirect(url_for("user.chemin_fichier"))
-    
-    if not chemin_fichier:
-        error = "Veuillez sélectionner un fichier."
+
+    if not oeuvre_id:
+        error = "L'identifiant de l'œuvre est manquant."
         flash(error)
         return redirect(url_for("user.chemin_fichier"))
 
+
     if clicked_categories and oeuvre_id :
-        # Convertir la chaîne JSON en liste
         clicked_categories = json.loads(clicked_categories)
         
         db = get_db()
 
         try:
-            # Traiter les catégories cliquées, par exemple, les enregistrer dans la base de données
-            for id_categories in clicked_categories:
-                # Exemple d'ajout à la base de données
-                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (id_categories, oeuvre_id))
+            for category_id in clicked_categories:
+                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id , category_id))
             db.commit()
+            
 
-            # Retourner un message de succès ou rediriger
-            return redirect(url_for('user.chemin_fichier'))
+            return redirect(url_for('user.show_profile'))
+        
+        except json.JSONDecodeError:
+            flash("Erreur dans le format des catégories sélectionnées.", "error")
+            return redirect(url_for("user.chemin_fichier"))
 
         except Exception as e:
             db.rollback()
-            close_db()
-            error ="Erreur lors de la séléction des catégories"
-            flash(error)
+            flash(f"Une erreur est survenue : {str(e)}", "error")
             return redirect(url_for("user.chemin_fichier"))
+
         finally:
             close_db()
-            return redirect(url_for('user.show_profile'))
-    
-    return redirect(url_for('user.show_profile'))
 
+    return redirect(url_for('user.chemin_fichier'))
+
+#pour supprimer un utilisateur
 @user_bp.route('/supprimer_utilisateur', methods=['POST'])
 @login_required
 def supprimer_utilisateur():
-    db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
-    close_db()
     
     password = request.form.get('password')
     user_id = session.get('user_id') 
@@ -319,12 +314,10 @@ def supprimer_utilisateur():
 
         db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
         db.commit()
-        db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
-        db.commit()
         flash("Votre compte a été supprimé avec succès.", "success")
         
         session.clear()
-        return render_template('home/index.html', photo=photo)
+        return redirect(url_for("home.landing_page"))
 
     except Exception as e:
         db.rollback() 
@@ -332,5 +325,5 @@ def supprimer_utilisateur():
         return redirect(url_for("user.show_profile"))
 
     finally:
-        close_db()  
+        close_db()
 

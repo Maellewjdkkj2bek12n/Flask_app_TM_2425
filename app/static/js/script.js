@@ -95,82 +95,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
 //pour filtrer les oeuvres
 document.addEventListener('DOMContentLoaded', () => {
-        // Sélectionner logo et menu
-        const menuToggle3 = document.getElementById('menu-toggle3');
-        const menu3 = document.getElementById('menu3');
+    console.log("Script bien chargé");
 
-        // Ajouter un événement de clic à logo
+    // Gestion du menu de filtrage des œuvres
+    const menuToggle3 = document.getElementById('menu-toggle3');
+    const menu3 = document.getElementById('menu3');
+    if (menuToggle3 && menu3) {
         menuToggle3.addEventListener('click', () => {
-            // Basculer la classe "hidden" sur le menu
             menu3.classList.toggle('hidden');
-
-        if (menu3.classList.contains('hidden'))  {
-            menuToggle3.src = '/static/imgs/Filtre.png'; 
-        } else {
-            menuToggle3.src = '/static/imgs/FiltreA.png';
-        }
+            menuToggle3.src = menu3.classList.contains('hidden') ? '/static/imgs/Filtre.png' : '/static/imgs/FiltreA.png';
         });
-});
+    }
 
-//pour changer les boutons quand on séléctionne une classe la partie uploade 
-const uploadgrandsboutons = document.querySelectorAll('.uploadgrandsboutons');
-    uploadgrandsboutons.forEach(button => {
-      button.addEventListener('click', () => {
-        button.classList.toggle('clicked');  // Ajoute ou enlève la classe "clicked"
-      });
+    // Gestion des boutons cliquables dans la partie upload
+    const uploadButtons = document.querySelectorAll('.uploadgrandsboutons');
+    uploadButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('clicked');
+        });
     });
 
-document.getElementById('categorie_form').addEventListener('submit', function(event) {
-    const clickedCategories = [];
-        
-        // Récupérer les catégories qui ont la classe 'clicked'
-    categoryButtons.forEach(button => {
-        if (button.classList.contains('clicked')) {
-            clickedCategories.push(button.getAttribute('data-id'));
-        }
-    });
+    // Soumission du formulaire avec les catégories sélectionnées
+    const categoryForm = document.getElementById('categorie_form');
+    if (categoryForm) {
+        categoryForm.addEventListener('submit', function (event) {
+            const clickedCategories = Array.from(document.querySelectorAll('.uploadgrandsboutons.clicked'))
+                .map(button => button.getAttribute('data-id'));
 
-        // Ajouter les IDs des catégories cliquées comme un champ caché dans le formulaire
-    const input = document.createElement('input');
-    input.type = 'hidden';
-    input.name = 'clicked_categories'; // Le nom que le serveur attend
-    input.value = JSON.stringify(clickedCategories); // Envoyer les IDs cliqués en tant que chaîne JSON
-    this.appendChild(input);
-});
+            // Ajouter les catégories sélectionnées au formulaire
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'clicked_categories';
+            input.value = JSON.stringify(clickedCategories);
+            this.appendChild(input);
+        });
+    }
 
-//pour changer les boutons quand on séléctionne un type d'art à filtrer
-const typeartboutons = document.querySelectorAll('.typeartboutons');
-typeartboutons.forEach(button => {
-  button.addEventListener('click', () => {
-    button.classList.toggle('clicked');  // Ajoute ou enlève la classe "clicked"
-  });
-});
-
-//pour les flash message plus beau
-
-window.onload = function() {
-    var flashes = document.querySelectorAll('.flash');
     
+
+    // Gestion des boutons cliquables pour les types d'art
+    const typeArtButtons = document.querySelectorAll('.typeartboutons');
+    typeArtButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('clicked');
+        });
+    });
+
+    // Gestion des flash messages pour un effet de disparition
+    const flashes = document.querySelectorAll('.flash');
     if (flashes.length > 0) {
-        setTimeout(function() {
-            flashes.forEach(function(msg) {
-                msg.classList.add('hide');  
-            });
-        }, 2000);  
+        setTimeout(() => {
+            flashes.forEach(msg => msg.classList.add('hide'));
+        }, 2000);
     }
-};
-//pour envoyer nom utilisateur avec retour à la ligne
 
-document.getElementById("username").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {  
-        event.preventDefault();   
-        document.getElementById("username").submit();  // Soumet le formulaire
-    }
+    
 });
-
-
-
-
-
-
-
