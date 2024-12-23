@@ -855,7 +855,7 @@ header{
   line-height: 1,5;
 }
 
-.menuboutons, .typeartboutons{
+.menuboutons, .Filtrerboutons {
   display: flex;
   justify-content: center;  
   align-items: center;
@@ -898,7 +898,7 @@ header{
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-.menuboutons:hover, .typeartboutons:hover,.submit-button:hover {
+.menuboutons:hover, .Filtrerboutons:hover,.submit-button:hover {
   transform: scale(1.05);
 }
 
@@ -906,7 +906,7 @@ header{
   display: none;
 }
 
-.clicked {
+.clicked, .Filtrerboutons.active {
   background-color: #BAB5B5;
   color: #ffffff;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.573);
@@ -921,8 +921,8 @@ header{
   left: 50%;   
   transform: translateX(-50%);  
   padding: 10px 20px;
-  background-color: #ffffff;  
-  color: #6D6D6D;  
+  color: #BAB5B5;  
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.715);
   font-size: 16px;
   font-family:'Inter-Bold';
   z-index: 9999;   

@@ -131,17 +131,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    
 
-    // Gestion des boutons cliquables pour les types d'art
-    const typeArtButtons = document.querySelectorAll('.typeartboutons');
-    typeArtButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.classList.toggle('clicked');
-        });
-    });
-
-    // Gestion des flash messages pour un effet de disparition
+    // Pour des messages d'erreurs qui disparraissent
     const flashes = document.querySelectorAll('.flash');
     if (flashes.length > 0) {
         setTimeout(() => {
@@ -150,4 +141,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     
+});
+
+//pour filtrer les catégories
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Script bien chargé");
+
+    // Gestion des boutons cliquables dans la partie filtrer
+    const filterButtons = document.querySelectorAll('.Filtrerboutons');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            button.classList.toggle('clicked');
+        });
+    });
+
+    // Interception de la soumission du formulaire
+    const filterForm = document.getElementById('Filtrer_form');
+    if (filterForm) {
+        filterForm.addEventListener('submit', function (event) {
+            const selectedCategories = Array.from(document.querySelectorAll('.Filtrerboutons.clicked'))
+                .map(button => button.getAttribute('data-id'));
+
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'categories_filtrer';  // Le nom à utiliser côté serveur
+            input.value = JSON.stringify(selectedCategories);  // Convertir en chaîne JSON
+            this.appendChild(input);
+        });
+    }
 });

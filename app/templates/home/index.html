@@ -15,11 +15,14 @@ Connect'Art
   
 <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
 </nav>
- <div id="menu3" class="menu3 hidden">
-  {% for categories in categories %}
-  <input type="button" value="{{ categories.nom}}" class="uploadgrandsboutons">
-  {% endfor %}
- </div>
+<div id="menu3" class="menu3 hidden">
+  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer') }}">
+      {% for categories in categories %}
+          <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
+      {% endfor %}
+      <button type="submit" class="submit-button">Filtrer</button>
+  </form>
+</div>
 {% endblock %}
 
 {% block content%}

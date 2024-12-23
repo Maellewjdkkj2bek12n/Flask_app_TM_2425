@@ -15,11 +15,15 @@ Connect'Art
  
 <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
 </nav>
- <div id="menu3" class="menu3 hidden">
-    {% for categories in categories %}
-    <input type="button" value="{{ categories.nom }}" class="uploadgrandsboutons">
-    {% endfor %}
- </div>
+<div id="menu3" class="menu3 hidden">
+    <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer') }}">
+        {% for categories in categories %}
+            <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
+        {% endfor %}
+        <button type="submit" class="submit-button">Filtrer</button>
+    </form>
+    
+</div>
 {% endblock %}
 
 {% block content %}
@@ -51,20 +55,22 @@ Connect'Art
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}>{{user['nom_utilisateur']}}</a>
         {% if categorie_oeuvre%}
         <a>-</a>
-            {% if categorie_oeuvre|length > 1 %}
-            {% for category in categorie_oeuvre %}
-                <a href="{{ url_for('creation.filtrer', categorie_id=category.id_categorie) }}">
-                    {{ category.nom }}
-                </a>
-                {% if not loop.last %}
-                    - 
-                {% endif %}
-            {% endfor %}
-            {% else %}
-                <a href="{{ url_for('creation.filtrer', categorie_id=categorie_oeuvre[0].id_categorie) }}">
-                    {{ categorie_oeuvre[0].nom }}
-                </a>
+            
+        {% if categorie_oeuvre|length > 1 %}
+        {% for category in categorie_oeuvre %}
+            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=category.id_categorie) }}">
+                {{ category.nom }}
+            </a>
+            {% if not loop.last %}
+                - 
             {% endif %}
+        {% endfor %}
+        {% else %}
+            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie_oeuvre[0].id_categorie) }}">
+                {{ categorie_oeuvre[0].nom }}
+            </a>
+        {% endif %}
+
         {% else %}
         {% endif %}
         </div>
