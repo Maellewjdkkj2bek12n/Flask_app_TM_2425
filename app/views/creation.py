@@ -117,36 +117,39 @@ def filtrer():
     db = get_db()
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
-    if not categories_filtrer:
-        flash("Aucun filtre sélectionné")
-        close_db()  
-        return redirect(url_for("home.landing_page"))
     
     categories_filtrer = json.loads(categories_filtrer) 
     
     photo_ids_list = []  
-
-    try:
-        for category_id in categories_filtrer:
-            photo_ids = db.execute("SELECT oeuvre FROM categorisations WHERE categorie = ?", (category_id,)).fetchall()  
-            photo_ids_list.extend([photo[0] for photo in photo_ids])  
-
-    except Exception as e:
-        flash("Une erreur est survenue lors du filtrage des œuvres.")
-        print("Erreur:", e)
-        close_db()
-        return redirect(url_for("home.landing_page"))
     
-    if not photo_ids_list:
-        flash("Aucune œuvre trouvée pour les catégories sélectionnées.")
+    if categories_filtrer:
+
+        try:
+            for category_id in categories_filtrer:
+                photo_ids = db.execute("SELECT oeuvre FROM categorisations WHERE categorie = ?", (category_id,)).fetchall()  
+                photo_ids_list.extend([photo[0] for photo in photo_ids])  
+                
+                
+            if not photo_ids_list:
+                flash("Aucune œuvre trouvée pour les catégories sélectionnées.")
+                close_db()  
+                return redirect(url_for("home.landing_page"))
+
+        except Exception as e:
+            flash("Une erreur est survenue lors du filtrage des œuvres.")
+            print("Erreur:", e)
+            close_db()
+            return redirect(url_for("home.landing_page"))
+        
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list + [user_id])).fetchall()
+        close_db()  
+
+        return render_template('home/index.html', photo=photo, categories=categories)
+    
+    else: 
+        flash("Aucun filtre sélectionné")
         close_db()  
         return redirect(url_for("home.landing_page"))
-    
-
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list + [user_id])).fetchall()
-    close_db()  
-
-    return render_template('home/index.html', photo=photo, categories=categories)
 
 @creation_bp.route('/filtrer_rapide/<int:categorie_id>', methods=['GET', 'POST'])
 @login_required
