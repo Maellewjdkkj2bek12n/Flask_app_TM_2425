@@ -313,6 +313,7 @@ def supprimer_utilisateur():
             return redirect(url_for("user.show_profile"))
 
         db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
+        db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
         db.commit()
         flash("Votre compte a été supprimé avec succès.", "success")
         

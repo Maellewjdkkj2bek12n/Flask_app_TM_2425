@@ -53,26 +53,19 @@ Connect'Art
        {% endif %}  
         <div class="createur">
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}>{{user['nom_utilisateur']}}</a>
-        {% if categorie_oeuvre%}
+        
+        {% if categorie_oeuvre %}
         <a>-</a>
-            
-        {% if categorie_oeuvre|length > 1 %}
-        {% for category in categorie_oeuvre %}
-            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=category.id_categorie) }}">
-                {{ category.nom }}
+        {% for categorie in categorie_oeuvre %}
+            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie.id_categorie) }}">
+                {{ categorie.nom }}
             </a>
-            {% if not loop.last %}
-                - 
-            {% endif %}
+            {% if not loop.last %} - {% endif %}
         {% endfor %}
         {% else %}
-            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie_oeuvre[0].id_categorie) }}">
-                {{ categorie_oeuvre[0].nom }}
-            </a>
+            <a>-</a>
         {% endif %}
 
-        {% else %}
-        {% endif %}
         </div>
     </div>
 </div>         

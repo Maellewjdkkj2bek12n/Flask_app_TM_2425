@@ -36,5 +36,13 @@ Connect'Art
 <div class= "uploadpetit">
 <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
     <input type="button" value="Supprimer l'oeuvre" class="uploadpetitsboutons">
-</a>      
+</a>    
+{% if categorie_oeuvre%}
+        {% for categorie_oeuvre in categorie_oeuvre %}
+            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie_oeuvre.id_categorie) }}">
+                <input type="button" value="{{ categorie_oeuvre.nom }}" class="uploadpetitsboutons">
+            </a>
+        {% endfor %}
+{% else %}
+{% endif %}
 {% endblock %}
