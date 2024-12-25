@@ -38,11 +38,18 @@ Connect'Art
     
         <!--minie galerie-->
         <a href="{{ url_for('home.landing_page') }}" id="liengalerie">
-        <div id="galerierapetissie">
-            {% for photo in photo %}
-            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
-            {% endfor %}
-        </div>
+            {% if photo %}
+            <div id="galerierapetissie">
+                {% for photo in photo %}
+                <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+                {% endfor %}
+            </div>
+            {% else %}
+            <div id="pasgalerierapetissie">
+                <img class="pascreations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
+                <div class="Aucuneautrecreation">Aucune autre </br> création</div>
+            </div> 
+            {% endif %}
         </a>
         <!-- fin minie gelarie-->
     <div class="createur">
@@ -53,9 +60,8 @@ Connect'Art
        {% endif %}  
         <div class="createur">
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}>{{user['nom_utilisateur']}}</a>
-        
-        {% if categorie_oeuvre %}
         <a>-</a>
+        {% if categorie_oeuvre %}
         {% for categorie in categorie_oeuvre %}
             <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie.id_categorie) }}">
                 {{ categorie.nom }}
@@ -63,7 +69,7 @@ Connect'Art
             {% if not loop.last %} - {% endif %}
         {% endfor %}
         {% else %}
-        
+         <a> Aucune catégorie </a>
         {% endif %}
 
         </div>

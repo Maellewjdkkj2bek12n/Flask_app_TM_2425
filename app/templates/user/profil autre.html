@@ -44,7 +44,7 @@ Connect'Art
   {% if photo_user %}
       <div id="galerierapetissieuser">
       {% for photo_user in photo_user %}
-          <a href="{{ url_for('creation.affichage', photogrand_id=photo_user['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo_user.chemin_fichier }}"alt="Oeuvres"></a>
+          <a href="{{ url_for('creation.affichage_autres', photogrand_id=photo_user['id_oeuvre']) }}"><img class="imagerapetissieuser" src="{{ photo_user.chemin_fichier }}"alt="Oeuvres"></a>
       {% endfor %}
       </div>
   {% else %}

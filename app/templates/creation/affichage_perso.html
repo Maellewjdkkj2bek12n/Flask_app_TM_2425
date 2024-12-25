@@ -7,6 +7,14 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
         <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+
+
+    {% if g.user['photo_profil'] %}
+    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+    {% else %}
+    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+    {% endif %}
+
 </nav>
 {% endblock %}
 
@@ -22,25 +30,29 @@ Connect'Art
     
         <!--minie galerie-->
         <a href="{{ url_for('user.show_profile') }}" id="liengalerie">
+        {% if photo %}
         <div id="galerierapetissie">
             {% for photo in photo %}
             <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
             {% endfor %}
         </div>
+        {% else %}
+        <div id="pasgalerierapetissie">
+            <img class="pascreations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
+            <div class="Aucuneautrecreation">Aucune autre </br> création</div>
+        </div> 
+        {% endif %}
         </a>
         <!-- fin minie gelarie-->
-    <div class="createur">
-        
-    </div>
 </div>   
-<div class= "uploadpetit">
+<div class= "creationpersopetitsboutons">
 <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
     <input type="button" value="Supprimer l'oeuvre" class="uploadpetitsboutons">
 </a>    
 {% if categorie_oeuvre%}
         {% for categorie_oeuvre in categorie_oeuvre %}
             <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie_oeuvre.id_categorie) }}">
-                <input type="button" value="{{ categorie_oeuvre.nom }}" class="uploadpetitsboutons">
+                <input type="button" value= "Voir les {{ categorie_oeuvre.nom }}s " class="uploadpetitsboutons">
             </a>
         {% endfor %}
 {% else %}

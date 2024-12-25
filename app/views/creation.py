@@ -38,6 +38,33 @@ def affichage():
 
     return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
 
+@creation_bp.route('/affichage_autres', methods=('GET', 'POST'))
+@login_required
+def affichage_autres():
+    photoagrandie_id = request.args.get('photogrand_id')
+    db = get_db()
+ 
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+    
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    user_id_autre = photoagrandie['utilisateur']
+    
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur = ?", (photoagrandie_id, user_id_autre,)).fetchall()
+
+    categorisation_oeuvre = db.execute("SELECT categorie FROM categorisations WHERE oeuvre = ?", (photoagrandie_id,)).fetchall()
+    categorie_ids = [c['categorie'] for c in categorisation_oeuvre]
+    if categorie_ids:
+        categorie_oeuvre = db.execute("SELECT id_categorie, nom FROM categories_oeuvres WHERE id_categorie IN ({})".format(','.join(['?'] * len(categorie_ids))),tuple(categorie_ids)).fetchall()
+    else:
+        categorie_oeuvre = []
+
+    user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
+
+    close_db()
+
+    return render_template('creation/affichage_autre.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
+
+
 #affichage de nos oeuvres
 @creation_bp.route('/affichage_perso', methods=('GET', 'POST'))
 @login_required
