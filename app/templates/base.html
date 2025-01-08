@@ -5,8 +5,8 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <header id="header">
-        <nav id="header-nav">
+    <header class="header">
+        <nav class="header-nav">
             {% if g.user %}
                 <nav id="header-nav-gauche">
                     <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
@@ -16,11 +16,74 @@
             {% else %}
                 
                     <nav id="header-nav-droite1">
-                        <a href="{{ url_for('auth.register') }}">Inscription</a>
+                        <a id="toggle-register">Inscription</a>
                     </nav>
+                    <div id="register-menu" style="display: none;">
+
+                        <div id="highligh-register">
+                        </div>
+                          <!-- fin highlight des boutons quand on clique dessus-->
+                          <!-- petits blocks du haut avec les boutons de connection-->
+                          <div class="content-register">
+                            <div>
+                              <form method="post"  action="{{ url_for('auth.register') }}">
+                                <label for="mail">Adresse mail...</label>
+                                <br />
+                                <input name="mail" id="mail" required class="login-grands-boutons">
+                                <br />
+                                <!-- <label for="code">Code envoyé à l'adresse mail...</label>
+                                <br />
+                                <input name="code" id="code" class="login-grands-boutons">
+                                <br /> -->
+                                <label for="username">Nom d'utilisateur...</label>
+                                <br />
+                                <input name="username" id="username" required class="login-grands-boutons">
+                                <br />
+                                <label for="password">Mot de passe...</label>
+                                <br />
+                                <input type="password" name="password" id="password" required class="login-grands-boutons">
+                                <br />
+                                <label for="confirm_password">Confirmez le mot de passe...</label>
+                                <br />
+                                <input type="password" name="confirm_password" id="confirm_password" required class="login-grands-boutons">
+                                <br />
+                                <nav id="login-petits-boutons">
+                                <input type="button" value="Renvoyer le code" class="login-petits-boutons1">
+                                <input type="submit" value="Inscription" class="login-petits-boutons2">
+                                </nav>
+                              </form>
+                            </div>
+                          </div>
+
+                    </div>
+                    
                     <nav id="header-nav-droite2">
-                        <a href="{{ url_for('auth.login') }}">Connexion</a>
+                        <a id="toggle-login">Connexion</a>
                     </nav>
+                      
+                    <div id="login-menu" style="display: none;">
+                        <div id="highligh-login">
+                    </div>
+                      
+                        <div class="content-login">
+                          <div>
+                            <form method="post" action="{{ url_for('auth.login') }}">
+                              <label for="username">Nom d'utilisateur...</label>
+                              <br />
+                              <input name="username" id="username" required class="login-grands-boutons">
+                              <br />
+                              <label for="password">Mot de passe...</label>
+                              <br />
+                              <input type="password" name="password" id="password" required class="login-grands-boutons">
+                              <br />
+                              <nav id="login-petits-boutons">
+                                <a href="{{ url_for('auth.MDP') }}">Mot de passe oublié ?</a>
+                                <input type="submit" value="Connexion" class="login-petits-boutons2">
+                              </nav>
+                            </form>
+                          </div>
+                        </div>
+                    </div>               
             {% endif %}
         </nav>
     </header> 

@@ -87,12 +87,12 @@
 }
 
 /*block du haut en général*/
-header{
+.header{
   z-index: 3;
   height: 53px;
 }
 
-#header-nav{
+.header-nav{
   position : fixed;
   z-index: 4;
 
@@ -108,6 +108,7 @@ header{
 /*boutons du haut si il y a 2 boutons à droite*/
 
 #header-nav-droite1{
+  position: fixed;
   justify-self: center;
   grid-column-start: débutgrand1;
   grid-column-end: débutgrand2;
@@ -116,9 +117,11 @@ header{
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  z-index: 6;
 }
 
 #header-nav-droite2{
+  position: fixed;
   justify-self: center;
   grid-column-start: débutgrand2;
   grid-column-end: fin;
@@ -127,11 +130,13 @@ header{
   flex-flow: row nowrap;
   justify-content: center;
   align-items: center;
+  z-index: 6;
 }
 
 /*boutons du haut si il y a 3 boutons à droite */
 
 #header-nav-droite3{
+  position: fixed;
   justify-self: end;
   grid-column-start: débutgrand1;
   grid-column-end: fin2;
@@ -141,6 +146,7 @@ header{
   justify-content: center;
   align-items: center;
   gap: 10px;
+  z-index: 6;
 }
 
 .logo, #menu-toggle1, #menu-toggle2, #menu-toggle3{
@@ -181,7 +187,7 @@ header{
 
 /*écritures du haut*/
 
-#header-nav a, #header-nav a:hover{
+.header-nav a, .header-nav a:hover{
   font-size : 15px;
   color: #ffffff;
   font-family: 'Inter-Black';
@@ -190,7 +196,7 @@ header{
   transition: transform 0.3s ease;
 }
 
-#header-nav a:hover{
+.header-nav a:hover{
   font-size : 16px;
   transform: scale(1.1);
 }
@@ -359,18 +365,9 @@ header{
 /*highlight des boutons quand on clique dessus*/
 
 #highligh-register, #highligh-login{
-  position : fixed;
-  top: 0px;
-  right:150px;
-  z-index: 5;
-
   background-color: #EFEDED;
   height: 53px;
   width: 150px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 #highligh-register{
@@ -387,16 +384,17 @@ header{
   z-index: 5;
 }
 
-#highligh-login a, #highligh-register a, #highligh-login a:hover, #highligh-register a:hover{
+#active-login, #active-register {
   font-size : 15px;
   color: #707070;
   font-family: 'Inter-Black';
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.3s ease;
+  z-index: 5;
 }
 
-#highligh-login a:hover, #highligh-register a:hover{
+#active-login:hover, #active-register:hover {
   font-size : 16px;
   cursor: pointer;
   transform: scale(1.05);

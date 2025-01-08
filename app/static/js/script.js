@@ -170,3 +170,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+
+
+//pour afficher menu register et login
+document.addEventListener('DOMContentLoaded', function () {
+    const loginButton = document.getElementById('toggle-login');
+    const registerButton = document.getElementById('toggle-register');
+    const loginMenu = document.getElementById('login-menu');
+    const registerMenu = document.getElementById('register-menu');
+    
+    // Gestion du clic sur "Connexion"
+    loginButton.addEventListener('click', function () {
+      // Si le menu Connexion est visible, on le masque
+      if (loginMenu.style.display === 'block') {
+        loginMenu.style.display = 'none';
+        loginButton.removeAttribute('id'); // Retire l'ID actif
+      } else {
+        // Sinon, on affiche le menu Connexion
+        loginMenu.style.display = 'block';
+        registerMenu.style.display = 'none';
+        loginButton.setAttribute('id', 'active-login'); // Ajoute l'ID actif à Connexion
+        registerButton.removeAttribute('id'); // Retire l'ID actif de l'Inscription
+      }
+    });
+  
+    // Gestion du clic sur "Inscription"
+    registerButton.addEventListener('click', function () {
+      // Si le menu Register est visible, on le masque
+      if (registerMenu.style.display === 'block') {
+        registerMenu.style.display = 'none';
+        registerButton.removeAttribute('id'); // Retire l'ID actif
+      } else {
+        // Sinon, on affiche le menu Register
+        registerMenu.style.display = 'block';
+        loginMenu.style.display = 'none';
+        registerButton.setAttribute('id', 'active-register'); // Ajoute l'ID actif à Register
+        loginButton.removeAttribute('id'); // Retire l'ID actif de Connexion
+      }
+    });
+  });
+  

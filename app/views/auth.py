@@ -67,7 +67,7 @@ def register():
             return redirect(url_for("auth.login"))
     else:
         # Si aucune donnée de formulaire n'est envoyée, on affiche le formulaire d'inscription (on a fait une requete get)
-        return render_template('auth/register.html', photo=photo)
+        return render_template('home/index.html', photo=photo)
 
 # Route /auth/login
 @auth_bp.route('/login', methods=('GET', 'POST'))
@@ -113,7 +113,7 @@ def login():
             flash(error)
             return redirect(url_for("auth.login"))
     else:
-        return render_template('auth/login.html', photo=photo)
+        return render_template('home/index.html', photo=photo)
 
 # Route /auth/logout
 @auth_bp.route('/logout')
