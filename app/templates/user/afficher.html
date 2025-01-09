@@ -18,15 +18,13 @@ Connect'Art
 {% block content %}
 <div class="fondlisteutilisateurs">
     {% for utilisateurs in utilisateurs %}
-    <a href={{url_for('user.show_autreprofile', user=utilisateurs['id_utilisateur'])}}>
-    <div class="listeutilisateurs">
-        {% if utilisateurs['photo_profil'] %}
-        <img class= "listeutilisateursphoto" src="{{ utilisateurs['photo_profil'] }}" alt="Profil">
-        {% else %}
-        <img class= "listeutilisateursphoto" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
-        {% endif %}
-        <a>{{  utilisateurs['nom_utilisateur'] }}</a>
-    </div>
+    <a href="{{ url_for('user.show_autreprofile', user=utilisateurs['id_utilisateur']) }}" class="listeutilisateurs">
+            {% if utilisateurs['photo_profil'] %}
+            <img class="listeutilisateursphoto" src="{{ utilisateurs['photo_profil'] }}" alt="Profil">
+            {% else %}
+            <img class="listeutilisateursphoto" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
+            {% endif %}
+            <p>{{ utilisateurs['nom_utilisateur'] }}</p>
     </a>
     {% endfor %}
     <br/>

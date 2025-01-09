@@ -631,20 +631,6 @@
   max-height: calc(75vh - 20px);
 }
 
-#liengalerie {
-  grid-column-start: débutgalerie;
-  grid-column-end: fingalerie;
-  grid-row-start: haut;
-  grid-row-end: finhaut;
-
-  justify-self: center;
-  align-self: center;
-  z-index: 8;
-
-  width: 100%;
-  height: 74vh;
-}
-
 #galerierapetissie{
   position: absolute;
   grid-column-start: débutgalerie;
@@ -656,19 +642,14 @@
   align-self: center;
   z-index: 7;
 
-  width: calc(100vw - 60vw- 60px);
+  width: calc(100vw - 60vw - 60px);
   height: 74vh ;
 
   display: grid ;
   grid-template-columns: repeat(4, auto);
   grid-template-rows: repeat (3, auto);
   cursor: pointer;
-  transition: transform 0.3s ease;
   gap:3%;
-}
-
-#galerierapetissie:hover, #pasgalerierapetissie:hover {
-  transform: scale(1.03);
 }
 
 .imagerapetissie {
@@ -679,6 +660,15 @@
   width:  100%;
   height: 100%;
   max-height: 74vh;
+  transition: transform 0.3s ease;
+}
+
+#galerierapetissie a:nth-of-type(n+13) {
+  display: none;
+}
+
+.imagerapetissie:hover, #pasgalerierapetissie:hover {
+  transform: scale(1.03);
 }
 
 #pasgalerierapetissie{
@@ -727,10 +717,6 @@
   font-family: 'Inter-Black';
   text-decoration: none;
   text-align: center;
-}
-
-.imagerapetissie:nth-child(n+13) {
-  display: none;
 }
 
 .createur, .createur a {
@@ -992,7 +978,7 @@
   left: 50%;   
   transform: translateX(-50%);  
   padding: 10px 20px;
-  color: #BAB5B5;  
+  color: #ffffff;  
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.715);
   font-size: 16px;
   font-family:'Inter-Bold';
@@ -1034,9 +1020,8 @@
 
 .fondlisteutilisateurs{
   position:fixed;
-  top: 65px;
+  top: 100px;
   width: 100vw ;
-  height: 100vh;
   display: flex;
   align-items: top;
   flex-wrap: wrap;
@@ -1048,34 +1033,37 @@
   background-color: #ffffff;
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
-  border-radius: 30px;
+  border-radius: 10px;
   cursor: pointer;
-  width: 95vw ;
-  height: 80px;
+  width: 90vw ;
+  height: 65px;
   cursor: pointer;
-  transition: transform 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: start;
-  gap: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 20px;
+  gap: 30px;
+  text-decoration: none;
   transition: transform 0.3s ease;
 }
 
 .listeutilisateurs:hover {
   transform: scale(1.01);
+  text-decoration: none;
 }
 
 
-.listeutilisateurs a{
-  font-size: 20px;
-  font-family:'Inter';
-  color: #000000;
+.listeutilisateurs p {
+  margin: 0;
+  text-decoration: none;
+  font-size: 25px;
+  font-family:'Inter-Light';
+  color: #171717;
 }
+
 .listeutilisateursphoto{
-  width: 65px ;
-  height: 65px;
+  width: 50px ;
+  height: 50px;
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;

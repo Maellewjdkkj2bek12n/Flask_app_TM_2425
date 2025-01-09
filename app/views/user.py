@@ -333,11 +333,12 @@ def supprimer_utilisateur():
 def chercher():
     chercher = request.form.get('chercher', '').strip() 
     utilisateurs = []
+    user_id = session.get('user_id') 
 
     if chercher:  
         db = get_db()
-        utilisateurs = db.execute("SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ?", ('%' + chercher + '%',)).fetchall()
-
+        utilisateurs = db.execute("SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ? AND id_utilisateur != ?",('%' + chercher + '%', user_id)).fetchall()
+        close_db()
         if not utilisateurs: 
             flash("Aucun utilisateur trouvé pour le terme recherché.")
             return redirect(url_for("home.landing_page"))

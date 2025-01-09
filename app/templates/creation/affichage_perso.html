@@ -6,7 +6,7 @@ Connect'Art
 
 {% block menu %}
 <nav id="header-nav-droite3">
-        <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
 
 
     {% if g.user['photo_profil'] %}
@@ -29,20 +29,18 @@ Connect'Art
         </div>
     
         <!--minie galerie-->
-        <a href="{{ url_for('user.show_profile') }}" id="liengalerie">
         {% if photo %}
         <div id="galerierapetissie">
             {% for photo in photo %}
-            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+            <a href="{{ url_for('creation.affichage_perso', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
             {% endfor %}
         </div>
         {% else %}
         <div id="pasgalerierapetissie">
             <img class="pascreations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-            <div class="Aucuneautrecreation">Aucune autre </br> création</div>
+            <div class="Aucuneautrecreation">Vous n'avez <br/> aucune autre création</div>
         </div> 
         {% endif %}
-        </a>
         <!-- fin minie gelarie-->
 </div>   
 <div class= "creationpersopetitsboutons">

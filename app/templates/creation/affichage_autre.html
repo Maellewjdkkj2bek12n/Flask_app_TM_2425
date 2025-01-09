@@ -14,13 +14,6 @@ Connect'Art
       <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
     {% endif %}
   
-    <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
-  </nav>
-  <div id="menu2" class="menu2 hidden">
-    <input type="button" value="Contacter" class="menuboutons">
-    <input type="button" value="Suivre" class="menuboutons">
-    <input type="button" value="Bloquer" class="menuboutons">
-  </div>
 {% endblock %}
 
 {% block content %}
@@ -34,20 +27,18 @@ Connect'Art
         </div>
     
         <!--minie galerie-->
-        <a href="{{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}" id="liengalerie">
             {% if photo %}
             <div id="galerierapetissie">
                 {% for photo in photo %}
-                <img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+                <a href="{{ url_for('creation.affichage_autres', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
                 {% endfor %}
             </div>
             {% else %}
             <div id="pasgalerierapetissie">
                 <img class="pascreations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-                <div class="Aucuneautrecreation">Aucune autre </br> création</div>
+                <div class="Aucuneautrecreation">Aucune autre création<br/> de cet utilisateur</div>
             </div> 
             {% endif %}
-        </a>
         <!-- fin minie gelarie-->
     <div class="createur">
         {% if user['photo_profil'] %}
