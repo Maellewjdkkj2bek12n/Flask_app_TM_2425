@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+{% block menu %}
+<nav id="header-nav-droite3">
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+  
+    {% if g.user['photo_profil'] %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+    {% else %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="fondlisteutilisateurs">
+    {% for user in utilisateurs %}
+    <div class="listeutilisateurs">
+        {% if utilisateurs['photo_profil'] %}
+        <img class= "listeutilisateursphoto" src="{{ photo_profil['photo_profil'] }}" alt="Profil">
+        {% else %}
+        <img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
+        {% endif %}
+        <a>{{  utilisateurs['nom_utilisateur'] }}</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

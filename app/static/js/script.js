@@ -210,4 +210,19 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+//pour dérouler la barre de recherche
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("Script bien chargé");
+
+    // Gestion du menu de filtrage des œuvres
+    const menuToggle4 = document.getElementById('menu-toggle4');
+    const menu4 = document.getElementById('menu4');
+    if (menuToggle4 && menu4) {
+        menuToggle4.addEventListener('click', () => {
+            menu4.classList.toggle('hidden');
+            menuToggle4.src = menu4.classList.contains('hidden') ? '/static/imgs/chercher.png' : '/static/imgs/chercherA.png';
+        });
+    }
+ });
   

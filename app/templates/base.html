@@ -8,10 +8,20 @@
     <header class="header">
         <nav class="header-nav">
             {% if g.user %}
-                <nav id="header-nav-gauche">
-                    <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
-                </nav>
-                {% block menu %}{% endblock %}
+
+            <nav id="header-nav-gauche">
+              <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
+              <a><img id = "menu-toggle4" src="{{ url_for('static', filename='imgs/chercher.png') }}" alt="chercher"></a>
+              <div id="menu4" class="menu4 hidden">
+                <div class="chercher">
+                    <form method="POST" action="{{ url_for('user.chercher') }}">
+                        <input type="text" placeholder="Rechercher un utilisateur..." name="chercher" value="{{ chercher }}" id= "chercher">
+                    </form>
+                </div>
+              </div>
+            </nav>          
+                
+            {% block menu %}{% endblock %}
                 
             {% else %}
                 

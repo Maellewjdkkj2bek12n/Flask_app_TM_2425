@@ -328,3 +328,22 @@ def supprimer_utilisateur():
     finally:
         close_db()
 
+@user_bp.route('/chercher', methods=['GET', 'POST'])
+@login_required
+def chercher():
+    chercher = request.form.get('chercher', '').strip() 
+    utilisateurs = []
+
+    if chercher:  
+        db = get_db()
+        utilisateurs = db.execute("SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ?", ('%' + chercher + '%',)).fetchall()
+
+        if not utilisateurs: 
+            flash("Aucun utilisateur trouvé pour le terme recherché.")
+            return redirect(url_for("home.landing_page"))
+
+        return render_template('user/afficher.html', utilisateurs=utilisateurs)
+
+    else: 
+        flash("Le champ de recherche est vide. Veuillez entrer un terme.")
+        return redirect(url_for("home.landing_page"))
