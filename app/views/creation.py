@@ -20,7 +20,16 @@ def affichage():
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
     user_id = session.get('user_id')
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur != ?", (photoagrandie_id, user_id,)).fetchall()
+    exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
+    exclusion_ids = [row[0] for row in exclusions]
+
+    exclusion_ids.append(user_id)
+
+    if exclusion_ids:
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? AND utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), [photoagrandie_id] + exclusion_ids).fetchall()
+
+    else:
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur != ?", (photoagrandie_id, user_id,)).fetchall()
     
     photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
 

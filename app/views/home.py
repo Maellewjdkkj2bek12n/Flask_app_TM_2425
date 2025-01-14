@@ -21,16 +21,28 @@ def landing_page():
     close_db()
     
     user_id = session.get('user_id')
-    if user_id:
-        db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
+    
+    if user_id: 
+        db = get_db()
+        exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
+        exclusion_ids = [row[0] for row in exclusions]
+
+        exclusion_ids.append(user_id)
+
+        if exclusion_ids:
+           photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
+        
+        else:
+            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur != ?", (user_id,)).fetchall()
+        
         close_db()
+
     
     if not user_id:
         db = get_db()  
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
         close_db()
-    # Affichage de la page principale de l'application
+    
     return render_template('home/index.html', photo=photo, categories=categories, )
 
 # Gestionnaire d'erreur 404 pour toutes les routes inconnues

@@ -370,5 +370,52 @@ def suivre():
     db.commit()
     close_db()
     return redirect(url_for("user.show_profile"))
+
+@user_bp.route('/afficher_bloquer', methods=['GET', 'POST'])
+@login_required
+def afficher_bloquer():
+    user_id = session.get('user_id')
+    db = get_db()
     
+    bloque = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ?", (user_id,)).fetchall()
+    bloque_ids = [b['bloqué'] for b in bloque]
     
+    if bloque_ids:
+        placeholders = ', '.join('?' for _ in bloque_ids)
+        query = f"SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+        utilisateurs = db.execute(query, tuple(bloque_ids)).fetchall()
+    else:
+        utilisateurs = []
+
+    db.close()
+
+    if not utilisateurs:
+        flash("Aucun utilisateur bloqué trouvé.")
+        return redirect(url_for("user.show_profile"))
+
+    return render_template('user/afficher.html', utilisateurs=utilisateurs)
+
+
+@user_bp.route('/afficher_suivre', methods=['GET', 'POST'])
+@login_required
+def afficher_suivre():
+    user_id = session.get('user_id')
+    db = get_db()
+    
+    suivis = db.execute("SELECT suivi FROM suivre WHERE suiveur = ?", (user_id,)).fetchall()
+    suivi_ids = [suivi['suivi'] for suivi in suivis]
+    
+    if  suivi_ids:
+        placeholders = ', '.join('?' for _ in  suivi_ids)
+        query = f"SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+        utilisateurs = db.execute(query, tuple( suivi_ids)).fetchall()
+    else:
+        utilisateurs = []
+        
+    db.close()
+
+    if not utilisateurs:
+        flash("Aucun utilisateur suivi trouvé.")
+        return redirect(url_for("user.show_profile"))
+
+    return render_template('user/afficher.html', utilisateurs=utilisateurs)
