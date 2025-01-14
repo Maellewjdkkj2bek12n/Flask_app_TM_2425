@@ -18,7 +18,7 @@ def show_autreprofile() :
     db = get_db()
     user_id = request.args.get('user')
     photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-    user = db.execute("SELECT nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+    user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
     close_db()
     
     return render_template('user/profil autre.html',photo_user=photo_user, user=user)
@@ -355,7 +355,7 @@ def bloquer():
     bloque =  request.args.get('user')
     user = session.get('user_id') 
     db = get_db()
-    db.execute("INSERT INTO bloquer (bloqué, bloqueur) VALUES (?, ?)", (bloque , user))
+    db.execute("INSERT INTO bloque (bloqué, empecheur) VALUES (?, ?)", (bloque , user))
     db.commit()
     close_db()
     return redirect(url_for("user.show_profile"))
