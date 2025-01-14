@@ -17,11 +17,28 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 def show_autreprofile() :
     db = get_db()
     user_id = request.args.get('user')
-    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-    user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-    close_db()
+    user = session.get('user_id')
     
-    return render_template('user/profil autre.html',photo_user=photo_user, user=user)
+    bloquer= db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? AND bloqué = ?", (user, user_id)).fetchone()
+    if bloquer :  
+        bloque = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+        photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+        user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+        close_db()
+        return render_template('user/profil autre.html',photo_user=photo_user, user=user, bloque=bloque)
+    
+    suivre= db.execute("SELECT suivi FROM suivre WHERE suiveur = ? AND suivi = ?", (user, user_id)).fetchone()
+    if suivre : 
+        suivi = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+        photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+        user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+        close_db()
+        return render_template('user/profil autre.html',photo_user=photo_user, user=user, suivi=suivi)
+    else :
+        photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+        user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+        close_db()
+        return render_template('user/profil autre.html',photo_user=photo_user, user=user)
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 @login_required
@@ -358,7 +375,22 @@ def bloquer():
     db.execute("INSERT INTO bloque (bloqué, empecheur) VALUES (?, ?)", (bloque , user))
     db.commit()
     close_db()
-    return redirect(url_for("user.show_profile"))
+    return redirect(url_for("user.show_autreprofile", user=bloque))
+
+
+@user_bp.route('/debloquer', methods=('GET', 'POST'))
+@login_required
+def debloquer():
+    bloque = request.args.get('user')
+    bloque = int(bloque) 
+    db = get_db()
+    user = session.get('user_id')
+    db.execute("DELETE FROM bloque WHERE empecheur = ? AND bloqué = ?",(user, bloque))
+    db.commit()
+    close_db()
+    return redirect(url_for("user.show_autreprofile", user=bloque))
+
+
     
 @user_bp.route('/suivre', methods=('GET', 'POST'))
 @login_required
@@ -369,7 +401,19 @@ def suivre():
     db.execute("INSERT INTO suivre (suivi, suiveur) VALUES (?, ?)", (suivi , user))
     db.commit()
     close_db()
-    return redirect(url_for("user.show_profile"))
+    return redirect(url_for("user.show_autreprofile", user=suivi))
+
+@user_bp.route('/plus_suivre', methods=('GET', 'POST'))
+@login_required
+def plus_suivre():
+    suivi =  request.args.get('user')
+    suivi = int(suivi) 
+    db = get_db()
+    user = session.get('user_id') 
+    db.execute("DELETE FROM suivre WHERE suiveur = ? AND suivi = ?", (user, suivi))
+    db.commit()
+    close_db()
+    return redirect(url_for("user.show_autreprofile", user=suivi))
 
 @user_bp.route('/afficher_bloquer', methods=['GET', 'POST'])
 @login_required

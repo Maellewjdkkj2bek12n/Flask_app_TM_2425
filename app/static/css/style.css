@@ -216,7 +216,7 @@
   left : 20px;
   right: 20px;
   
-  justify-self: center; 
+  justify-self: start; 
   align-self: center; 
   z-index: 1;
 
@@ -604,7 +604,7 @@
 }
 
 #arrièrephotoagrandie{
-  position : absolute;
+  position : fixed;
   grid-column-start: débutphotoengrand;
   grid-column-end: finphotoengrand;
   grid-row-start: haut;
@@ -622,6 +622,51 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+#descrition{
+  opacity: 0;
+  position : fixed;
+  grid-column-start: débutphotoengrand;
+  grid-column-end: finphotoengrand;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+  justify-self: center;
+  align-self: center;
+  z-index: 10;
+ 
+  width: 60vw;
+  height: 75vh;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#descrition:hover {
+  opacity: 1;
+  position : fixed;
+  grid-column-start: débutphotoengrand;
+  grid-column-end: finphotoengrand;
+  grid-row-start: haut;
+  grid-row-end: finhaut;
+  justify-self: center;
+  align-self: center;
+  z-index: 10;
+ 
+  background-color: #ffffff;
+  width: 60vw;
+  height: 75vh;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 15px;
+  font-family:'Inter-Light';
+  color: #171717;
 }
 
 #photoagrandie{
@@ -993,8 +1038,8 @@
 
 .chercher{
   display: flex; 
-    justify-content: center; 
-    align-items: center;
+  justify-content: center; 
+  align-items: center;
 }
 
 #chercher{

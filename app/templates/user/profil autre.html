@@ -17,9 +17,24 @@ Connect'Art
   <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
 <div id="menu2" class="menu2 hidden">
-  <input type="button" value="Contacter" class="menuboutons">
-  <a href="{{url_for('user.suivre' , user=user['id_utilisateur'])}}"> <input type="button" value="Suivre" class="menuboutons"> </a>
-  <a href="{{url_for('user.bloquer', user=user['id_utilisateur'])}}"> <input type="button" value="Bloquer" class="menuboutons" > </a>
+    {% if suivi %}
+    <input type="button" value="Contacter" class="menuboutons">
+    <a href="{{url_for('user.plus_suivre', user=user['id_utilisateur'])}}">
+      <input type="button" value="Ne plus suivre" class="menuboutons">
+    </a>
+    {% elif bloque %}
+      <a href="{{url_for('user.debloquer', user=user['id_utilisateur'])}}">
+        <input type="button" value="Débloquer" class="menuboutons">
+      </a>
+    {% else %}
+      <input type="button" value="Contacter" class="menuboutons">
+      <a href="{{url_for('user.suivre', user=user['id_utilisateur'])}}">
+        <input type="button" value="Suivre" class="menuboutons">
+      </a>
+      <a href="{{url_for('user.bloquer', user=user['id_utilisateur'])}}">
+        <input type="button" value="Bloquer" class="menuboutons">
+      </a>
+    {% endif %}
 </div>
 {% endblock %}
 

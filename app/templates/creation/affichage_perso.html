@@ -7,15 +7,14 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
     <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-
-
-    {% if g.user['photo_profil'] %}
-    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
-    {% else %}
-    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-    {% endif %}
-
+    <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
+<div id="menu2" class="menu2 hidden">
+      <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
+        <input type="button" value="Supprimer l'oeuvre" class="menuboutons">
+    </a>  
+</div>
+
 {% endblock %}
 
 {% block content %}
@@ -25,6 +24,13 @@ Connect'Art
             <img id="photoagrandie" src="{{ photoagrandie.chemin_fichier }}">    
         {% else %}
             <p>Oups, aucune image disponible!</p>
+        {% endif %}
+        </div>
+        <div id= "descrition">
+            {% if photoagrandie['description'] %}
+            <a>{{ photoagrandie['description'] }}</a>
+            {% else %}
+            <a>Aucune description pour cette image!</a>
         {% endif %}
         </div>
     
@@ -42,17 +48,28 @@ Connect'Art
         </div> 
         {% endif %}
         <!-- fin minie gelarie-->
-</div>   
-<div class= "creationpersopetitsboutons">
-<a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
-    <input type="button" value="Supprimer l'oeuvre" class="uploadpetitsboutons">
-</a>    
-{% if categorie_oeuvre%}
-        {% for categorie_oeuvre in categorie_oeuvre %}
-            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie_oeuvre.id_categorie) }}">
-                <input type="button" value= "Voir les {{ categorie_oeuvre.nom }}s " class="uploadpetitsboutons">
+   
+    <div class="createur">
+        {% if user['photo_profil'] %}
+        <a href="{{url_for('user.show_profile')}}"><img id= "createurphoto"  src="{{user['photo_profil']}}" alt="Clée"></a>
+        {% else %}
+        <a href="{{url_for('user.show_profile')}}"><img id= "createurphoto"  src="{{ url_for('static', filename='imgs/Profil.png') }}"  alt="Clée"></a>
+        {% endif %}  
+        <div class="createur">
+        <a href="{{url_for('user.show_profile')}}">{{user['nom_utilisateur']}}</a>
+        <a>-</a>
+        {% if categorie_oeuvre %}
+        {% for categorie in categorie_oeuvre %}
+            <a href="{{ url_for('creation.filtrer_rapide', categorie_id=categorie.id_categorie) }}">
+                {{ categorie.nom }}
             </a>
+            {% if not loop.last %} - {% endif %}
         {% endfor %}
-{% else %}
-{% endif %}
+        {% else %}
+            <a> Aucune catégorie </a>
+        {% endif %}
+
+        </div>
+    </div>
+</div>
 {% endblock %}

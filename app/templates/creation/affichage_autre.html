@@ -22,7 +22,14 @@ Connect'Art
         {% if photoagrandie %}
             <img id="photoagrandie" src="{{ photoagrandie.chemin_fichier }}">    
         {% else %}
-            <p>Oups, aucune image disponible!</p>
+            <a>Oups, aucune image disponible!</a>
+        {% endif %}
+        </div>
+        <div id= "descrition">
+            {% if photoagrandie['description'] %}
+            <a>{{ photoagrandie['description'] }}</a>
+            {% else %}
+            <a>Aucune description pour cette image!</a>
         {% endif %}
         </div>
     
