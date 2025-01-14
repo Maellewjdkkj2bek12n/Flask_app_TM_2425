@@ -348,3 +348,27 @@ def chercher():
     else: 
         flash("Le champ de recherche est vide. Veuillez entrer un terme.")
         return redirect(url_for("home.landing_page"))
+
+@user_bp.route('/bloquer', methods=('GET', 'POST'))
+@login_required
+def bloquer():
+    bloque =  request.args.get('user')
+    user = session.get('user_id') 
+    db = get_db()
+    db.execute("INSERT INTO bloquer (bloqué, bloqueur) VALUES (?, ?)", (bloque , user))
+    db.commit()
+    close_db()
+    return redirect(url_for("user.show_profile"))
+    
+@user_bp.route('/suivre', methods=('GET', 'POST'))
+@login_required
+def suivre():
+    suivi =  request.args.get('user')
+    user = session.get('user_id') 
+    db = get_db()
+    db.execute("INSERT INTO suivre (suivi, suiveur) VALUES (?, ?)", (suivi , user))
+    db.commit()
+    close_db()
+    return redirect(url_for("user.show_profile"))
+    
+    

@@ -911,7 +911,7 @@
   line-height: 1,5;
 }
 
-.menuboutons, .Filtrerboutons {
+.menuboutons, .Filtrerboutons, .menuboutons a{
   display: flex;
   justify-content: center;  
   align-items: center;

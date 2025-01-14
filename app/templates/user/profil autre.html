@@ -18,8 +18,8 @@ Connect'Art
 </nav>
 <div id="menu2" class="menu2 hidden">
   <input type="button" value="Contacter" class="menuboutons">
-  <input type="button" value="Suivre" class="menuboutons">
-  <input type="button" value="Bloquer" class="menuboutons">
+  <a href="{{url_for('user.suivre' , user=user['id_utilisateur'])}}"> <input type="button" value="Suivre" class="menuboutons"> </a>
+  <a href="{{url_for('user.bloquer', user=user['id_utilisateur'])}}"> <input type="button" value="Bloquer" class="menuboutons" > </a>
 </div>
 {% endblock %}
 
