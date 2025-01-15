@@ -10,9 +10,12 @@ Connect'Art
     <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
 <div id="menu2" class="menu2 hidden">
-      <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
+    <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
         <input type="button" value="Supprimer l'oeuvre" class="menuboutons">
     </a>  
+    <a href="{{url_for('user.modifier_fichier', oeuvre_id=photoagrandie['id_oeuvre'])}}">
+        <input type="button" value="Modifier l'oeuvre" class="menuboutons">
+    </a> 
 </div>
 
 {% endblock %}
@@ -27,8 +30,8 @@ Connect'Art
         {% endif %}
         </div>
         <div id= "descrition">
-            {% if photoagrandie['description'] %}
-            <a>{{ photoagrandie['description'] }}</a>
+            {% if photoagrandie['description_oeuvre'] %}
+            <a>{{ photoagrandie['description_oeuvre'] }}</a>
             {% else %}
             <a>Aucune description pour cette image!</a>
         {% endif %}

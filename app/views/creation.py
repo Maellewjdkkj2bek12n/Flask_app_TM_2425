@@ -31,7 +31,7 @@ def affichage():
     else:
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur != ?", (photoagrandie_id, user_id,)).fetchall()
     
-    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
 
     categorisation_oeuvre = db.execute("SELECT categorie FROM categorisations WHERE oeuvre = ?", (photoagrandie_id,)).fetchall()
     categorie_ids = [c['categorie'] for c in categorisation_oeuvre]
@@ -55,7 +55,7 @@ def affichage_autres():
  
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
     
-    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
     user_id_autre = photoagrandie['utilisateur']
     
     photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur = ?", (photoagrandie_id, user_id_autre,)).fetchall()
@@ -90,7 +90,7 @@ def affichage_perso():
     close_db()
     
     db = get_db()
-    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
     close_db()
     
     db = get_db()
@@ -229,3 +229,38 @@ def filtrer_rapide(categorie_id):
     close_db() 
 
     return render_template('home/index.html', photo=photo, categories=categories)
+
+@creation_bp.route('/chercher', methods=['GET', 'POST'])
+@login_required
+def chercher():
+    chercher = request.form.get('chercher', '').strip() 
+    photo_ids_list = []
+    user_id = session.get('user_id')
+    db = get_db() 
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+
+    if chercher:  
+        
+        photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?",('%' + chercher + '%', user_id)).fetchall()
+        photo_ids_list.extend([photo[0] for photo in photo_ids]) 
+
+        if not photo_ids: 
+            flash("Aucun utilisateur trouvé pour le terme recherché.")
+            return redirect(url_for("home.landing_page"))
+
+        try:
+            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list + [user_id])).fetchall()
+        
+        except Exception as e:
+            flash("Une erreur est survenue lors de la récupération des œuvres.")
+            print("Erreur:", e)
+            close_db()
+            return redirect(url_for("home.landing_page"))
+        
+        close_db() 
+        return render_template('home/index.html', photo=photo, categories=categories)
+
+    else: 
+        close_db()
+        flash("Le champ de recherche est vide. Veuillez entrer un terme.")
+        return redirect(url_for("home.landing_page"))

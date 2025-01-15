@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+{% block menu %} 
+<nav id="header-nav-droite3"> 
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a> 
+</nav> 
+{% endblock %}
+
+
+{% block content %}
+<div id= "arrièrephotoupload">
+    <img id="photoagrandie" src="{{ oeuvre.chemin_fichier }}" alt="Image provenant de la base de données">
+</div>
+
+<form method="POST" id="categorie_form" action="{{ url_for('user.modifier_oeuvre',  oeuvre_id=oeuvre['id_oeuvre']) }}">
+        
+    <div id="descritionupload">
+        <textarea  id= "descritionupload" name="description" maxlength="1000" placeholder="Écrivez la descrition de l'image ici...."></textarea>
+    </div>
+
+    <div class="upload">
+        <div class="uploadeecriture">
+            <a>Sélectionner le/les catégories de l'œuvre </a>
+        </div>
+        <div>
+            {% for categories in categories %}
+                        <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
+            {% endfor %}
+        </div>
+    </div>
+        <div class= "uploadpetit">
+            <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=oeuvre['id_oeuvre'], filename=oeuvre['nom'])}}">
+                <input type="button" value="Annuler" class="uploadpetitsboutons">
+            </a>
+            <input type="submit" value="Modifier !" class="uploadpetitsboutons">
+        </div>
+</form>
+{% endblock %}

@@ -266,6 +266,19 @@ def change_categorie():
     clicked_categories = request.form.get('clicked_categories')
     oeuvre_id = request.args.get('oeuvre_id')
     
+    description = request.form.get('description', '').strip()
+        
+    if description:
+        db = get_db()
+        try:
+            db.execute('UPDATE oeuvres SET description_oeuvre = ? WHERE id_oeuvre = ?', (description, oeuvre_id))
+            db.commit()
+        except db.IntegrityError:
+            error = "Oups, la bio est trop longue ou une erreur est survenue."
+            flash(error)
+        finally:
+            close_db()
+    
     if not clicked_categories:
         error = "Veuillez sélectionner au moins une catégorie."
         flash(error)
@@ -463,3 +476,70 @@ def afficher_suivre():
         return redirect(url_for("user.show_profile"))
 
     return render_template('user/afficher.html', utilisateurs=utilisateurs)
+
+@user_bp.route('/modifier_oeuvre', methods=['POST'])
+@login_required
+def modifier_oeuvre():
+    clicked_categories = request.form.get('clicked_categories', None)
+    oeuvre_id = request.args.get('oeuvre_id')
+    description = request.form.get('description', '').strip()
+
+    if not oeuvre_id:
+        flash("L'identifiant de l'œuvre est manquant.", "error")
+        return redirect(url_for("user.show_profile"))
+
+    db = get_db()
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+
+    try:
+        if clicked_categories:
+            try:
+                clicked_categories = json.loads(clicked_categories)  
+                if not isinstance(clicked_categories, list):
+                    raise ValueError("Le format des catégories est incorrect.")
+            except (json.JSONDecodeError, ValueError) as e:
+                flash(f"Erreur dans le format des catégories sélectionnées : {str(e)}", "error")
+                return render_template('user/upload.html', categories=categories)
+        else:
+            flash("Veuillez sélectionner au moins une catégorie.", "error")
+            return render_template('user/upload.html', categories=categories)
+
+        db.execute("UPDATE oeuvres SET description_oeuvre = ? WHERE id_oeuvre = ?", (description, oeuvre_id))
+        db.execute("DELETE FROM categorisations WHERE oeuvre = ?", (oeuvre_id,))
+        
+        for category_id in clicked_categories:
+            db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id, category_id))
+        
+        db.commit()
+        flash("L'œuvre a été modifiée avec succès.", "success")
+        return redirect(url_for('user.show_profile'))
+
+    except Exception as e:
+        db.rollback()
+        flash(f"Une erreur est survenue : {str(e)}", "error")
+        return render_template('user/upload.html', categories=categories)
+
+    finally:
+        close_db()
+        return redirect(url_for("user.show_profile"))
+
+
+
+@user_bp.route('/modifier_fichier', methods=('GET', 'POST'))
+@login_required
+def modifier_fichier():
+    db = get_db()
+    oeuvre_id = request.args.get('oeuvre_id')
+
+    if not oeuvre_id:
+        flash("L'identifiant de l'œuvre est manquant.", "error")
+        return redirect(url_for("user.show_profile"))
+
+    oeuvre = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?",(oeuvre_id,)).fetchone()
+
+    if not oeuvre:
+        flash("L'œuvre demandée est introuvable.", "error")
+        return redirect(url_for("user.show_profile"))
+
+    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+    return render_template('user/modifier.html', oeuvre=oeuvre, categories=categories)

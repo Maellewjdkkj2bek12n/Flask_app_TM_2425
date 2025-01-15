@@ -17,7 +17,11 @@
                     <form method="POST" action="{{ url_for('user.chercher') }}">
                         <input type="text" placeholder="Rechercher un utilisateur..." name="chercher" value="{{ chercher }}" id= "chercher">
                     </form>
+                    <form method="POST" action="{{ url_for('creation.chercher') }}">
+                        <input type="text" placeholder="Rechercher une oeuvre..." name="chercher" value="{{ chercher }}" id= "chercher">
+                    </form>
                 </div>
+
               </div>
             </nav>          
                 
