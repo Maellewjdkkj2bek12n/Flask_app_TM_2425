@@ -52,6 +52,8 @@ def affichage():
     if photo_ids_list:
             try:
                 photo_ids_list = [int(photo_id) for photo_id in photo_ids_list]
+                
+
             except ValueError:
                 flash("Erreur lors de la conversion des IDs.")
                 close_db()
@@ -64,21 +66,19 @@ def affichage():
 
             if exclusion_ids:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
-                        ', '.join('?' for _ in photo_ids_list),  
-                        ', '.join('?' for _ in exclusion_ids) 
-                    ), 
-                    tuple(photo_ids_list + exclusion_ids) 
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur NOT IN ({})".format(
+                        ', '.join('?' for _ in photo_ids_list), 
+                        ', '.join('?' for _ in exclusion_ids)   
+                    ),
+                    tuple(photo_ids_list+ [photoagrandie_id] + exclusion_ids)  
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur != ?".format(
                         ', '.join('?' for _ in photo_ids_list)  
                     ),
-                    tuple(photo_ids_list + [user_id])  
+                    tuple(photo_ids_list + [photoagrandie_id] + [user_id] )  
                 ).fetchall()
-    
-    
             photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
 
             categorisation_oeuvre = db.execute("SELECT categorie FROM categorisations WHERE oeuvre = ?", (photoagrandie_id,)).fetchall()
