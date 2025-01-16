@@ -6,7 +6,15 @@ Connect'Art
 
 {% block menu %}
 <nav id="header-nav-droite3">
-<a href="{{ url_for('home.landing_page') }}">Galerie</a>
+
+{% if photo_ids_list %}
+    <a href="{{ url_for('home.landing_page', photo_ids_list=photo_ids_list) }}">Galerie</a>
+{% elif photo_list %}
+    <a href="{{ url_for('home.landing_page', photo_ids_list=photo_list) }}">Galerie</a>
+{% else %}
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+{% endif %}
+
 {% if g.user['photo_profil'] %}
     <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
 {% else %}
@@ -36,9 +44,9 @@ Connect'Art
         {% endif %}
         </div>
         <div id= "descrition">
-            {% if photoagrandie['description_oeuvre'] %}
+        {% if photoagrandie['description_oeuvre'] %}
             <a>{{ photoagrandie['description_oeuvre'] }}</a>
-            {% else %}
+        {% else %}
             <a>Aucune description pour cette image!</a>
         {% endif %}
         </div>
@@ -46,9 +54,25 @@ Connect'Art
         <!--minie galerie-->
             {% if photo %}
             <div id="galerierapetissie">
-                {% for photo in photo %}
-                <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
-                {% endfor %}
+{% if photo_ids_list %}
+    {% for photo in photo %}
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_ids_list=photo_ids_list) }}">
+            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        </a>
+    {% endfor %}
+{% elif photo_list %}
+    {% for photo in photo %}
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_list=photo_list) }}">
+            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        </a>
+    {% endfor %}
+{% else %}
+    {% for photo in photo %}
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}">
+            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        </a>
+    {% endfor %}
+{% endif %}
             </div>
             {% else %}
             <div id="pasgalerierapetissie">

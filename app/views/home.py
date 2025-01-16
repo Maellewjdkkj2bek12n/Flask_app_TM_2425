@@ -23,32 +23,60 @@ def landing_page():
     user_id = session.get('user_id')
     
     if user_id: 
+        photo_ids_list = request.args.getlist('photo_ids_list')
         db = get_db()
-        exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
-        exclusion_ids = [row[0] for row in exclusions]
-
-        exclusion_ids.append(user_id)
-
-        if exclusion_ids:
-           photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
         
-        else:
-            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur != ?", (user_id,)).fetchall()
-        
-        close_db()
+        if not photo_ids_list:
+            exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
+            exclusion_ids = [row[0] for row in exclusions]
 
+            exclusion_ids.append(user_id)
+
+            if exclusion_ids:
+                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
+            
+            else:
+                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur != ?", (user_id,)).fetchall()
+            close_db()
+            return render_template('home/index.html', photo=photo, categories=categories )
+        
+        if photo_ids_list:
+            try:
+                photo_ids_list = [int(photo_id) for photo_id in photo_ids_list]
+            except ValueError:
+                flash("Erreur lors de la conversion des IDs.")
+                close_db()
+                return redirect(url_for("home.landing_page"))
+            
+            exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
+            exclusion_ids = [row[0] for row in exclusions]
+            exclusion_ids.append(user_id)  
+
+            if exclusion_ids:
+                photo = db.execute(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                        ', '.join('?' for _ in photo_ids_list),  
+                        ', '.join('?' for _ in exclusion_ids) 
+                    ), 
+                    tuple(photo_ids_list + exclusion_ids) 
+                ).fetchall()
+            else:
+                photo = db.execute(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                        ', '.join('?' for _ in photo_ids_list)  
+                    ),
+                    tuple(photo_ids_list + [user_id])  
+                ).fetchall()
+            close_db()
+            return render_template('home/index.html', photo=photo, categories=categories, photo_ids_list=photo_ids_list )
     
     if not user_id:
         db = get_db()  
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
         close_db()
-    
-    return render_template('home/index.html', photo=photo, categories=categories, )
+        return render_template('home/index.html', photo=photo, categories=categories )
 
 # Gestionnaire d'erreur 404 pour toutes les routes inconnues
 @home_bp.route('/<path:text>', methods=['GET', 'POST'])
 def not_found_error(text):
     return render_template('home/404.html'), 404
-
-
-

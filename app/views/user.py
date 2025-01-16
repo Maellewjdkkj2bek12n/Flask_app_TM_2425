@@ -367,7 +367,21 @@ def chercher():
 
     if chercher:  
         db = get_db()
-        utilisateurs = db.execute("SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ? AND id_utilisateur != ?",('%' + chercher + '%', user_id)).fetchall()
+        
+        db = get_db()
+        exclusions = db.execute("SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id,)).fetchall()
+        exclusion_ids = [row[0] for row in exclusions]
+        exclusion_ids.append(user_id)
+
+        if exclusion_ids:
+            utilisateurs = db.execute(
+                "SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ? AND id_utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)),
+                tuple(['%' + chercher + '%'] + exclusion_ids)
+            ).fetchall()
+        
+        else :
+            utilisateurs = db.execute("SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE nom_utilisateur LIKE ? AND id_utilisateur != ?",('%' + chercher + '%', user_id)).fetchall()
+        
         close_db()
         if not utilisateurs: 
             flash("Aucun utilisateur trouvé pour le terme recherché.")
