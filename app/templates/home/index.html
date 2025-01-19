@@ -7,12 +7,7 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
 
-{% if photo_list %}
-<a href="{{ url_for('home.landing_page') }}">Retour</a>
-{% else %}
-{% endif %}
-
-{% if photo_ids_list %}
+{% if categories_filtrer or chercher  %}
 <a href="{{ url_for('home.landing_page') }}">Retour</a>
 {% else %}
 {% endif %}
@@ -26,15 +21,8 @@ Connect'Art
 <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
 </nav>
 <div id="menu3" class="menu3 hidden">
-{% if photo_list %} 
-  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer', photo_list=photo_list) }}">
-    {% for categories in categories %}
-        <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
-    {% endfor %}
-    <button type="submit" class="submit-button">Filtrer</button>
-</form>
-{% elif photo_ids_list %} 
-  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer', photo_list=photo_ids_list) }}">
+{% if chercher %} 
+  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer', chercher=chercher) }}">
     {% for categories in categories %}
         <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
     {% endfor %}
@@ -56,16 +44,24 @@ Connect'Art
         <div class="content-index">
           {% if g.user %}
           <!-- Zone du mileux qui ne bouge pas-->
+
           <div id="grille-image"> 
-{% if photo_ids_list %}
+
+{% if categories_filtrer and chercher %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_ids_list=photo_ids_list) }}">
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer, chercher=chercher) }}">
             <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
-{% elif photo_list %}
+{% elif categories_filtrer %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_ids_list=photo_list) }}">
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer) }}">
+            <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        </a>
+    {% endfor %}
+{% elif chercher %}
+    {% for photo in photo %}
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], chercher=chercher) }}">
             <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
@@ -77,6 +73,7 @@ Connect'Art
     {% endfor %}
 {% endif %}
           </div>
+
             <!-- fin Zone du mileux qui ne bouge pas-->
           {% else %}
                     <!--assombrissement de la galerie pour la page d'accueil-->

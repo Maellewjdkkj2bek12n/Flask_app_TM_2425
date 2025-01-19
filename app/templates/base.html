@@ -17,8 +17,8 @@
                     <form method="POST" action="{{ url_for('user.chercher') }}">
                         <input type="text" placeholder="Rechercher un utilisateur..." name="chercher" value="{{ chercher }}" id= "chercher">
                     </form>
-                {% if photo_ids_list %}
-                      <form method="POST" action="{{ url_for('creation.chercher',  photo_ids_list=photo_ids_list) }}">
+                {% if categories_filtrer %}
+                      <form method="POST" action="{{ url_for('creation.chercher',  categories_filtrer=categories_filtrer) }}">
                           <input type="text" placeholder="Rechercher une oeuvre..." name="chercher" value="{{ chercher }}" id= "chercher">
                       </form>
                 {% else %}

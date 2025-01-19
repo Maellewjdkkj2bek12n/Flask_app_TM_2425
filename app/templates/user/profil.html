@@ -32,10 +32,20 @@ Connect'Art
 </div>
 
 <div id="menu12" class="menu12 hidden">
-    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil') }}" enctype="multipart/form-data"> 
+    {% if g.user['nom_photo_profil'] %}
+    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
         <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
         <label for="photo_profil" class="menuboutons">Choisir un fichier</label>
     </form>
+    <a href="{{url_for('user.supprimer_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}">
+        <input type="button" value="Supprimer la photo de profil" class="menuboutons">
+    </a>  
+    {% else %}
+    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil' ) }}" enctype="multipart/form-data"> 
+        <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
+        <label for="photo_profil" class="menuboutons">Choisir un fichier</label>
+    </form>
+    {% endif %}
 </div>
 
 <div id="menu13" class="menu13 hidden">

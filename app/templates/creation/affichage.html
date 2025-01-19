@@ -7,10 +7,12 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
 
-{% if photo_ids_list %}
-    <a href="{{ url_for('home.landing_page', photo_ids_list=photo_ids_list) }}">Galerie</a>
-{% elif photo_list %}
-    <a href="{{ url_for('home.landing_page', photo_ids_list=photo_list) }}">Galerie</a>
+{% if categories_filtrer and chercher %}
+    <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer, chercher=chercher) }}">Galerie</a>
+{% elif categories_filtrer %}
+    <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer) }}">Galerie</a>
+{% elif chercher %}
+    <a href="{{ url_for('home.landing_page', chercher=chercher) }}">Galerie</a>
 {% else %}
     <a href="{{ url_for('home.landing_page') }}">Galerie</a>
 {% endif %}
@@ -54,15 +56,21 @@ Connect'Art
         <!--minie galerie-->
             {% if photo %}
             <div id="galerierapetissie">
-{% if photo_ids_list %}
+{% if categories_filtrer and chercher%}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_ids_list=photo_ids_list) }}">
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer, chercher=chercher) }}">
             <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
-{% elif photo_list %}
+{% elif categories_filtrer %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], photo_list=photo_list) }}">
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer) }}">
+            <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        </a>
+    {% endfor %}
+{% elif chercher %}
+    {% for photo in photo %}
+        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], chercher=chercher) }}">
             <img class="imagerapetissie" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}

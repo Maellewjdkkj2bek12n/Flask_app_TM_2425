@@ -43,7 +43,6 @@ Connect'Art
 </form>
 
 {% else %}
-
         <div id= "arrièrephotoupload">
         <form method="POST" id="upload_form" enctype="multipart/form-data">
             <input type="file" id="upload" class="file-input" name="upload" required onchange="this.form.submit()">
@@ -61,9 +60,9 @@ Connect'Art
             </div>
         </div>
         <div class= "uploadpetit">
-                <a href="{{url_for('user.show_profile')}}">
-                <input type="button" value="Annuler" class="uploadpetitsboutons">
-                </a>
+            <a href="{{url_for('user.show_profile')}}">
+            <input type="button" value="Annuler" class="uploadpetitsboutons">
+            </a>
         </div>
 {% endif %}
 {% endblock %}

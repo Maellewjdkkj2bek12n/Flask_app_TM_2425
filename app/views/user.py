@@ -123,6 +123,11 @@ def change_photo_profil():
             error = "Aucune image selectionnée."
             flash(error)
             return redirect(url_for("user.show_profile"))
+        nom_fichier = request.args.get('nom_fichier')
+        if nom_fichier :
+            chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
+            if os.path.exists(chemin):  
+                os.remove(chemin)
 
         file = request.files['image']
 
@@ -143,7 +148,7 @@ def change_photo_profil():
 
         if file:
             filename = file.filename
-            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
             
             base_name, extension = os.path.splitext(filename)
             count = 1
@@ -172,6 +177,7 @@ def change_photo_profil():
                 db = get_db()  
                 try:
                         db.execute('UPDATE utilisateurs SET photo_profil = ? WHERE id_utilisateur = ?', (photo_profil, user_id))
+                        db.execute('UPDATE utilisateurs SET nom_photo_profil = ? WHERE id_utilisateur = ?', (filename, user_id))
                         db.commit()
                     
                 except db.IntegrityError:
@@ -185,6 +191,23 @@ def change_photo_profil():
 
         return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
+@user_bp.route('/supprimer_photo_profil', methods=('GET', 'POST'))
+@login_required
+def supprimer_photo_profil(): 
+    user_id = session.get('user_id') 
+    nom_fichier = request.args.get('nom_fichier')
+    if nom_fichier:
+        chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
+        if os.path.exists(chemin):  
+            os.remove(chemin)
+        db = get_db() 
+        db.execute("UPDATE utilisateurs SET photo_profil = NULL, nom_photo_profil = NULL WHERE id_utilisateur = ?", (user_id,))
+        db.commit()  
+        close_db()
+    else:
+        flash("Aucune photo de profil trouvée.")
+    return redirect(url_for('user.show_profile'))
+    
 #pour ajouter des oeuvres
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
 @login_required
@@ -253,7 +276,7 @@ def chemin_fichier():
                     flash(error)
                     return redirect(url_for("user.chemin_fichier"))
                 finally:
-                    oeuvres = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url ,)).fetchone()
+                    oeuvres = db.execute("SELECT nom, id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url ,)).fetchone()
                     close_db()
                 return render_template('user/upload.html',image_url=image_url, oeuvres=oeuvres, categories=categories)
     return render_template('user/upload.html', categories=categories)
@@ -317,46 +340,68 @@ def change_categorie():
 
     return redirect(url_for('user.chemin_fichier'))
 
-#pour supprimer un utilisateur
 @user_bp.route('/supprimer_utilisateur', methods=['POST'])
 @login_required
 def supprimer_utilisateur():
     
     password = request.form.get('password')
     user_id = session.get('user_id') 
-
-    if not password:
-        flash("Le mot de passe est requis pour supprimer votre compte.", "error")
-        return redirect(url_for("user.show_profile"))
-
     db = get_db()
 
     try:
         user = db.execute('SELECT * FROM utilisateurs WHERE id_utilisateur = ?', (user_id,)).fetchone()
-
         if not user:
             flash("Utilisateur introuvable.", "error")
+            return redirect(url_for("user.show_profile"))
+
+        if not password:
+            flash("Le mot de passe est requis pour supprimer votre compte.", "error")
             return redirect(url_for("user.show_profile"))
 
         if not check_password_hash(user['mot_passe'], password):
             flash("Le mot de passe est incorrect.", "error")
             return redirect(url_for("user.show_profile"))
 
-        db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
+        nom_fichier = user['nom_photo_profil']
+        if nom_fichier:
+            chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
+            if os.path.exists(chemin):  
+                print(f"Suppression de la photo de profil: {chemin}")
+                os.remove(chemin)
+            else:
+                print(f"Fichier de la photo de profil non trouvé: {chemin}")
+
+        oeuvres = db.execute('SELECT * FROM oeuvres WHERE utilisateur = ?', (user_id,)).fetchall()
+        for oeuvre in oeuvres:
+            nom_fichier_oeuvre = oeuvre['nom'] 
+            if nom_fichier_oeuvre:
+                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], nom_fichier_oeuvre)
+                if os.path.exists(filepath):  
+                    print(f"Suppression de l'œuvre: {filepath}")
+                    os.remove(filepath)
+                else:
+                    print(f"Fichier de l'œuvre non trouvé: {filepath}")
+
+        print("Suppression des œuvres de la base de données...")
         db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
+        print("Suppression de l'utilisateur de la base de données...")
+        db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
         db.commit()
+
         flash("Votre compte a été supprimé avec succès.", "success")
-        
+      
         session.clear()
         return redirect(url_for("home.landing_page"))
 
     except Exception as e:
         db.rollback() 
-        flash("Une erreur est survenue lors de la suppression de votre compte.", "error")
+        flash(f"Une erreur est survenue lors de la suppression de votre compte: {e}", "error")
+        print(f"Erreur: {e}")
         return redirect(url_for("user.show_profile"))
 
     finally:
         close_db()
+
 
 @user_bp.route('/chercher', methods=['GET', 'POST'])
 @login_required
