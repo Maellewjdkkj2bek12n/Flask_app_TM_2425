@@ -34,6 +34,11 @@
             {% block menu %}{% endblock %}
                 
             {% else %}
+              {% if page_type == "MDP" %}
+                <nav id="header-nav-gauche">
+                <a href="{{ url_for('auth.login') }}">Annuler</a>
+                </nav>
+              {% else %}
                 
                     <nav id="header-nav-droite1">
                         <a id="toggle-register">Inscription</a>
@@ -68,7 +73,7 @@
                                 <input type="password" name="confirm_password" id="confirm_password" required class="login-grands-boutons">
                                 <br />
                                 <nav id="login-petits-boutons">
-                                <input type="button" value="Renvoyer le code" class="login-petits-boutons1">
+                                <input type="button" value="Renvoyer le code" id="resend-code-btn" class="login-petits-boutons1">
                                 <input type="submit" value="Inscription" class="login-petits-boutons2">
                                 </nav>
                               </form>
@@ -103,7 +108,8 @@
                             </form>
                           </div>
                         </div>
-                    </div>               
+                    </div> 
+              {% endif %}          
             {% endif %}
         </nav>
     </header> 

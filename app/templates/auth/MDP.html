@@ -25,7 +25,7 @@
               </nav>
               {% else %}
               <nav id="login-petits-boutons">
-                <a href="{{ url_for('auth.login') }}">Annuler</a>
+                <input type="button" value="Renvoyer le code" id="resend-code-btn" class="login-petits-boutons1">
                 <input type="submit" value="Confirmation" class="login-petits-boutons2">
               </nav>
               {% endif %}

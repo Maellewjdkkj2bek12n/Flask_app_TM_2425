@@ -1,5 +1,8 @@
 from enum import auto
-from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
+from mailbox import Message
+import random
+import string
+from flask import (Blueprint, current_app, flash, g, jsonify, redirect, render_template, request, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
 from app.db.db import get_db, close_db
 import os
@@ -202,9 +205,29 @@ def MDP():
         else:
             flash("Aucun utilisateur enregistré avec cet e-mail.")
             db = close_db()
-            return redirect(url_for('auth.MDP'))
+            page_type= "MDP"
+            return redirect(url_for('auth.MDP', page_type=page_type))
         
         
     else:
         # Affichage du formulaire quand la requête est GET
         return render_template('auth/MDP.html', photo=photo)
+    
+
+@auth_bp.route('/send_confirmation_code', methods=['POST'])
+def send_confirmation_code():
+    email = request.json.get('mail')
+    if not email:
+        return jsonify({"error": "L'email est requis"}), 400
+    code = ''.join(random.choices(string.digits, k=6))
+
+    try:
+        subject="Votre code de confirmation"
+        to_address=[email]
+        message = f"Votre code de confirmation est : {code}"
+        email.send_email(to_address, subject, message, cc_addresses=None)
+        flash({"message": "Code envoyé avec succès", "code": code}), 200
+
+    except Exception as e:
+        flash(f"Erreur lors de l'envoi de l'email : {e}")
+        return jsonify({"error": "Une erreur est survenue lors de l'envoi de l'e-mail"}), 500

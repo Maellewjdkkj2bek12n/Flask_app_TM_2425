@@ -1,44 +1,42 @@
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
+
+from flask import current_app, flash
 from app.config import EMAIL_HOST, EMAIL_PORT, EMAIL_PASSWORD, EMAIL_ADDRESS
 from werkzeug.security import generate_password_hash
 import random 
 import string
 
+
 def send_email(to_address, subject, message, cc_addresses=None):
-    # Création de l'objet email
+    
     email = MIMEMultipart()
-    email['From'] = EMAIL_ADDRESS
+    email['From'] = current_app.config['EMAIL_ADDRESS']
     email['To'] = to_address
     email['Subject'] = subject
 
-    # Ajout des adresses en copie
     if cc_addresses:
         email['Cc'] = ', '.join(cc_addresses)
+    else:
+        cc_addresses = []  
 
-
-    # Ajout du corps de l'email en version HTML (cela permet d'utiliser des tags html dans le message)
-    # Pour utiliser une simple chaîne de caractère, il suffit de remplacer par MIMEText(message,'plain')
     email.attach(MIMEText(message, 'html'))
 
-    # Connexion au serveur SMTP et envoi de l'email
     try:
         server = smtplib.SMTP(EMAIL_HOST, EMAIL_PORT)
-        # server.set_debuglevel(1)  # Activer les messages de débogage
         server.ehlo()
         server.starttls()
-        server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
-        # Envoi de l'email à tous les destinataires (To, Cc)
+        server.login(current_app.config['EMAIL_ADDRESS'], current_app.config['EMAIL_PASSWORD'])
         server.sendmail(email['From'], [to_address] + cc_addresses, email.as_string())
         server.quit()
-        print("Email envoyé avec succès !")
+        flash("E-mail envoyé avec succès !")
+    except smtplib.SMTPAuthenticationError:
+        flash("Erreur d'authentification : Vérifiez l'adresse e-mail et le mot de passe.")
+    except smtplib.SMTPConnectError:
+        flash("Erreur de connexion : Impossible de se connecter au serveur SMTP.")
+    except smtplib.SMTPException as e:
+        flash(f"Erreur SMTP : {e}")
     except Exception as e:
-        print(f"Erreur lors de l'envoi de l'email : {e}")
+        flash(f"Erreur générale : {e}")
 
-# Exemple d'utilisation
-# send_email("...@edufr.ch", "Objet de test", "Contenu du message", cc_addresses=["...@edufr.ch"])
-
-def send_email(to_address, subject, message, cc_addresses=None):
-    msg = message(subject, sender=app.config['MAIL_USERNAME'], recipients=[to_address])
-    msg.body = 1234
