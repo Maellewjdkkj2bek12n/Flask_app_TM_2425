@@ -211,7 +211,8 @@ def MDP():
         
     else:
         # Affichage du formulaire quand la requête est GET
-        return render_template('auth/MDP.html', photo=photo)
+        page_type= "MDP"
+        return render_template('auth/MDP.html', photo=photo, page_type=page_type)
     
 
 @auth_bp.route('/send_confirmation_code', methods=['POST'])
