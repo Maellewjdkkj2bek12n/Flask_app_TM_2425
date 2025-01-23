@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
   <!--partie du milieux avec les trucs pour changer le mot de passe-->
   <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Clée.png') }}" alt="Clée">
@@ -18,17 +19,10 @@
               <br />
               <input type="password" name="confirm_password" id="confirm_password" required class="login-grands-boutons">
               <br />
-              {% if g.user %}
-              <nav id="login-petits-boutons">
-                <a href="{{url_for('user.show_profile')}}">Annuler</a>
-                <input type="submit" value="Confirmation" class="login-petits-boutons2">
-              </nav>
-              {% else %}
               <nav id="login-petits-boutons">
                 <input type="button" value="Renvoyer le code" id="resend-code-btn" class="login-petits-boutons1">
                 <input type="submit" value="Confirmation" class="login-petits-boutons2">
               </nav>
-              {% endif %}
           </form>
       </div>
     </div>

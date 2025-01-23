@@ -8,6 +8,11 @@
     <header class="header">
         <nav class="header-nav">
             {% if g.user %}
+            {% if page_type == "MDP" %}
+                <nav id="header-nav-gauche">
+                <a href="{{url_for('user.show_profile')}}">Annuler</a>
+                </nav>
+            {% else %}
 
             <nav id="header-nav-gauche">
               <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
@@ -32,7 +37,7 @@
             </nav>          
                 
             {% block menu %}{% endblock %}
-                
+            {% endif %}    
             {% else %}
               {% if page_type == "MDP" %}
                 <nav id="header-nav-gauche">
