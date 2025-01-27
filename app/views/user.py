@@ -286,7 +286,7 @@ def chemin_fichier():
 @user_bp.route('/change_categorie', methods=['POST'])
 @login_required
 def change_categorie():
-    clicked_categories = request.form.get('clicked_categories')
+    clicked_categories = request.form.getlist('categories')
     oeuvre_id = request.args.get('oeuvre_id')
     
     description = request.form.get('description', '').strip()
@@ -301,11 +301,6 @@ def change_categorie():
             flash(error)
         finally:
             close_db()
-    
-    if not clicked_categories:
-        error = "Veuillez sélectionner au moins une catégorie."
-        flash(error)
-        return redirect(url_for("user.chemin_fichier"))
 
     if not oeuvre_id:
         error = "L'identifiant de l'œuvre est manquant."
@@ -313,8 +308,7 @@ def change_categorie():
         return redirect(url_for("user.chemin_fichier"))
 
 
-    if clicked_categories and oeuvre_id :
-        clicked_categories = json.loads(clicked_categories)
+    if clicked_categories :
         
         db = get_db()
 
@@ -325,10 +319,6 @@ def change_categorie():
             
 
             return redirect(url_for('user.show_profile'))
-        
-        except json.JSONDecodeError:
-            flash("Erreur dans le format des catégories sélectionnées.", "error")
-            return redirect(url_for("user.chemin_fichier"))
 
         except Exception as e:
             db.rollback()
@@ -539,7 +529,7 @@ def afficher_suivre():
 @user_bp.route('/modifier_oeuvre', methods=['POST'])
 @login_required
 def modifier_oeuvre():
-    clicked_categories = request.form.get('clicked_categories', None)
+    clicked_categories = request.form.getlist('categories')
     oeuvre_id = request.args.get('oeuvre_id')
     description = request.form.get('description', '').strip()
 
@@ -552,30 +542,19 @@ def modifier_oeuvre():
 
     try:
         if clicked_categories:
-            try:
-                clicked_categories = json.loads(clicked_categories)  
-                if not isinstance(clicked_categories, list):
-                    raise ValueError("Le format des catégories est incorrect.")
-            except (json.JSONDecodeError, ValueError) as e:
-                flash(f"Erreur dans le format des catégories sélectionnées : {str(e)}", "error")
-                return render_template('user/upload.html', categories=categories)
-        else:
-            flash("Veuillez sélectionner au moins une catégorie.", "error")
-            return render_template('user/upload.html', categories=categories)
+            for category_id in clicked_categories:
+                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id, category_id))
+        
 
         db.execute("UPDATE oeuvres SET description_oeuvre = ? WHERE id_oeuvre = ?", (description, oeuvre_id))
         db.execute("DELETE FROM categorisations WHERE oeuvre = ?", (oeuvre_id,))
-        
-        for category_id in clicked_categories:
-            db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id, category_id))
-        
         db.commit()
         flash("L'œuvre a été modifiée avec succès.", "success")
         return redirect(url_for('user.show_profile'))
 
     except Exception as e:
         db.rollback()
-        flash(f"Une erreur est survenue : {str(e)}", "error")
+        flash(f"Une erreur est survenue", "error")
         return render_template('user/upload.html', categories=categories)
 
     finally:

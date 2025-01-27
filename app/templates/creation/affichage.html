@@ -25,22 +25,37 @@ Connect'Art
  
 <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
 </nav>
+
 <div id="menu3" class="menu3 hidden">
-{% if chercher %} 
-  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer', chercher=chercher) }}">
-    {% for categories in categories %}
-        <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
-    {% endfor %}
-    <button type="submit" class="submit-button">Filtrer</button>
-</form>
-{% else %}
-  <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer') }}">
-      {% for categories in categories %}
-          <input type="button" class="Filtrerboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
-      {% endfor %}
-      <button type="submit" class="submit-button">Filtrer</button>
-  </form>
-{% endif %} 
+    {% if chercher %} 
+    
+    <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer', chercher=chercher) }}">
+        {% for categorie in categories %}
+            <div class="checkbox-container">
+                <input type="checkbox" id="categorie-{{ categorie.id_categorie }}" name="categories_filtrer" value="{{ categorie.id_categorie }}">
+                <div class="box">
+                    <label for="categorie-{{ categorie.id_categorie }}">{{ categorie.nom }}</label>
+                </div>
+            </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Filtrer</button>
+    </form>
+    
+    {% else %}
+    
+    <form id="Filtrer_form" method="POST" action="{{ url_for('creation.filtrer') }}">
+        {% for categorie in categories %}
+            <div class="checkbox-container">
+                <input type="checkbox" id="categorie-{{ categorie.id_categorie }}" name="categories_filtrer" value="{{ categorie.id_categorie }}">
+                <div class="box">
+                    <label for="categorie-{{ categorie.id_categorie }}">{{ categorie.nom }}</label>
+                </div>
+            </div>
+        {% endfor %}
+        <button type="submit" class="submit-button">Filtrer</button>
+    </form>
+    
+    {% endif %}
 </div>
 {% endblock %}
 

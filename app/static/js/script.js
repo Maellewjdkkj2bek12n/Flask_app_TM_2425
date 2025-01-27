@@ -54,26 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    const uploadButtons = document.querySelectorAll('.uploadgrandsboutons');
-    uploadButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.classList.toggle('clicked');
-        });
-    });
-
-    const categoryForm = document.getElementById('categorie_form');
-    if (categoryForm) {
-        categoryForm.addEventListener('submit', function () {
-            const clickedCategories = Array.from(document.querySelectorAll('.uploadgrandsboutons.clicked'))
-                .map(button => button.getAttribute('data-id'));
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'clicked_categories';
-            input.value = JSON.stringify(clickedCategories);
-            this.appendChild(input);
-        });
-    }
-
     // Gestion connexion et inscription
     const loginButton = document.getElementById('toggle-login');
     const registerButton = document.getElementById('toggle-register');

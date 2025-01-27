@@ -14,8 +14,10 @@ Connect'Art
 {% block content %}
 {% if image_url %}
 
-<div id= "arrièrephotoupload">
+<div id= "affichage"> 
+<div id= "arrièrephotoagrandie">
     <img id="photoagrandie" src="{{ image_url }}" alt="Image provenant de la base de données">
+</div>
 </div>
 
 <form method="POST" id="categorie_form" action="{{ url_for('user.change_categorie',  oeuvre_id=oeuvres['id_oeuvre']) }}">
@@ -29,8 +31,13 @@ Connect'Art
             <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
         <div>
-            {% for categories in categories %}
-                        <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
+            {% for categories in categories %}         
+            <div class="checkbox-container">
+                <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
+                <div class="box2">
+                    <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+                </div>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -55,7 +62,12 @@ Connect'Art
             </div>
             <div>
                 {% for categories in categories %}
-                <input type="button" class="uploadgrandsboutons" value="{{ categories['nom'] }}" >
+                <div class="checkbox-container">
+                    <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
+                    <div class="box2">
+                        <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
         </div>

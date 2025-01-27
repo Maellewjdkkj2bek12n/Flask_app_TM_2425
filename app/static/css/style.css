@@ -913,7 +913,11 @@
   align-items: flex-start ;
   justify-content: center ;
 }
-.uploadgrandsboutons {
+.box2 {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+
   background-color: #ffffff;
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
@@ -931,7 +935,7 @@
   transition: transform 0.3s ease;
 }
 
-.uploadgrandsboutons:hover, .uploadpetitsboutons:hover {
+.box2:hover, .uploadpetitsboutons:hover {
   transform: scale(1.05);
 }
 
@@ -1037,7 +1041,7 @@
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-.menuboutons:hover, .Filtrerboutons:hover,.submit-button:hover, .box:hover {
+.menuboutons:hover, .submit-button:hover, .box:hover {
   transform: scale(1.05);
 }
 
@@ -1045,7 +1049,7 @@
   display: none;
 }
 
-.clicked, .checkbox-container input[type="checkbox"]:checked + .box  {
+.checkbox-container input[type="checkbox"]:checked + .box, .checkbox-container input[type="checkbox"]:checked + .box2{
   background-color: #BAB5B5;
   color: #ffffff;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.573);
