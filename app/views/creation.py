@@ -341,7 +341,7 @@ def supprimer_oeuvre():
 def filtrer():
     user_id = session.get('user_id')  
     chercher = request.args.get('chercher', '').strip()  
-    categories_filtrer = request.form.get('categories_filtrer')
+    categories_filtrer = request.form.getlist('categories_filtrer')
     
     db = get_db() 
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()  
@@ -350,7 +350,6 @@ def filtrer():
         photo_ids_list = []  
         
         if categories_filtrer:
-            categories_filtrer = json.loads(categories_filtrer)
             try:
                 # Récupérer les œuvres correspondant aux catégories sélectionnées
                 for category_id in categories_filtrer:
@@ -430,7 +429,6 @@ def filtrer():
         if categories_filtrer:
             try:
                 # Récupérer les œuvres correspondant aux catégories sélectionnées
-                categories_filtrer = json.loads(categories_filtrer)
                 for category_id in categories_filtrer:
                     photo_ids2 = db.execute(
                         "SELECT oeuvre FROM categorisations WHERE categorie = ?",

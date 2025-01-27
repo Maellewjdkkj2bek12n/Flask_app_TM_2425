@@ -74,27 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Filtrer les catégories
-    const filterButtons = document.querySelectorAll('.Filtrerboutons');
-    filterButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            button.classList.toggle('clicked');
-        });
-    });
-
-    const filterForm = document.getElementById('Filtrer_form');
-    if (filterForm) {
-        filterForm.addEventListener('submit', function () {
-            const selectedCategories = Array.from(document.querySelectorAll('.Filtrerboutons.clicked'))
-                .map(button => button.getAttribute('data-id'));
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'categories_filtrer';
-            input.value = JSON.stringify(selectedCategories);
-            this.appendChild(input);
-        });
-    }
-
     // Gestion connexion et inscription
     const loginButton = document.getElementById('toggle-login');
     const registerButton = document.getElementById('toggle-register');

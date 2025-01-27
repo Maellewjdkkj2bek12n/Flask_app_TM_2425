@@ -993,7 +993,7 @@
   line-height: 1,5;
 }
 
-.menuboutons, .Filtrerboutons, .menuboutons a{
+.menuboutons, .menuboutons a, .box{
   display: flex;
   justify-content: center;  
   align-items: center;
@@ -1037,7 +1037,7 @@
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-.menuboutons:hover, .Filtrerboutons:hover,.submit-button:hover {
+.menuboutons:hover, .Filtrerboutons:hover,.submit-button:hover, .box:hover {
   transform: scale(1.05);
 }
 
@@ -1045,11 +1045,15 @@
   display: none;
 }
 
-.clicked, .Filtrerboutons.active {
+.clicked, .checkbox-container input[type="checkbox"]:checked + .box  {
   background-color: #BAB5B5;
   color: #ffffff;
   text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.573);
   box-shadow: 2px 4px 2px #0000007d;
+}
+
+.checkbox-container input[type="checkbox"] {
+  display: none;
 }
 
 /*pour avoir des flash messages jolis dans les menu cachés*/
