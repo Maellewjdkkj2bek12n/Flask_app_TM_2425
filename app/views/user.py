@@ -278,8 +278,10 @@ def chemin_fichier():
                 finally:
                     oeuvres = db.execute("SELECT nom, id_oeuvre, chemin_fichier, utilisateur FROM oeuvres WHERE chemin_fichier = ?", (image_url ,)).fetchone()
                     close_db()
-                return render_template('user/upload.html',image_url=image_url, oeuvres=oeuvres, categories=categories)
-    return render_template('user/upload.html', categories=categories)
+                page_type= "upload"
+                return render_template('user/upload.html',image_url=image_url, oeuvres=oeuvres, categories=categories,  page_type= page_type)
+    page_type= "upload"
+    return render_template('user/upload.html', categories=categories,  page_type= page_type)
 
 
 # pour selectionner les catégories 
@@ -538,24 +540,26 @@ def modifier_oeuvre():
         return redirect(url_for("user.show_profile"))
 
     db = get_db()
-    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
     try:
+        db.execute("DELETE FROM categorisations WHERE oeuvre = ?", (oeuvre_id,))
+        db.commit()
+
         if clicked_categories:
             for category_id in clicked_categories:
-                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id, category_id))
-        
+                db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id , category_id))
+            db.commit()
 
         db.execute("UPDATE oeuvres SET description_oeuvre = ? WHERE id_oeuvre = ?", (description, oeuvre_id))
-        db.execute("DELETE FROM categorisations WHERE oeuvre = ?", (oeuvre_id,))
         db.commit()
         flash("L'œuvre a été modifiée avec succès.", "success")
         return redirect(url_for('user.show_profile'))
 
     except Exception as e:
         db.rollback()
+        close_db()
         flash(f"Une erreur est survenue", "error")
-        return render_template('user/upload.html', categories=categories)
+        return redirect(url_for('user.modifier_fichier'))
 
     finally:
         close_db()
@@ -580,4 +584,5 @@ def modifier_fichier():
         return redirect(url_for("user.show_profile"))
 
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
-    return render_template('user/modifier.html', oeuvre=oeuvre, categories=categories)
+    page_type= "upload"
+    return render_template('user/modifier.html', oeuvre=oeuvre, categories=categories,  page_type= page_type)

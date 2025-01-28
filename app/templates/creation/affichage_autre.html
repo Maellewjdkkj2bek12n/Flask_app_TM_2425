@@ -24,13 +24,13 @@ Connect'Art
         {% else %}
             <a>Oups, aucune image disponible!</a>
         {% endif %}
-        </div>
         <div id= "descrition">
             {% if photoagrandie['description_oeuvre'] %}
             <a>{{ photoagrandie['description_oeuvre'] }}</a>
             {% else %}
             <a>Aucune description pour cette image!</a>
-        {% endif %}
+            {% endif %}
+        </div>
         </div>
     
         <!--minie galerie-->

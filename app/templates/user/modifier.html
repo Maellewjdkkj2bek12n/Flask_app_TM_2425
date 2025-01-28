@@ -5,32 +5,31 @@ Connect'Art
 {% endblock %}
 
 {% block menu %} 
-<nav id="header-nav-droite3"> 
-    <a href="{{ url_for('home.landing_page') }}">Galerie</a> 
-</nav> 
+
 {% endblock %}
 
 
 {% block content %}
-<div id= "arrièrephotoupload">
+<form method="POST" action="{{ url_for('user.modifier_oeuvre',  oeuvre_id=oeuvre['id_oeuvre']) }}">
+<div id= "affichage"> 
+<div id= "arrièrephotoagrandie">
     <img id="photoagrandie" src="{{ oeuvre.chemin_fichier }}" alt="Image provenant de la base de données">
-</div>
-
-<form method="POST" id="categorie_form" action="{{ url_for('user.modifier_oeuvre',  oeuvre_id=oeuvre['id_oeuvre']) }}">
-        
-    <div id="descritionupload">
-        <textarea  id= "descritionupload" name="description" maxlength="1000" placeholder="Écrivez la descrition de l'image ici...."></textarea>
+    <div id="descrition">
+        <textarea name="description" maxlength="1000" placeholder="Écrivez la descrition de l'image ici...."></textarea>
     </div>
-
-    <div class="upload">
+</div>
+    <div id="upload">
         <div class="uploadeecriture">
             <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
-        <div>
             {% for categories in categories %}
-                        <input type="button" class="uploadgrandsboutons" value="{{ categories.nom }}" data-id="{{ categories.id_categorie }}">
+            <div class="checkbox-container">
+                <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
+                <div class="box2">
+                    <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+                </div>
+            </div>
             {% endfor %}
-        </div>
     </div>
         <div class= "uploadpetit">
             <a href="{{url_for('user.show_profile')}}">
@@ -38,5 +37,6 @@ Connect'Art
             </a>
             <input type="submit" value="Modifier !" class="uploadpetitsboutons">
         </div>
+</div>
 </form>
 {% endblock %}

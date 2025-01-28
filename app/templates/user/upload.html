@@ -13,20 +13,15 @@ Connect'Art
 
 {% block content %}
 {% if image_url %}
-
+<form method="POST" id="categorie_form" action="{{ url_for('user.change_categorie',  oeuvre_id=oeuvres['id_oeuvre']) }}">
 <div id= "affichage"> 
 <div id= "arrièrephotoagrandie">
     <img id="photoagrandie" src="{{ image_url }}" alt="Image provenant de la base de données">
-</div>
-</div>
-
-<form method="POST" id="categorie_form" action="{{ url_for('user.change_categorie',  oeuvre_id=oeuvres['id_oeuvre']) }}">
-    
-    <div id="descritionupload">
-        <textarea  id= "descritionupload" name="description" maxlength="1000" placeholder="Écrivez la descrition de l'image ici...."></textarea>
+    <div id="descrition">
+        <textarea name="description" maxlength="1000" placeholder="Écrivez la descrition de l'image ici...."></textarea>
     </div>
-
-    <div class="upload">
+</div>
+    <div id="upload">
         <div class="uploadeecriture">
             <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
@@ -47,34 +42,38 @@ Connect'Art
             </a>
             <input type="submit" value="Publier !" class="uploadpetitsboutons">
         </div>
+</div>
 </form>
 
 {% else %}
-        <div id= "arrièrephotoupload">
+<div id= "affichage">
+        <div id= "arrièrephotoagrandie">
         <form method="POST" id="upload_form" enctype="multipart/form-data">
             <input type="file" id="upload" class="file-input" name="upload" required onchange="this.form.submit()">
             <label for="upload" class="menuboutons">Choisir un fichier</label>
         </form>
         </div>
-        <div class="upload">
-            <div class="uploadeecriture">
-                <a>Sélectionner le/les catégories de l'œuvre </a>
-            </div>
-            <div>
-                {% for categories in categories %}
-                <div class="checkbox-container">
-                    <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
-                    <div class="box2">
-                        <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+        <div id="upload">
+        <div class="uploadeecriture">
+            <a>Sélectionner le/les catégories de l'œuvre </a>
         </div>
+        <div>
+            {% for categories in categories %}         
+            <div class="checkbox-container">
+                <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
+                <div class="box2">
+                    <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>
+
         <div class= "uploadpetit">
             <a href="{{url_for('user.show_profile')}}">
             <input type="button" value="Annuler" class="uploadpetitsboutons">
             </a>
         </div>
+</div>
 {% endif %}
 {% endblock %}
