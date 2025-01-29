@@ -620,15 +620,14 @@
   border-radius: 8px;
 
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 }
 
 #descrition{
-  width: 20vw;
   height: 75vh;
-  margin-left: 5px;
-  margin-right: 5px;
+  margin-left: 20px;
+  margin-right: 20px;
 
   display: flex;
   justify-content: center;
@@ -645,7 +644,8 @@
   box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   object-fit: contain;
   max-width: calc(60vw - 150px);
-  max-height: calc(75vh - 90px);
+  max-height: calc(75vh - 40px);
+  margin-left: 20px;
 }
 
 #galerierapetissie{
@@ -670,7 +670,7 @@
 }
 
 .imagerapetissie {
-  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
+  box-shadow: 1.5px 1.5px 3.5px rgba(209, 202, 202, 0.473);
   align-self: center;
   justify-self: center;
   object-fit: cover;
