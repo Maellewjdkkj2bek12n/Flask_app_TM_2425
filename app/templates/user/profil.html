@@ -65,12 +65,28 @@ Connect'Art
 
 {% block content %}
   <div id="profil">
+
+    <div class="photodeprofilmodifier">
+        <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
+    </div>
+
+
     {% if g.user['photo_profil'] %}
         <img class= "photodeprofil" src="{{ g.user['photo_profil'] }}" alt="photodeprofil">
     {% else %}
         <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
     {% endif %}
+
     <div id="Infoutilisateur">
+        <div id="Infoutilisateurmodifier">
+            <div id="nomutilisateurmodifier">
+                <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
+            </div>
+        </br>
+            <div id="bioutilisateurmodifier">
+                <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
+            </div>
+        </div>
         <div>
             <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
         </br>

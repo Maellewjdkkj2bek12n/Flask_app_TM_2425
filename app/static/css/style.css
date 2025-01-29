@@ -490,6 +490,26 @@
   height: 180px;
 }
 
+.photodeprofilmodifier{
+  opacity: 0;
+  position : absolute;
+  grid-row-start: info;
+  grid-row-end: fininfo;
+  grid-column-start: débutphotodeprofil;
+  grid-column-end: finphotodeprofil;
+  justify-self: center;
+  align-self: center;
+  z-index: 4;
+  width: 180px;
+  height: 180px;
+  padding: 10px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: right;  
+  align-items: start;  
+}
+
 .pascréations{
   position : absolute;
   grid-row-start: débutgalerie;
@@ -572,12 +592,43 @@
   padding: 20px 25px 20px 25px
 }
 
+#Infoutilisateurmodifier{
+  position : absolute;
+  grid-row-start: info;
+  grid-row-end: fininfo;
+  grid-column-start: finphotodeprofil;
+  grid-column-end: fininfo;
+  justify-self: start;
+  align-self: center;
+  z-index: 5;
+
+  height: 115px;
+  width: 100%;
+  margin-left: 15px;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;  
+  align-items: start; 
+  padding: 20px 0px 20px 0px;
+}
+
 #nomutilisateur{ 
   font-size : 19px;
   color: #ffffff;
   font-family:'Inter-Black';
   text-align:left;
   line-height: 1,5;
+}
+
+#nomutilisateurmodifier{ 
+  opacity: 0;
+  width: 100%;
+  height: 15px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;  
+  align-items: start; 
 }
 
 #bioutilisateur{ 
@@ -587,6 +638,26 @@
   font-family:'Inter-Light';
   text-align:left;
   line-height: 1,5;
+}
+
+#bioutilisateurmodifier{ 
+  opacity: 0;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: start;  
+  align-items: start; 
+}
+
+.photodeprofilmodifier:hover, #nomutilisateurmodifier:hover, #bioutilisateurmodifier:hover{
+  opacity: 1;
+}
+
+#logomodifier{
+  object-fit: cover;
+  width: 25px;
+  height: 25px;
 }
 
 /*affivhage d'une photo en pariculier*/
