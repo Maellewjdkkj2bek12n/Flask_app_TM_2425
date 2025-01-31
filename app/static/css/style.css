@@ -151,6 +151,7 @@
 
 .logo, #menu-toggle1, #menu-toggle2, #menu-toggle3 {
   object-fit: contain;
+
   width: 37px;
   height: 37px;
   cursor: pointer;
@@ -182,6 +183,7 @@
 /*boutons du haut à gauche*/
 
 #header-nav-gauche{
+  position: fixed;
   justify-self: start;
   grid-column-start: partie-gauche;
   grid-column-end: débutgrand1;
@@ -311,6 +313,7 @@
   border: none;
   border-radius: 8px;
 
+  align-self: center;
   width: 240px;  
   height: 30px; 
   margin-bottom : 6px;
@@ -318,6 +321,24 @@
 
   font-family:'Inter-Light';
   transition: transform 0.3s ease;
+}
+
+#login-grands-boutons2{
+  align-self: center;
+  width: 100px;  
+  height: 19px; 
+  cursor: pointer;
+
+  font-family:'Inter-Light';
+  transition: transform 0.3s ease;
+
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 2px 4px 2px #0000004d;
+  border-radius: 8px;
 }
 
 #login-petits-boutons {
@@ -333,20 +354,43 @@
   transition: transform 0.3s ease;
 }
 
+.login-petits-boutons-changer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  width: 240px;  
+  height: 19px; 
+  transition: transform 0.3s ease;
+}
+
+#login-petits-boutons3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  cursor: pointer;
+
+  width: 240px;  
+  height: 19px; 
+  transition: transform 0.3s ease;
+  margin-bottom : 10px;
+}
+
 .login-petits-boutons2 {
   background-color: #ffffff;
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 93px;  
+  width: 240px;  
   height: 19px;
   cursor: pointer;
 
   font-family:'Inter-Light';
   transition: transform 0.3s ease;
 }
-
 
 #login-petits-boutons a,.login-petits-boutons1 {
   background: none;
@@ -364,7 +408,7 @@
   transition: transform 0.3s ease;
 }
 
-#login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover{
+#login-petits-boutons3 a:hover, #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons-changer a:hover, .login-grands-boutons:hover, #login-grands-boutons2:hover{
   font-size : 14px;
   cursor: pointer;
   transform: scale(1.0005);
@@ -427,13 +471,14 @@
   left: 50%;
   transform: translate(-50%); 
   z-index: 5;
+  border-radius: 50%;
 
-  object-fit: contain;
+  object-fit: cover;
   width: 90px;
   height: 90px;
 }
 
-.MDP div{
+.MDP{
   position : fixed;
   top: calc(20vh +  55px);
   left: 50%;
@@ -444,18 +489,24 @@
   box-shadow: 2px 4px 3px #0000004d;
   width: 290px;
   height: 285px;
-  padding-top: 20px;
+  padding-top: 60px;
+  padding-bottom: 10px;
 
   display: flex;
   flex-flow: row wrap;
   justify-content: center;  
-  align-items: center; 
+  align-items: space-around; 
+  gap: 5px;
 
   font-size : 13px;
   color: #000000;
   font-family:'Inter-Light';
   text-align:left;
   line-height: 1,5;
+}
+
+.MDP a{
+  text-decoration: none;
 }
 
 /*partie profil*/
@@ -974,7 +1025,7 @@
   right:10px;
 
   background-color: #efeded00;
-  width: 230px;
+  width: 240px;
 
   display: flex;
   flex-flow: row wrap;
@@ -997,7 +1048,7 @@
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 230px; 
+  width: 240px; 
   height: 35px;
   cursor: pointer;
   margin-top: 5px;
@@ -1020,11 +1071,10 @@
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 200px; 
+  width: 240px; 
   height: 20px;
   cursor: pointer;
   margin-top: 5px;
-  margin: 7px 15px;
 
   font-size: 13px;
   color: #000000;
@@ -1032,6 +1082,7 @@
   cursor: pointer;
   transition: transform 0.3s ease;
 }
+
 .menuboutons:hover, .submit-button:hover, .box:hover {
   transform: scale(1.05);
 }
@@ -1073,9 +1124,11 @@
 }
 
 .chercher{
+  width: 50vw;
   display: flex; 
-  justify-content: center; 
+  justify-content: start; 
   align-items: center;
+  flex-wrap: wrap;
 }
 
 #chercher{
@@ -1083,6 +1136,7 @@
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 30px;
+  width: 150px;
 
   cursor: pointer;
   margin-right: 10px;

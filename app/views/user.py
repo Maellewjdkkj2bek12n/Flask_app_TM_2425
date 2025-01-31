@@ -73,12 +73,12 @@ def change_bio():
             except db.IntegrityError:
                 error = "Oups, la bio est trop longue."
                 flash(error)
-                return redirect(url_for("user.show_profile"))
+                return redirect(url_for("user.changer_profil"))
             
             finally:
                 close_db()
-                return redirect(url_for('user.show_profile'))
-    return render_template('user/profil.html', user=g.user, photo_user=photo_user)
+                return redirect(url_for("user.changer_profil"))
+    return redirect(url_for("user.changer_profil"))
 
 #pour changer le nom d'utilisateur
 @user_bp.route('/username', methods=('GET', 'POST'))
@@ -100,15 +100,14 @@ def change_username():
                 db.commit()
             
             except db.IntegrityError:
-                error = "Oups, l'utilisateur est déjà enregistré."
+                error = "Oups, le nom d'utilisateur est déjà utilisé."
                 flash(error)
-                return redirect(url_for("user.show_profile"))
+                return redirect(url_for("user.changer_profil"))
             
             finally:
                 close_db()
-                return redirect(url_for('user.show_profile'))
-    return render_template('user/profil.html', user=g.user, photo_user=photo_user)
-
+                return redirect(url_for('user.changer_profil'))
+    return redirect(url_for("user.changer_profil"))
 #pour changer la photo de profil
 @user_bp.route('/photo_profil', methods=('GET', 'POST'))
 @login_required
@@ -183,11 +182,11 @@ def change_photo_profil():
                 except db.IntegrityError:
                         error = "Erreur lors de la sauvegarde du fichier."
                         flash(error)
-                        return redirect(url_for("user.show_profile"))
+                        return redirect(url_for("user.changer_profil"))
                     
                 finally:
                         close_db()
-                        return redirect(url_for('user.show_profile'))
+                        return redirect(url_for('user.changer_profil'))
 
         return render_template('user/profil.html', user=g.user,photo_user=photo_user)
 
@@ -206,7 +205,7 @@ def supprimer_photo_profil():
         close_db()
     else:
         flash("Aucune photo de profil trouvée.")
-    return redirect(url_for('user.show_profile'))
+    return redirect(url_for('user.changer_profil'))
     
 #pour ajouter des oeuvres
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
@@ -586,3 +585,19 @@ def modifier_fichier():
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
     page_type= "upload"
     return render_template('user/modifier.html', oeuvre=oeuvre, categories=categories,  page_type= page_type)
+
+@user_bp.route('/changer_profil', methods=('GET', 'POST'))
+@login_required
+def changer_profil():
+    page_type= "upload"
+    user_id = session.get('user_id')
+    if user_id:
+        db = get_db()  
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
+        close_db()
+    
+    if not user_id:
+        db = get_db()  
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+        close_db()
+    return render_template('user/changer_profil.html', user=g.user, page_type= page_type, photo=photo)

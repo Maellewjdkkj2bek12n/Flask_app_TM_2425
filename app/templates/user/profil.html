@@ -11,9 +11,11 @@ Connect'Art
 </nav>
 
 <div id="menu1" class="menu1 hidden">
-    <input type="button" id = "switchToMenu11" value="Modifier le nom d’utilisateur" class="menuboutons">
-    <input type="button" id = "switchToMenu12" value="Modifier la photo de profil" class="menuboutons">
-    <input type="button" id = "switchToMenu13" value="Modifier la bio" class="menuboutons">
+    <a href="{{ url_for('user.changer_profil') }}">
+        <input type="button" value="Modifier le profil" class="menuboutons">
+    </a>
+    
+    
     <a href="{{ url_for('auth.MDP') }}">
     <input type="button" value="Modifier le mot de passe" class="menuboutons">
     </a>
@@ -23,36 +25,6 @@ Connect'Art
     <a href="{{ url_for('user.afficher_suivre') }}"><input type="button" value="Voir les utilisateurs suivis" class="menuboutons"></a>
     <a href="{{ url_for('user.afficher_bloquer') }}"><input type="button" value="Voir les utilisateurs bloqués" class="menuboutons"></a>
     <input type="button" id = "switchToMenu14" value="Supprimer le compte" class="menuboutons">
-</div>
-
-<div id="menu11" class="menu11 hidden">
-    <form id="username_form" method="POST" action="{{ url_for('user.change_username') }}">
-        <input type="text" name="username" placeholder="Écrivez ici...." class="menuboutons" onchange="this.form.submit()">
-    </form>
-</div>
-
-<div id="menu12" class="menu12 hidden">
-    {% if g.user['nom_photo_profil'] %}
-    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
-        <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
-        <label for="photo_profil" class="menuboutons">Choisir un fichier</label>
-    </form>
-    <a href="{{url_for('user.supprimer_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}">
-        <input type="button" value="Supprimer la photo de profil" class="menuboutons">
-    </a>  
-    {% else %}
-    <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil' ) }}" enctype="multipart/form-data"> 
-        <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
-        <label for="photo_profil" class="menuboutons">Choisir un fichier</label>
-    </form>
-    {% endif %}
-</div>
-
-<div id="menu13" class="menu13 hidden">
-    <form method="POST" action="{{ url_for('user.change_bio') }}">
-        <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="menuboutons"></textarea>
-        <button type="submit" class="submit-button">Mettre à jour</button>
-    </form>
 </div>
 
 <div id="menu14" class="menu14 hidden">

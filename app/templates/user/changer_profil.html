@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <!--partie du milieux avec les trucs pour changer le mot de passe-->
+  {% if g.user['photo_profil'] %}
+        <img class= "imageMDP" src="{{ g.user['photo_profil'] }}" alt="photodeprofil">
+  {% else %}
+        <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+  {% endif %}
+    <div class="MDP">
+              {% if g.user['nom_photo_profil'] %}
+              <div class="login-petits-boutons-changer">
+                
+                <div>
+                <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
+                    <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
+                    <label for="photo_profil" id="login-grands-boutons2">Changer photo</label>
+                </form>
+                </div>
+                
+                <a href="{{ url_for('user.supprimer_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}">
+                  <button class="submit-button">Supprimer</button>
+                </a>
+                
+              </div> 
+              {% else %}
+              <div class="login-petits-boutons-changer">
+              <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil' ) }}" enctype="multipart/form-data"> 
+                  <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
+                  <label for="photo_profil" class="menuboutons">Ajouter une photo de profil</label>
+              </form>
+            </div>
+              {% endif %}
+              <br />
+                <form id="username_form" method="POST" action="{{ url_for('user.change_username') }}">
+                  <input type="text" name="username" placeholder="{{g.user['nom_utilisateur']}}" class="menuboutons">
+                  <button type="submit" class="submit-button">Mettre à jour votre pseudo</button>
+                </form>
+              <br />
+              {% if g.user['bio'] %}
+                <form method="POST" action="{{ url_for('user.change_bio') }}">
+                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="{{g.user['bio']}}" class="menuboutons"></textarea>
+                  <button type="submit" class="submit-button">Mettre à jour la bio</button>
+                </form>
+              {% else %}
+                <form method="POST" action="{{ url_for('user.change_bio') }}">
+                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez votre bio ici...." class="menuboutons"></textarea>
+                  <button type="submit" class="submit-button">Ajouter une bio</button>
+                </form>
+              {% endif %}
+              <br />
+                <div id="login-petits-boutons3">
+                  <a href="{{url_for('user.show_profile')}}">
+                    <input type="button" value="terminé" class="login-petits-boutons1">
+                  </a>
+                </div>
+    </div>
+  <!--fin partie du milieux avec les trucs pour changer le mot de passe-->
+  <!--assombrissement de la galerie pour la page d'accueil-->
+  <div id="assombrissement">
+  </div>
+  <!--fin assombrissement de la galerie pour la page d'accueil-->
+  <!-- Zone du mileux qui ne bouge pas-->
+  <div id="grille-image">
+    {% for photo in photo %}
+    <a href="{{ url_for('creation.affichage') }}"><img class="image" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
+    {% endfor %}
+  </div>
+  <!-- fin Zone du mileux qui ne bouge pas-->
+{% endblock %}
