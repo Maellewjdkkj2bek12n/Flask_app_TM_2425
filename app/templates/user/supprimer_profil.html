@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <!--partie du milieux avec les trucs pour changer le mot de passe-->
+  {% if g.user['photo_profil'] %}
+        <img class= "imageMDP" src="{{ g.user['photo_profil'] }}" alt="photodeprofil">
+  {% else %}
+        <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
+  {% endif %}
+    
+        <div class="MDP">
+          <div>
+              <form method="post">
+                  <label for="password">Entrez votre mot de passe pour confirmer</label>
+                  <br />
+                  <input type="password" name="password" id="password" required class="login-grands-boutons">
+                  <br />
+                  <nav id="login-petits-boutons">
+                    <a href="{{url_for('user.show_profile')}}">
+                      <input type="button" value="Annuler" class="login-petits-boutons1">
+                    </a>
+                    <input type="submit" value="Confirmer" class="login-petits-boutons2">
+                  </nav>
+              </form>
+          </div>
+        </div>
+
+  <!--fin partie du milieux avec les trucs pour changer le mot de passe-->
+  <!--assombrissement de la galerie pour la page d'accueil-->
+  <div id="assombrissement">
+  </div>
+  <!--fin assombrissement de la galerie pour la page d'accueil-->
+  <!-- Zone du mileux qui ne bouge pas-->
+  <div id="grille-image">
+    {% for photo in photo %}
+    <a href="{{ url_for('creation.affichage') }}"><img class="image" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
+    {% endfor %}
+  </div>
+  <!-- fin Zone du mileux qui ne bouge pas-->
+{% endblock %}

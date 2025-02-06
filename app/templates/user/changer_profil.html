@@ -9,52 +9,54 @@
         <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
   {% endif %}
     <div class="MDP">
+      <div>
               {% if g.user['nom_photo_profil'] %}
-              <div class="login-petits-boutons-changer">
+              <div id="login-petits-boutons">
                 
-                <div>
-                <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
-                    <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
-                    <label for="photo_profil" id="login-grands-boutons2">Changer photo</label>
+                <button class="login-petits-boutons2">Changer photo
+                <form method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
+                  <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
                 </form>
-                </div>
+                </button>
                 
                 <a href="{{ url_for('user.supprimer_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}">
-                  <button class="submit-button">Supprimer</button>
+                  <button class="login-petits-boutons2">Supprimer</button>
                 </a>
                 
               </div> 
               {% else %}
-              <div class="login-petits-boutons-changer">
-              <form id="photo_profil_form" method="POST" action="{{ url_for('user.change_photo_profil' ) }}" enctype="multipart/form-data"> 
+              <form method="POST" action="{{ url_for('user.change_photo_profil' ) }}" enctype="multipart/form-data"> 
                   <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
-                  <label for="photo_profil" class="menuboutons">Ajouter une photo de profil</label>
+                  <label for="photo_profil" class="login-grands-boutons2">Ajouter une photo de profil</label>
               </form>
-            </div>
               {% endif %}
               <br />
                 <form id="username_form" method="POST" action="{{ url_for('user.change_username') }}">
-                  <input type="text" name="username" placeholder="{{g.user['nom_utilisateur']}}" class="menuboutons">
+                  <input type="text" name="username" placeholder="{{g.user['nom_utilisateur']}}" class="login-grands-boutons2">
                   <button type="submit" class="submit-button">Mettre à jour votre pseudo</button>
                 </form>
               <br />
               {% if g.user['bio'] %}
                 <form method="POST" action="{{ url_for('user.change_bio') }}">
-                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="{{g.user['bio']}}" class="menuboutons"></textarea>
+                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="{{g.user['bio']}}" class="login-grands-boutons3"></textarea>
                   <button type="submit" class="submit-button">Mettre à jour la bio</button>
                 </form>
               {% else %}
                 <form method="POST" action="{{ url_for('user.change_bio') }}">
-                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez votre bio ici...." class="menuboutons"></textarea>
+                  <textarea  name="bio" id="bio" rows="2" maxlength="45" placeholder="Écrivez ici...." class="login-grands-boutons2"></textarea>
                   <button type="submit" class="submit-button">Ajouter une bio</button>
                 </form>
               {% endif %}
               <br />
-                <div id="login-petits-boutons3">
-                  <a href="{{url_for('user.show_profile')}}">
-                    <input type="button" value="terminé" class="login-petits-boutons1">
+              <nav id="login-petits-boutons">
+                  <a href="{{ url_for('user.supprimer_utilisateur') }}">
+                    <input type="button" value="Supprimer le compte" class="login-petits-boutons1">
                   </a>
-                </div>
+                  <a href="{{url_for('user.show_profile')}}">
+                    <input type="button" value="Terminé" class="login-petits-boutons2">
+                  </a>
+                </nav>
+      </div>
     </div>
   <!--fin partie du milieux avec les trucs pour changer le mot de passe-->
   <!--assombrissement de la galerie pour la page d'accueil-->

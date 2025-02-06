@@ -308,6 +308,12 @@
 /*apparence de la partie ou il faut écrire les noms ect*/
 
 .login-grands-boutons{
+  font-size: 13px;
+  color: #000000;
+  font-family:'Inter-Light';
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
   background-color: #ffffff;
   box-shadow: 2px 4px 2px #0000004d;
   border: none;
@@ -315,67 +321,76 @@
 
   align-self: center;
   width: 240px;  
-  height: 30px; 
-  margin-bottom : 6px;
+  height: 35px; 
   cursor: pointer;
+  margin-bottom: 5px;
 
   font-family:'Inter-Light';
   transition: transform 0.3s ease;
 }
 
-#login-grands-boutons2{
-  align-self: center;
-  width: 100px;  
-  height: 19px; 
-  cursor: pointer;
-
-  font-family:'Inter-Light';
-  transition: transform 0.3s ease;
-
+.login-grands-boutons2{
   display: flex;
   justify-content: center;  
   align-items: center;
+
+  font-size: 13px;
+  color: #000000;
+  font-family:'Inter-Light';
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
   background-color: #ffffff;
-  border: none;
   box-shadow: 2px 4px 2px #0000004d;
+  border: none;
   border-radius: 8px;
+
+  align-self: center;
+  width: 240px;  
+  height: 35px; 
+  cursor: pointer;
+
+  font-family:'Inter-Light';
+  transition: transform 0.3s ease;
+}
+
+.login-grands-boutons3{
+  display: flex;
+  justify-content: center;  
+  align-items: center;
+
+  font-size: 13px;
+  color: #000000;
+  font-family:'Inter-Light';
+  cursor: pointer;
+  transition: transform 0.3s ease;
+
+  background-color: #ffffff;
+  box-shadow: 2px 4px 2px #0000004d;
+  border: none;
+  border-radius: 8px;
+
+  align-self: center;
+  
+  width: 240px;  
+  height: 50px; 
+  cursor: pointer;
+
+  font-family:'Inter-Light';
+  transition: transform 0.3s ease;
 }
 
 #login-petits-boutons {
+  justify-self: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
   align-content: center;
   cursor: pointer;
-
+  margin-top: 6px;
   width: 240px;  
-  height: 19px; 
-  margin-top : 6px;
+  height: 22px; 
   transition: transform 0.3s ease;
-}
-
-.login-petits-boutons-changer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-
-  width: 240px;  
-  height: 19px; 
-  transition: transform 0.3s ease;
-}
-
-#login-petits-boutons3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  cursor: pointer;
-
-  width: 240px;  
-  height: 19px; 
-  transition: transform 0.3s ease;
-  margin-bottom : 10px;
 }
 
 .login-petits-boutons2 {
@@ -384,12 +399,19 @@
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 8px;
 
-  width: 240px;  
-  height: 19px;
+  width: 110px;  
+  height: 22px;
   cursor: pointer;
 
   font-family:'Inter-Light';
   transition: transform 0.3s ease;
+}
+
+textarea {
+  width: 240px; 
+  height: 35px;
+  resize: none; 
+  overflow: hidden;
 }
 
 #login-petits-boutons a,.login-petits-boutons1 {
@@ -408,7 +430,7 @@
   transition: transform 0.3s ease;
 }
 
-#login-petits-boutons3 a:hover, #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons-changer a:hover, .login-grands-boutons:hover, #login-grands-boutons2:hover{
+ #login-petits-boutons a:hover, .login-petits-boutons1:hover, .login-petits-boutons2:hover, .login-grands-boutons:hover, .login-grands-boutons2:hover, .login-grands-boutons3:hover{
   font-size : 14px;
   cursor: pointer;
   transform: scale(1.0005);
@@ -488,21 +510,20 @@
   background-color: #EFEDED;
   box-shadow: 2px 4px 3px #0000004d;
   width: 290px;
-  height: 285px;
-  padding-top: 60px;
-  padding-bottom: 10px;
+  padding-top: 50px;
+  padding-bottom: 30px;
 
   display: flex;
   flex-flow: row wrap;
   justify-content: center;  
   align-items: space-around; 
-  gap: 5px;
+  gap: 15px;
 
   font-size : 13px;
   color: #000000;
   font-family:'Inter-Light';
   text-align:left;
-  line-height: 1,5;
+  line-height: 1,8;
 }
 
 .MDP a{
@@ -643,43 +664,12 @@
   padding: 20px 25px 20px 25px
 }
 
-#Infoutilisateurmodifier{
-  position : absolute;
-  grid-row-start: info;
-  grid-row-end: fininfo;
-  grid-column-start: finphotodeprofil;
-  grid-column-end: fininfo;
-  justify-self: start;
-  align-self: center;
-  z-index: 5;
-
-  height: 115px;
-  width: 100%;
-  margin-left: 15px;
-
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: start;  
-  align-items: start; 
-  padding: 20px 0px 20px 0px;
-}
-
 #nomutilisateur{ 
   font-size : 19px;
   color: #ffffff;
   font-family:'Inter-Black';
   text-align:left;
   line-height: 1,5;
-}
-
-#nomutilisateurmodifier{ 
-  opacity: 0;
-  width: 100%;
-  height: 15px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: start;  
-  align-items: start; 
 }
 
 #bioutilisateur{ 
@@ -691,25 +681,6 @@
   line-height: 1,5;
 }
 
-#bioutilisateurmodifier{ 
-  opacity: 0;
-  width: 100%;
-  height: 30px;
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: start;  
-  align-items: start; 
-}
-
-.photodeprofilmodifier:hover, #nomutilisateurmodifier:hover, #bioutilisateurmodifier:hover{
-  opacity: 1;
-}
-
-#logomodifier{
-  object-fit: cover;
-  width: 25px;
-  height: 25px;
-}
 
 /*affivhage d'une photo en pariculier*/
 #affichage{
@@ -1033,7 +1004,7 @@
   justify-content: center;  
   align-items: center;
 
-  font-size : 15px;
+  font-size : 13px;
   color: #000000;
   font-family:'Inter-Light';
   line-height: 1,5;

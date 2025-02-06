@@ -171,7 +171,7 @@ def MDP():
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
-        # Vérifier si l'e-mail, le mot de passe et la confirmation sont remplis
+        # Vérifier si l'e-mail, le mot de passe et la confirmation sont remplis 
         if not mail or not password or not confirm_password:
             flash("Veuillez remplir tous les champs.")
             return redirect(url_for('auth.MDP'))
@@ -186,6 +186,10 @@ def MDP():
 
         # Vérifier si l'utilisateur existe avec cet e-mail
         user = db.execute('SELECT * FROM utilisateurs WHERE adresse_mail = ?', (mail,)).fetchone()
+        if user_id :
+            if user_id != user['id_utilisateur'] :
+                flash("Cette adresse mail n'est pas reliée à ce compte")
+                return redirect(url_for('auth.MDP'))
 
         if user:
             # Hacher le nouveau mot de passe

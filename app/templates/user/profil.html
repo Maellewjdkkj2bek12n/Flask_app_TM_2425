@@ -24,24 +24,12 @@ Connect'Art
     </a>
     <a href="{{ url_for('user.afficher_suivre') }}"><input type="button" value="Voir les utilisateurs suivis" class="menuboutons"></a>
     <a href="{{ url_for('user.afficher_bloquer') }}"><input type="button" value="Voir les utilisateurs bloqués" class="menuboutons"></a>
-    <input type="button" id = "switchToMenu14" value="Supprimer le compte" class="menuboutons">
 </div>
 
-<div id="menu14" class="menu14 hidden">
-    <form method="post" action="{{ url_for('user.supprimer_utilisateur') }}">
-        <input  type="password" name="password" id="password" placeholder="Entrez le mot de passe ici...." class="menuboutons"></textarea>
-        <button type="submit" class="submit-button">Supprimer définitivement</button>
-    </form>
-</div>
 {% endblock %}  
 
 {% block content %}
   <div id="profil">
-
-    <div class="photodeprofilmodifier">
-        <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
-    </div>
-
 
     {% if g.user['photo_profil'] %}
         <img class= "photodeprofil" src="{{ g.user['photo_profil'] }}" alt="photodeprofil">
@@ -50,15 +38,6 @@ Connect'Art
     {% endif %}
 
     <div id="Infoutilisateur">
-        <div id="Infoutilisateurmodifier">
-            <div id="nomutilisateurmodifier">
-                <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
-            </div>
-        </br>
-            <div id="bioutilisateurmodifier">
-                <img id="logomodifier" src="{{ url_for('static', filename='imgs/Modifier.png') }}" alt="photodeprofil">
-            </div>
-        </div>
         <div>
             <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
         </br>
