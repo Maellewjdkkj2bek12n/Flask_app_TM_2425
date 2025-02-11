@@ -167,12 +167,12 @@ def MDP():
         close_db()
     
     if request.method == 'POST':
-        mail = request.form['mail']
+        nom = request.form['nom']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
         # Vérifier si l'e-mail, le mot de passe et la confirmation sont remplis 
-        if not mail or not password or not confirm_password:
+        if not nom or not password or not confirm_password:
             flash("Veuillez remplir tous les champs.")
             return redirect(url_for('auth.MDP'))
 
@@ -185,7 +185,7 @@ def MDP():
         db = get_db()
 
         # Vérifier si l'utilisateur existe avec cet e-mail
-        user = db.execute('SELECT * FROM utilisateurs WHERE adresse_mail = ?', (mail,)).fetchone()
+        user = db.execute('SELECT * FROM utilisateurs WHERE nom_utilisateur = ?', (nom,)).fetchone()
         if user_id :
             if user_id != user['id_utilisateur'] :
                 flash("Cette adresse mail n'est pas reliée à ce compte")
@@ -197,7 +197,7 @@ def MDP():
 
             # Mettre à jour le mot de passe dans la base de données
             try:
-                db.execute('UPDATE utilisateurs SET mot_passe = ? WHERE adresse_mail = ?', (hashed_password, mail))
+                db.execute('UPDATE utilisateurs SET mot_passe = ? WHERE nom_utilisateur = ?', (hashed_password, nom))
                 db.commit()
                 return redirect(url_for('auth.logout'))  # Rediriger vers la page de connexion après le changement de mot de passe
             except Exception as e:

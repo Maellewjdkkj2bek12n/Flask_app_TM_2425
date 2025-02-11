@@ -302,9 +302,10 @@ def affichage_perso():
 @creation_bp.route('/supprimer_oeuvre', methods=('GET', 'POST'))
 @login_required
 def supprimer_oeuvre():
+    user_id = session.get('user_id')  
     photoeuvre_id = request.args.get('photogrand_id')
     filename = request.args.get('filename')
-    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+    filepath = os.path.join('app/static/upload', str(user_id), filename)
     
     
     if not photoeuvre_id or not filepath:

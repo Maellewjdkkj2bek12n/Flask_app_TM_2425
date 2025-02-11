@@ -13,11 +13,12 @@
               {% if g.user['nom_photo_profil'] %}
               <div id="login-petits-boutons">
                 
-                <button class="login-petits-boutons2">Changer photo
-                <form method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data"> 
-                  <input type="file" class="file-input" id="photo_profil" name="image" required onchange="this.form.submit()"> 
+                <label for="photo_profil" class="login-petits-boutons2">Changer photo</label>
+                <nav>
+                <form method="POST" action="{{ url_for('user.change_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}" enctype="multipart/form-data">
+                  <input class="file-input"  type="file" id="photo_profil" name="image" required onchange="this.form.submit()"> 
                 </form>
-                </button>
+                </nav>
                 
                 <a href="{{ url_for('user.supprimer_photo_profil', nom_fichier = g.user['nom_photo_profil']) }}">
                   <button class="login-petits-boutons2">Supprimer</button>

@@ -1,3 +1,4 @@
+import shutil
 from flask import (Blueprint, current_app, flash, g, json, redirect, render_template, request, session, url_for)
 from app.utils import *
 from flask import Flask, request, redirect, url_for, flash, render_template
@@ -55,9 +56,6 @@ def show_profile():
 @login_required
 def change_bio():
     user_id = session.get('user_id')
-    db = get_db()  
-    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-    close_db()
     
     if request.method == 'POST':
         bio = request.form.get('bio', '').strip()
@@ -85,9 +83,6 @@ def change_bio():
 @login_required
 def change_username():
     user_id = session.get('user_id')
-    db = get_db()  
-    photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-    close_db()
     
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
@@ -108,6 +103,7 @@ def change_username():
                 close_db()
                 return redirect(url_for('user.changer_profil'))
     return redirect(url_for("user.changer_profil"))
+
 #pour changer la photo de profil
 @user_bp.route('/photo_profil', methods=('GET', 'POST'))
 @login_required
@@ -124,7 +120,7 @@ def change_photo_profil():
             return redirect(url_for("user.show_profile"))
         nom_fichier = request.args.get('nom_fichier')
         if nom_fichier :
-            chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
+            chemin = os.path.join('app/static/upload' , str(user_id), nom_fichier)
             if os.path.exists(chemin):  
                 os.remove(chemin)
 
@@ -147,18 +143,19 @@ def change_photo_profil():
 
         if file:
             filename = file.filename
-            filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
+            filepath = os.path.join('app/static/upload' , str(user_id), filename)
             
             base_name, extension = os.path.splitext(filename)
             count = 1
             while os.path.exists(filepath):
                 # Ajouter un suffixe sous la forme _1, _2, etc.
                 filename = f"{base_name}_{count}{extension}"
-                filepath = os.path.join(current_app.config['IMAGE_FOLDER'], filename)
+                filepath = os.path.join('app/static/upload' , str(user_id) , filename)
                 count += 1
 
-            if not os.path.exists(current_app.config['IMAGE_FOLDER']):
-                os.makedirs(current_app.config['IMAGE_FOLDER'])
+            user_dir = os.path.join('app/static/upload' , str(user_id))
+            if not os.path.exists(user_dir):
+                os.makedirs(user_dir)
 
             try:
                 file.save(filepath)
@@ -166,8 +163,8 @@ def change_photo_profil():
                 error = "Erreur lors de la sauvegarde du fichier."
                 flash(error)
                 return redirect(url_for("user.show_profile"))
-
-            photo_profil = url_for('static', filename=f'images/{filename}', _external=True)
+            
+            photo_profil = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
 
             user_id = session.get('user_id') 
            
@@ -196,7 +193,7 @@ def supprimer_photo_profil():
     user_id = session.get('user_id') 
     nom_fichier = request.args.get('nom_fichier')
     if nom_fichier:
-        chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
+        chemin = os.path.join('app/static/upload' , str(user_id), nom_fichier)
         if os.path.exists(chemin):  
             os.remove(chemin)
         db = get_db() 
@@ -211,6 +208,7 @@ def supprimer_photo_profil():
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
 @login_required
 def chemin_fichier():
+    user_id = session.get('user_id') 
     db = get_db()
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
 
@@ -239,19 +237,20 @@ def chemin_fichier():
 
         if file:
             filename = file.filename
-            filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+            filepath = os.path.join('app/static/upload' , str(user_id), filename)
             
             base_name, extension = os.path.splitext(filename)
             count = 1
             while os.path.exists(filepath):
-                # Ajouter un suffixe sous la forme _1, _2, etc.
+                # Ajouter un suffixe sous la forme _1, _2, etc. 
                 filename = f"{base_name}_{count}{extension}"
-                filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
+                filepath = os.path.join('app/static/upload' , str(user_id), filename)
                 count += 1
 
             # Vérifiez si le répertoire existe, sinon créez-le
-            if not os.path.exists(current_app.config['UPLOAD_FOLDER']):
-                os.makedirs(current_app.config['UPLOAD_FOLDER'])
+            user_dir = os.path.join('app/static/upload', str(user_id))
+            if not os.path.exists(user_dir):
+                os.makedirs(user_dir)
 
             try:
                 file.save(filepath)
@@ -261,7 +260,7 @@ def chemin_fichier():
                 return redirect(url_for("user.chemin_fichier"))
 
             # Utilisez url_for pour générer l'URL du fichier
-            image_url = url_for('static', filename=f'uploads/{filename}', _external=True)
+            image_url = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
             user_id = session.get('user_id') 
 
             if image_url and user_id: 
@@ -352,28 +351,16 @@ def supprimer_utilisateur():
             if not check_password_hash(user['mot_passe'], password):
                 flash("Le mot de passe est incorrect.", "error")
                 return redirect(url_for("user.supprimer_utilisateur"))
+            
 
-            nom_fichier = user['nom_photo_profil']
-            if nom_fichier:
-                chemin = os.path.join(current_app.config['IMAGE_FOLDER'], nom_fichier)
-                if os.path.exists(chemin):  
-                    print(f"Suppression de la photo de profil: {chemin}")
-                    os.remove(chemin)
-                else:
-                    print(f"Fichier de la photo de profil non trouvé: {chemin}")
-
-            oeuvres = db.execute('SELECT * FROM oeuvres WHERE utilisateur = ?', (user_id,)).fetchall()
-            for oeuvre in oeuvres:
-                nom_fichier_oeuvre = oeuvre['nom'] 
-                if nom_fichier_oeuvre:
-                    filepath = os.path.join(current_app.config['UPLOAD_FOLDER'], nom_fichier_oeuvre)
-                    if os.path.exists(filepath):  
-                        print(f"Suppression de l'œuvre: {filepath}")
-                        os.remove(filepath)
-                    else:
-                        print(f"Fichier de l'œuvre non trouvé: {filepath}")
-
-            print("Suppression des œuvres de la base de données...")
+            user_dir = os.path.join('app/static/upload', str(user_id))
+            # Vérifiez si le dossier existe et supprimez-le
+            if os.path.exists(user_dir) and os.path.isdir(user_dir):
+                os.chmod(user_dir, 0o777)
+                #à laide de coopilot, pour avoir les autorisations du dossier
+                shutil.rmtree(user_dir)
+                print(f"Le dossier {user_dir} a été supprimé avec succès.")
+                
             db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
             print("Suppression de l'utilisateur de la base de données...")
             db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))

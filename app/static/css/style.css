@@ -394,9 +394,14 @@
 }
 
 .login-petits-boutons2 {
+  Display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #ffffff;
   border: none;
   box-shadow: 2px 4px 2px #0000004d;
+  text-align: center;
+  text-decoration: none;
   border-radius: 8px;
 
   width: 110px;  
@@ -412,6 +417,10 @@ textarea {
   height: 35px;
   resize: none; 
   overflow: hidden;
+}
+
+.file-input {
+  display: none;
 }
 
 #login-petits-boutons a,.login-petits-boutons1 {
@@ -717,13 +726,14 @@ textarea {
   align-items: center;
 }
 
-#descrition{
+#descrition, #dercription textarea{
   height: 75vh;
   margin-left: 20px;
   margin-right: 20px;
-
+  border: none;
   display: flex;
   justify-content: center;
+  align-content: center;
   align-items: center;
   flex-wrap: wrap;
 
