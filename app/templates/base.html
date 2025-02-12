@@ -18,6 +18,7 @@
 
             <nav id="header-nav-gauche">
               <a href="{{ url_for('auth.logout') }}">Déconnexion</a>
+              <a href="{{ url_for('user.chemin_fichier') }}"><img class="logopetit" src="{{ url_for('static', filename='imgs/ajouter.png') }}"></a>
               <a><img id = "menu-toggle4" src="{{ url_for('static', filename='imgs/chercher.png') }}" alt="chercher"></a>
               <div id="menu4" class="menu4 hidden">
                 <div class="chercher">

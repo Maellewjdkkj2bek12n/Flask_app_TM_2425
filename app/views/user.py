@@ -292,8 +292,8 @@ def change_categorie():
     description = request.form.get('description', '').strip()
         
     if description:
-        db = get_db()
         try:
+            db = get_db()
             db.execute('UPDATE oeuvres SET description_oeuvre = ? WHERE id_oeuvre = ?', (description, oeuvre_id))
             db.commit()
         except db.IntegrityError:
@@ -310,25 +310,21 @@ def change_categorie():
 
     if clicked_categories :
         
-        db = get_db()
 
         try:
+            db = get_db()
             for category_id in clicked_categories:
                 db.execute("INSERT INTO categorisations (oeuvre, categorie) VALUES (?, ?)", (oeuvre_id , category_id))
             db.commit()
+            close_db()
             
-
-            return redirect(url_for('user.show_profile'))
-
         except Exception as e:
             db.rollback()
             flash(f"Une erreur est survenue : {str(e)}", "error")
             return redirect(url_for("user.chemin_fichier"))
 
-        finally:
-            close_db()
+    return redirect(url_for('user.show_profile'))
 
-    return redirect(url_for('user.chemin_fichier'))
 
 @user_bp.route('/supprimer_utilisateur', methods=['GET', 'POST'])
 @login_required

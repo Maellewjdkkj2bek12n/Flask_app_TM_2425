@@ -158,7 +158,7 @@
   transition: transform 0.3s ease;
 }
 
-#menu-toggle4 { 
+#menu-toggle4, .logopetit { 
   object-fit: contain;
   width: 30px;
   height: 30px;
@@ -604,19 +604,35 @@ textarea {
   height: 140px;
 }
 
-.Aucune_création{
+.Aucune_création {
+  position : absolute;
+  width: 100vw;
+  grid-row-start: finlogo;
+  grid-row-end: fingalerie;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  z-index: 3;
+}
+
+.Aucune_création a, #Aucune_création{
   position : absolute;
   grid-row-start: finlogo;
   grid-row-end: fingalerie;
-  justify-self: center;
-  align-self: start;
   z-index: 3;
+  justify-self: center;
 
-
+  text-align: center;
+ 
   font-size : 23px;
   color: #6D6D6D;
   font-family: 'Inter-Black';
   text-decoration: none;
+}
+
+.Aucune_création :hover{
+  transform: scale(1.08);
 }
 
 #galerierapetissieuser{
@@ -726,11 +742,14 @@ textarea {
   align-items: center;
 }
 
-#descrition, #dercription textarea{
-  height: 75vh;
+#descrition{
+  max-width: 100px;
+  height: calc(75vh - 40px);
+
   margin-left: 20px;
   margin-right: 20px;
   border: none;
+  
   display: flex;
   justify-content: center;
   align-content: center;
@@ -743,7 +762,23 @@ textarea {
   color: #171717;
 }
 
+#dercriptiontextarea{
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 110px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: none;
+
+  font-size: 15px;
+  font-family:'Inter-Light';
+  text-align: center;
+  color: #171717;
+}
+
 #photoagrandie{
+  flex: 0 1 calc(60vw - 150px); 
   box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   object-fit: contain;
   max-width: calc(60vw - 150px);
@@ -787,7 +822,7 @@ textarea {
   display: none;
 }
 
-.imagerapetissie:hover, #pasgalerierapetissie:hover {
+.imagerapetissie:hover, #Aucuneautrecreation:hover {
   transform: scale(1.03);
 }
 
@@ -807,7 +842,6 @@ textarea {
 
   display: grid;
   grid-template-rows: calc(37vh - 95px )[début] 145px [finlogo] auto [fin];
-  transition: transform 0.3s ease;
 }
 
 .pascreations{
@@ -823,7 +857,21 @@ textarea {
   height: 140px;
 }
 
-.Aucuneautrecreation{
+#Aucuneautrecreation{
+  width: calc(100vw - 60vw - 60px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 6px;
+  position : absolute;
+  grid-row-start: finlogo;
+  grid-row-end: fin;
+  justify-self: center;
+  align-self: start;
+  z-index: 3;
+  transition: transform 0.3s ease;
+}
+.Aucuneautrecreation, #Aucuneautrecreation a{
   position : absolute;
   grid-row-start: finlogo;
   grid-row-end: fin;

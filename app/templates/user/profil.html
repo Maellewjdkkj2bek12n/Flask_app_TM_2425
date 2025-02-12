@@ -55,8 +55,11 @@ Connect'Art
         {% endfor %}
         </div>
     {% else %}
+    
         <img class= "pascréations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-        <a class='Aucune_création'>Aucune création </a>
+    <div class="Aucune_création">
+        <a href="{{ url_for('user.chemin_fichier') }}">Aucune création </a>
+    </div>
     {% endif %}
   </div>  
 {% endblock %}

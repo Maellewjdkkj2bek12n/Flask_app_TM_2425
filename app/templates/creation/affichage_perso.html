@@ -47,7 +47,9 @@ Connect'Art
         {% else %}
         <div id="pasgalerierapetissie">
             <img class="pascreations" src="{{ url_for('static', filename='imgs/Pasphoto.png') }}" alt="Clée">
-            <div class="Aucuneautrecreation">Vous n'avez <br/> aucune autre création</div>
+            <div id=Aucuneautrecreation>
+            <a href="{{ url_for('user.chemin_fichier') }}">Vous n'avez <br/> aucune autre création</a>
+            </div>
         </div> 
         {% endif %}
         <!-- fin minie gelarie-->
