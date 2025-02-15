@@ -45,7 +45,20 @@ Connect'Art
   {% else %}
       <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
   {% endif %}
-  <div id="Infoutilisateur">
+  <div class="Infoutilisateur">
+    <div class="abonnés">
+    <div>
+        <a href="{{ url_for('user.afficher_suiveur') }}" id="abonnés">
+        {{abonnés}} <br/> abonnés
+        </a>
+    </div>
+    <div>
+        <a href="{{ url_for('user.afficher_suivi') }}" id="abonnés">
+        {{abonnements}} <br/> abonnements
+        </a>
+    </div>
+    </div>     
+  <div class="bionomect">
       <div>
           <a id= "nomutilisateur">{{user['nom_utilisateur']}}</a>
       </br>
@@ -56,6 +69,8 @@ Connect'Art
       {% endif %}
       </div>
   </div>
+  </div>
+  
   {% if photo_user %}
       <div id="galerierapetissieuser">
       {% for photo_user in photo_user %}

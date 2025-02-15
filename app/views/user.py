@@ -18,6 +18,9 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 def show_autreprofile() :
     db = get_db()
     user_id = request.args.get('user')
+    abonnés = db.execute("SELECT COUNT(*) FROM suivre WHERE suivi = ?", (user_id,)).fetchone()[0]
+    abonnements = db.execute("SELECT COUNT(*) FROM suivre WHERE suiveur = ?", (user_id,)).fetchone()[0]
+
     user = session.get('user_id')
     
     bloquer= db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? AND bloqué = ?", (user, user_id)).fetchone()
@@ -39,17 +42,20 @@ def show_autreprofile() :
         photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
         user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
         close_db()
-        return render_template('user/profil autre.html',photo_user=photo_user, user=user)
+        return render_template('user/profil autre.html',photo_user=photo_user, user=user,  abonnés = abonnés, abonnements =abonnements)
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 @login_required
 def show_profile():
     user_id = session.get('user_id')
     db = get_db()  
+    abonnés = db.execute("SELECT COUNT(*) FROM suivre WHERE suivi = ?", (user_id,)).fetchone()[0]
+    abonnements = db.execute("SELECT COUNT(*) FROM suivre WHERE suiveur = ?", (user_id,)).fetchone()[0]
+
     photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
     close_db()
     
-    return render_template('user/profil.html', user=g.user,photo_user=photo_user)
+    return render_template('user/profil.html', user=g.user,photo_user=photo_user, abonnés = abonnés, abonnements =abonnements)
 
 #pour changer la bio
 @user_bp.route('/bio', methods=('GET', 'POST'))
@@ -492,9 +498,33 @@ def afficher_bloquer():
     return render_template('user/afficher.html', utilisateurs=utilisateurs)
 
 
-@user_bp.route('/afficher_suivre', methods=['GET', 'POST'])
+@user_bp.route('/afficher_suiveur', methods=['GET', 'POST'])
 @login_required
-def afficher_suivre():
+def afficher_suiveur():
+    user_id = session.get('user_id')
+    db = get_db()
+    
+    suivis = db.execute("SELECT suiveur FROM suivre WHERE suivi = ?", (user_id,)).fetchall()
+    suivi_ids = [suivi['suivi'] for suivi in suivis]
+    
+    if  suivi_ids:
+        placeholders = ', '.join('?' for _ in  suivi_ids)
+        query = f"SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+        utilisateurs = db.execute(query, tuple( suivi_ids)).fetchall()
+    else:
+        utilisateurs = []
+        
+    db.close()
+
+    if not utilisateurs:
+        flash("Aucun utilisateur abonné trouvé.")
+        return redirect(url_for("user.show_profile"))
+
+    return render_template('user/afficher.html', utilisateurs=utilisateurs)
+
+@user_bp.route('/fficher_suivi', methods=['GET', 'POST'])
+@login_required
+def afficher_suivi():
     user_id = session.get('user_id')
     db = get_db()
     

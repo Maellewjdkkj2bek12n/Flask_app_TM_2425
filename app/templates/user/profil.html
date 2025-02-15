@@ -14,15 +14,9 @@ Connect'Art
     <a href="{{ url_for('user.changer_profil') }}">
         <input type="button" value="Modifier le profil" class="menuboutons">
     </a>
-    
-    
     <a href="{{ url_for('auth.MDP') }}">
     <input type="button" value="Modifier le mot de passe" class="menuboutons">
     </a>
-    <a href="{{ url_for('user.chemin_fichier') }}">
-    <input type="button" value="Ajouter des photos d’œuvre" class="menuboutons">
-    </a>
-    <a href="{{ url_for('user.afficher_suivre') }}"><input type="button" value="Voir les utilisateurs suivis" class="menuboutons"></a>
     <a href="{{ url_for('user.afficher_bloquer') }}"><input type="button" value="Voir les utilisateurs bloqués" class="menuboutons"></a>
 </div>
 
@@ -36,8 +30,20 @@ Connect'Art
     {% else %}
         <img class= "photodeprofil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="photodeprofil">
     {% endif %}
-
-    <div id="Infoutilisateur">
+    <div class="Infoutilisateur">
+        <div class="abonnés">
+        <div>
+            <a href="{{ url_for('user.afficher_suiveur') }}" id="abonnés">
+            {{abonnés}} <br/> abonnés
+            </a>
+        </div>
+        <div>
+            <a href="{{ url_for('user.afficher_suivi') }}" id="abonnés">
+            {{abonnements}} <br/> abonnements
+            </a>
+        </div>
+        </div>     
+    <div class="bionomect">
         <div>
             <a id= "nomutilisateur">{{g.user['nom_utilisateur']}}</a>
         </br>
@@ -48,6 +54,7 @@ Connect'Art
         {% endif %}
         </div>
     </div>
+    </div>  
     {% if photo_user %}
         <div id="galerierapetissieuser">
         {% for photo_user in photo_user %}
