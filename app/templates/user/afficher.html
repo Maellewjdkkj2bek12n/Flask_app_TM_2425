@@ -6,6 +6,10 @@ Connect'Art
 
 {% block menu %}
 <nav id="header-nav-droite3">
+  {% if retour %}
+    <a href="{{ url_for('user.show_autreprofile', user=retour) }}">Retour</a>
+  {% else %}
+  {% endif %}
     <a href="{{ url_for('home.landing_page') }}">Galerie</a>
   
     {% if g.user['photo_profil'] %}

@@ -7,23 +7,23 @@ Connect'Art
 {% block menu %}
 <nav id="header-nav-droite3">
 
-{% if categories_filtrer and chercher %}
-    <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer, chercher=chercher) }}">Galerie</a>
-{% elif categories_filtrer %}
-    <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer) }}">Galerie</a>
-{% elif chercher %}
-    <a href="{{ url_for('home.landing_page', chercher=chercher) }}">Galerie</a>
-{% else %}
-    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
-{% endif %}
+        {% if categories_filtrer and chercher %}
+            <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer, chercher=chercher) }}">Galerie</a>
+        {% elif categories_filtrer %}
+            <a href="{{ url_for('home.landing_page', categories_filtrer=categories_filtrer) }}">Galerie</a>
+        {% elif chercher %}
+            <a href="{{ url_for('home.landing_page', chercher=chercher) }}">Galerie</a>
+        {% else %}
+            <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+        {% endif %}
 
-{% if g.user['photo_profil'] %}
-    <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
-{% else %}
-  <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
-{% endif %}
- 
-<a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+        {% if g.user['photo_profil'] %}
+            <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+        {% else %}
+        <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+        {% endif %}
+        
+        <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
 </nav>
 
 <div id="menu3" class="menu3 hidden">

@@ -47,17 +47,30 @@ Connect'Art
   {% endif %}
   <div class="Infoutilisateur">
     <div class="abonnés">
+    {% if bloque %}
     <div>
-        <a href="{{ url_for('user.afficher_suiveur') }}" id="abonnés">
+      <a id="abonnés">
+      0 <br/> abonnés
+      </a>
+    </div>
+    <div>
+        <a id="abonnés">
+        0 <br/> abonnements
+        </a>
+    </div>
+    {% else %}
+    <div>
+        <a href="{{ url_for('user.afficher_suiveur_autre', user_id=user['id_utilisateur']) }}" id="abonnés">
         {{abonnés}} <br/> abonnés
         </a>
     </div>
     <div>
-        <a href="{{ url_for('user.afficher_suivi') }}" id="abonnés">
+        <a href="{{ url_for('user.afficher_suivi_autre', user_id=user['id_utilisateur']) }}" id="abonnés">
         {{abonnements}} <br/> abonnements
         </a>
     </div>
-    </div>     
+    {% endif %} 
+    </div>    
   <div class="bionomect">
       <div>
           <a id= "nomutilisateur">{{user['nom_utilisateur']}}</a>
