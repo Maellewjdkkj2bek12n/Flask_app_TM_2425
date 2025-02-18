@@ -670,3 +670,40 @@ def changer_profil():
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
         close_db()
     return render_template('user/changer_profil.html', user=g.user, page_type= page_type, photo=photo)
+
+@user_bp.route('/messages', methods=['GET', 'POST'])
+@login_required
+def messages():
+    user_id = request.args.get('user_id') 
+    user = session.get('user_id') 
+    db = get_db()
+
+    messages = db.execute("SELECT message FROM contacter WHERE recepteur = ? AND emetteur = ?", (user_id, user)).fetchall()
+    messages_ids = [message['message'] for message in messages] if messages else []
+
+    reçus = db.execute("SELECT message FROM contacter WHERE recepteur = ? AND emetteur = ?", (user, user_id)).fetchall()
+    reçus_ids = [reçu['message'] for reçu in reçus] if reçus else []
+
+    close_db()  
+
+    return render_template('user/afficher.html', reçus_ids=reçus_ids, messagesmoi_ids=messages_ids, retour=user_id)
+
+@user_bp.route('/envoyer', methods=['POST'])
+@login_required
+def envoyer_message():
+    db = get_db()
+    user_id = session.get('user_id')  
+    destinataire_id = request.args.get('user_id')  
+    contenu = request.form.get('message')  
+
+    if not destinataire_id or not contenu:
+        flash("Le destinataire et le message sont requis.", "error")
+        return redirect(url_for('user.messages', user_id=destinataire_id))
+
+    db.execute("INSERT INTO contacter (emetteur, recepteur, message) VALUES (?, ?, ?)", (user_id, destinataire_id, contenu))
+    db.commit()
+    db.close()
+
+    flash("Message envoyé avec succès.", "success")
+    return redirect(url_for('user.messages', user_id=destinataire_id))
+

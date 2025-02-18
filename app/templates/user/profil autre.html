@@ -18,7 +18,9 @@ Connect'Art
 </nav>
 <div id="menu2" class="menu2 hidden">
     {% if suivi %}
+    <a href="{{url_for('user.messages', user_id=user['id_utilisateur'])}}">
     <input type="button" value="Contacter" class="menuboutons">
+    </a>
     <a href="{{url_for('user.plus_suivre', user=user['id_utilisateur'])}}">
       <input type="button" value="Ne plus suivre" class="menuboutons">
     </a>
@@ -27,7 +29,9 @@ Connect'Art
         <input type="button" value="Débloquer" class="menuboutons">
       </a>
     {% else %}
+      <a href="{{url_for('user.messages', user_id=user['id_utilisateur'])}}">
       <input type="button" value="Contacter" class="menuboutons">
+      </a>
       <a href="{{url_for('user.suivre', user=user['id_utilisateur'])}}">
         <input type="button" value="Suivre" class="menuboutons">
       </a>

@@ -1273,3 +1273,74 @@ textarea {
   cursor: pointer;
   box-shadow: 1.2px 1.2px 2.5px rgba(0, 0, 0, 0.267);
 }
+
+
+
+
+
+
+
+
+.messages-recus, .messages-envoyes {
+  width: 48%;
+  text-align: center;
+}
+
+.message {
+  padding: 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+}
+
+.reçu {
+  background-color: #d1e7dd;
+  text-align: left;
+}
+
+.envoyé {
+  background-color: #f8d7da;
+  text-align: right;
+}
+
+.arrièreenvoyer {
+  position: fixed;
+  top: calc(100vh - 100px);
+  left: 0px;
+  width: 100%;
+  height: 100px;
+  background: #fff; 
+  padding: 10px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); 
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.envoyer {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+
+.envoyer textarea {
+  flex: 1;
+  height: 40px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+}
+
+.envoyer button {
+  background-color: #262626;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.envoyer button:hover {
+  background-color: #444444;
+}
+

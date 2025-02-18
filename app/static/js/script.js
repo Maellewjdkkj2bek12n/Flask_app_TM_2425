@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Script bien chargé");
 
-    //parametres profil $
+    //parametres profil
     const menuToggle1 = document.getElementById('menu-toggle1');
     const menu1 = document.getElementById('menu1');
 

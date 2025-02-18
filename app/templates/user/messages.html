@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+{% block menu %}
+<nav id="header-nav-droite3">
+  {% if retour %}
+    <a href="{{ url_for('user.show_autreprofile', user=retour) }}">Retour</a>
+  {% else %}
+  {% endif %}
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+  
+    {% if g.user['photo_profil'] %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+    {% else %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+      <div class="messages-recus">
+          <h3>Messages reçus</h3>
+          {% for message in reçus_ids %}
+              <div class="message reçu">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      </div>
+
+      <div class="messages-envoyes">
+          <h3>Messages envoyés</h3>
+          {% for message in messagesmoi_ids %}
+              <div class="message envoyé">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      </div>
+
+  <div class="arrièreenvoyer">
+    <form action="{{ url_for('user.envoyer_message', user_id=retour) }}" method="POST" class="envoyer">
+        <textarea name="message" placeholder="Écrivez un message..." required></textarea>
+        <button type="submit">Envoyer</button>
+    </form>
+  </div>
+
+
+
+{% endblock %}
