@@ -26,26 +26,32 @@ def show_autreprofile() :
         close_db()
         return redirect(url_for("user.show_profile"))
 
-    
-    bloquer= db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? AND bloqué = ?", (user, user_id)).fetchone()
-    if bloquer :  
-        bloque = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+    blocage = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? AND bloqué = ?", (user_id, user)).fetchone()
+    if blocage :  
+        blocage = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
         user = db.execute("SELECT id_utilisateur, nom_utilisateur  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
         close_db()
-        return render_template('user/profil autre.html', user=user, bloque=bloque)
-    
-    suivre= db.execute("SELECT suivi FROM suivre WHERE suiveur = ? AND suivi = ?", (user, user_id)).fetchone()
-    if suivre : 
-        suivi = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-        photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-        user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-        close_db()
-        return render_template('user/profil autre.html',photo_user=photo_user, user=user, suivi=suivi,  abonnés = abonnés, abonnements =abonnements)
-    else :
-        photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
-        user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-        close_db()
-        return render_template('user/profil autre.html',photo_user=photo_user, user=user,  abonnés = abonnés, abonnements =abonnements)
+        return render_template('user/profil autre.html', user=user, nul=blocage)
+    else: 
+        bloquer= db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? AND bloqué = ?", (user, user_id)).fetchone()
+        if bloquer :  
+            bloque = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+            user = db.execute("SELECT id_utilisateur, nom_utilisateur  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+            close_db()
+            return render_template('user/profil autre.html', user=user, bloque=bloque)
+        else: 
+            suivre= db.execute("SELECT suivi FROM suivre WHERE suiveur = ? AND suivi = ?", (user, user_id)).fetchone()
+            if suivre : 
+                suivi = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+                photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+                user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+                close_db()
+                return render_template('user/profil autre.html',photo_user=photo_user, user=user, suivi=suivi,  abonnés = abonnés, abonnements =abonnements)
+            else :
+                photo_user = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur = ?",(user_id,)).fetchall()  
+                user = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+                close_db()
+                return render_template('user/profil autre.html',photo_user=photo_user, user=user,  abonnés = abonnés, abonnements =abonnements)
 
 @user_bp.route('/profil', methods=('GET', 'POST'))
 @login_required
@@ -367,8 +373,13 @@ def supprimer_utilisateur():
                 print(f"Le dossier {user_dir} a été supprimé avec succès.")
                 
             db.execute("DELETE FROM oeuvres WHERE utilisateur = ?", (user_id,))
-            print("Suppression de l'utilisateur de la base de données...")
             db.execute("DELETE FROM utilisateurs WHERE id_utilisateur = ?", (user_id,))
+            db.execute("DELETE FROM contacter WHERE emetteur = ?", (user_id,))
+            db.execute("DELETE FROM contacter WHERE recepteur = ?", (user_id,))
+            db.execute("DELETE FROM bloque WHERE empecheur = ?", (user_id,))
+            db.execute("DELETE FROM bloque WHERE bloqué = ?", (user_id,))
+            db.execute("DELETE FROM suivre WHERE suiveur = ?", (user_id,))
+            db.execute("DELETE FROM suivre WHERE suivi = ?", (user_id,))
             db.commit()
 
             flash("Votre compte a été supprimé avec succès.", "success")
@@ -434,6 +445,8 @@ def bloquer():
     user = session.get('user_id') 
     db = get_db()
     db.execute("INSERT INTO bloque (bloqué, empecheur) VALUES (?, ?)", (bloque , user))
+    db.execute("DELETE FROM suivre WHERE suiveur = ? and suivi = ?", (user, bloque))
+    db.execute("DELETE FROM suivre WHERE suivi = ? and suiveur = ?", (user, bloque))
     db.commit()
     close_db()
     return redirect(url_for("user.show_autreprofile", user=bloque))
@@ -674,19 +687,16 @@ def changer_profil():
 @user_bp.route('/messages', methods=['GET', 'POST'])
 @login_required
 def messages():
-    user_id = request.args.get('user_id') 
-    user = session.get('user_id') 
+    user_id = request.args.get('user_id')
+    user = session.get('user_id')
+    afficher =  request.args.get('afficher')  
     db = get_db()
+    messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
+    db.close()
+    if afficher :
+        return render_template('user/messages.html', messages=messages, afficher=user_id)
+    return render_template('user/messages.html', messages=messages, retour=user_id)
 
-    messages = db.execute("SELECT message FROM contacter WHERE recepteur = ? AND emetteur = ?", (user_id, user)).fetchall()
-    messages_ids = [message['message'] for message in messages] if messages else []
-
-    reçus = db.execute("SELECT message FROM contacter WHERE recepteur = ? AND emetteur = ?", (user, user_id)).fetchall()
-    reçus_ids = [reçu['message'] for reçu in reçus] if reçus else []
-
-    close_db()  
-
-    return render_template('user/afficher.html', reçus_ids=reçus_ids, messagesmoi_ids=messages_ids, retour=user_id)
 
 @user_bp.route('/envoyer', methods=['POST'])
 @login_required
@@ -706,4 +716,29 @@ def envoyer_message():
 
     flash("Message envoyé avec succès.", "success")
     return redirect(url_for('user.messages', user_id=destinataire_id))
+
+@user_bp.route('/afficher_conversations', methods=['GET', 'POST'])
+@login_required
+def afficher_conversations():
+    user_id = session.get('user_id')
+    db = get_db()
+
+    emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur = ?", (user_id,)).fetchall()
+    recepteurs = db.execute("SELECT recepteur FROM contacter WHERE emetteur = ?", (user_id,)).fetchall()
+
+    conversation_ids = set([emetteur['emetteur'] for emetteur in emetteurs] + 
+                           [recepteur['recepteur'] for recepteur in recepteurs])
+
+    if not conversation_ids:
+        flash("Aucune conversation trouvée.")
+        return redirect(url_for("user.show_profile"))
+
+    placeholders = ', '.join('?' for _ in conversation_ids)
+    query = f"SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+    utilisateurs = db.execute(query, tuple(conversation_ids)).fetchall()
+
+    db.close()
+
+    return render_template('user/afficher_conversations.html', utilisateurs=utilisateurs)
+
 

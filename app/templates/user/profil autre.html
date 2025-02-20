@@ -13,7 +13,8 @@ Connect'Art
   {% else %}
     <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
   {% endif %}
-
+{% if nul %}
+{% else %}
   <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
 <div id="menu2" class="menu2 hidden">
@@ -40,6 +41,7 @@ Connect'Art
       </a>
     {% endif %}
 </div>
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -51,7 +53,7 @@ Connect'Art
   {% endif %}
   <div class="Infoutilisateur">
     <div class="abonnés">
-    {% if bloque %}
+    {% if bloque or nul %}
     <div>
       <a id="abonnés">
       0 <br/> abonnés

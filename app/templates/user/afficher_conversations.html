@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Connect'Art 
+{% endblock %}
+
+{% block menu %}
+<nav id="header-nav-droite3">
+  {% if retour %}
+    <a href="{{ url_for('user.show_autreprofile', user=retour) }}">Retour</a>
+  {% else %}
+  {% endif %}
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
+  
+    {% if g.user['photo_profil'] %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
+    {% else %}
+      <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="fondlisteutilisateurs">
+    {% for utilisateurs in utilisateurs %}
+    <a href="{{ url_for('user.messages', user_id=utilisateurs['id_utilisateur'], afficher=utilisateurs['id_utilisateur']) }}" class="listeutilisateurs">
+            {% if utilisateurs['photo_profil'] %}
+            <img class="listeutilisateursphoto" src="{{ utilisateurs['photo_profil'] }}" alt="Profil">
+            {% else %}
+            <img class="listeutilisateursphoto" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
+            {% endif %}
+            <p>{{ utilisateurs['nom_utilisateur'] }}</p>
+    </a>
+    {% endfor %}
+    <br/>
+</div>
+{% endblock %}
