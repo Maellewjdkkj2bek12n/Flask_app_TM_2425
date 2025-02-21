@@ -10,14 +10,14 @@ Connect'Art
   <a href="{{ url_for('user.afficher_conversations') }}">Retour</a> 
   <a href="{{ url_for('home.landing_page') }}">Galerie</a> 
   {% if afficher['photo_profil'] %} 
-    <a href="{{ url_for('user.show_autreprofile', user=afficher) }}"><img class= "logo_profil" src="{{ afficher['photo_profil'] }}" alt="Profil"></a> 
+    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}"><img class= "logo_profil" src="{{ user_id['photo_profil'] }}" alt="Profil"></a> 
   {% else %} 
-    <a href="{{ url_for('user.show_autreprofile', user=afficher) }}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a> 
+    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a> 
   {% endif %} 
 
 {% else %}
   {% if retour %}
-    <a href="{{ url_for('user.show_autreprofile', user=retour) }}">Retour</a>
+    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">Retour</a>
   {% else %}
   {% endif %}
     <a href="{{ url_for('home.landing_page') }}">Galerie</a>
@@ -49,7 +49,7 @@ Connect'Art
   {% endfor %}
 </div>
 <div class="arrièreenvoyer">
-  <form action="{{ url_for('user.envoyer_message', user_id=retour) }}" method="POST" class="envoyer">
+  <form action="{{ url_for('user.envoyer_message', user_id=user_id) }}" method="POST" class="envoyer">
       <textarea name="message" placeholder="Votre message..." required></textarea>
       <button type="submit"></button>
   </form>

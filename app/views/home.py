@@ -1,3 +1,4 @@
+import random
 from flask import (Blueprint, flash, g, json, redirect, render_template, request, session, url_for)
 from app.utils import *
 from flask import Flask, request, redirect, url_for, flash, render_template
@@ -38,6 +39,7 @@ def landing_page():
             else:
                 photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur != ?", (user_id,)).fetchall()
 
+            random.shuffle(photo)
             close_db()  
             return render_template('home/index.html', photo=photo, categories=categories)
         
@@ -103,7 +105,7 @@ def landing_page():
                     ),
                     tuple(common_ids + [user_id])
                 ).fetchall()
-            
+            random.shuffle(photo)
             close_db()  
             return render_template('home/index.html', photo=photo, categories=categories, categories_filtrer=categories_filtrer, chercher=chercher)
 
@@ -154,6 +156,7 @@ def landing_page():
                 flash("Aucune oeuvre trouvée pour le terme recherché.")
                 return redirect(url_for("home.landing_page"))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, chercher=chercher)
     
         elif categories_filtrer and not chercher:
@@ -204,12 +207,14 @@ def landing_page():
                 flash("Aucune œuvre trouvée pour les catégories sélectionnées.")
                 return redirect(url_for("home.landing_page"))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, categories_filtrer=categories_filtrer)
     
     if not user_id:
         db = get_db()  
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
         close_db() 
+        random.shuffle(photo)
         return render_template('home/index.html', photo=photo, categories=categories)
 
 

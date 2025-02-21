@@ -1,3 +1,4 @@
+import random
 import shutil
 from flask import (Blueprint, current_app, flash, g, json, redirect, render_template, request, session, url_for)
 from app.utils import *
@@ -120,7 +121,7 @@ def change_username():
     return redirect(url_for("user.changer_profil"))
 
 #pour changer la photo de profil
-@user_bp.route('/photo_profil', methods=('GET', 'POST'))
+@user_bp.route('/change_photo_profil', methods=('GET', 'POST'))
 @login_required
 def change_photo_profil():  
     user_id = session.get('user_id')
@@ -398,6 +399,7 @@ def supprimer_utilisateur():
     page_type= "upload"
     db = get_db()  
     photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
+    random.shuffle(photo)
     close_db()
     return render_template('user/supprimer_profil.html', user=g.user, page_type= page_type, photo=photo)
 
@@ -682,6 +684,7 @@ def changer_profil():
         db = get_db()  
         photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
         close_db()
+    random.shuffle(photo)
     return render_template('user/changer_profil.html', user=g.user, page_type= page_type, photo=photo)
 
 @user_bp.route('/messages', methods=['GET', 'POST'])
@@ -694,8 +697,8 @@ def messages():
     messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
     db.close()
     if afficher :
-        return render_template('user/messages.html', messages=messages, afficher=user_id)
-    return render_template('user/messages.html', messages=messages, retour=user_id)
+        return render_template('user/messages.html', messages=messages, user_id=user_id, afficher=user_id)
+    return render_template('user/messages.html', messages=messages, user_id=user_id, retour=user_id)
 
 
 @user_bp.route('/envoyer', methods=['POST'])
@@ -721,24 +724,42 @@ def envoyer_message():
 @login_required
 def afficher_conversations():
     user_id = session.get('user_id')
+    emetteur_ids = [] 
+    recepteur_ids = [] 
+    bloque_ids = [] 
+    empecheur_ids = [] 
+    combined_ids = []
+    stop_ids = []
+    conversation_ids =[]
+
+
     db = get_db()
 
     emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur = ?", (user_id,)).fetchall()
     recepteurs = db.execute("SELECT recepteur FROM contacter WHERE emetteur = ?", (user_id,)).fetchall()
+    bloques = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ?", (user_id,)).fetchall()
+    empecheurs = db.execute("SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id,)).fetchall()
 
-    conversation_ids = set([emetteur['emetteur'] for emetteur in emetteurs] + 
-                           [recepteur['recepteur'] for recepteur in recepteurs])
+    emetteur_ids = [row[0] for row in emetteurs if row[0]]
+    recepteur_ids = [row[0] for row in recepteurs if row[0]]
+    bloque_ids = [row[0] for row in bloques if row[0]]
+    empecheur_ids = [row[0] for row in empecheurs if row[0]]
 
-    if not conversation_ids:
+    combined_ids = list(set(emetteur_ids) | set(recepteur_ids))
+    stop_ids = list(set(bloque_ids) | set(empecheur_ids))
+    conversation_ids = [id for id in combined_ids if id not in stop_ids]
+       
+    placeholders = ', '.join('?' for _ in conversation_ids)
+    query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+    utilisateurs = db.execute(query, tuple(conversation_ids)).fetchall()
+    
+    if not utilisateurs:
         flash("Aucune conversation trouvée.")
+        db.close()
         return redirect(url_for("user.show_profile"))
 
-    placeholders = ', '.join('?' for _ in conversation_ids)
-    query = f"SELECT photo_profil, id_utilisateur, nom_utilisateur FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
-    utilisateurs = db.execute(query, tuple(conversation_ids)).fetchall()
-
     db.close()
-
     return render_template('user/afficher_conversations.html', utilisateurs=utilisateurs)
+
 
 

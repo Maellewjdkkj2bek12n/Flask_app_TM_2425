@@ -216,6 +216,7 @@ def MDP():
     else:
         # Affichage du formulaire quand la requête est GET
         page_type= "MDP"
+        random.shuffle(photo)
         return render_template('auth/MDP.html', photo=photo, page_type=page_type)
     
 

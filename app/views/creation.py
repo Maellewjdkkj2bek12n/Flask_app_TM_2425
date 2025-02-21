@@ -1,3 +1,4 @@
+import random
 from flask import (Blueprint, current_app, flash, g, json, redirect, render_template, request, session, url_for,)
 from flask import Flask
 from werkzeug.utils import secure_filename
@@ -46,7 +47,7 @@ def affichage():
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
 
         close_db()
-
+        random.shuffle(photo)
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
 
     elif categories_filtrer and chercher:
@@ -121,9 +122,8 @@ def affichage():
 
         user_id_autre = photoagrandie['utilisateur']
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
-
+        random.shuffle(photo)
         close_db()
-
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer, chercher=chercher)
              
     elif chercher and not categories_filtrer:
@@ -175,8 +175,8 @@ def affichage():
         user_id_autre = photoagrandie['utilisateur']
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
 
+        random.shuffle(photo)
         close_db()
-
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, chercher=chercher)
     
     elif categories_filtrer and not chercher:
@@ -232,7 +232,7 @@ def affichage():
 
         user_id_autre = photoagrandie['utilisateur']
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
-
+        random.shuffle(photo)
         close_db()
 
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer)
@@ -260,7 +260,7 @@ def affichage_autres():
     user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
 
     close_db()
-
+    random.shuffle(photo)
     return render_template('creation/affichage_autre.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
 
 
@@ -295,6 +295,7 @@ def affichage_perso():
     db = get_db()
     user_id = photoagrandie['utilisateur']
     user = db.execute("SELECT nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+    random.shuffle(photo)
     close_db()
     return render_template('creation/affichage_perso.html', categorie_oeuvre=categorie_oeuvre, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user)
 
@@ -397,6 +398,7 @@ def filtrer():
                 flash("Aucune œuvre trouvée pour les catégories sélectionnées.")
                 return redirect(url_for("home.landing_page"))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, categories_filtrer=categories_filtrer)
         
         else:
@@ -485,6 +487,7 @@ def filtrer():
                 flash("Aucune œuvre trouvée correspondant au terme recherché et aux catégories.")
                 return redirect(url_for("home.landing_page", chercher=chercher))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, chercher=chercher, categories_filtrer=categories_filtrer)
         else:
             flash("Aucun filtre sélectionné.")
@@ -550,6 +553,7 @@ def filtrer_rapide(categorie_id):
         flash("Aucune oeuvre trouvée pour le terme recherché.")
         return redirect(url_for("home.landing_page"))
     else:
+        random.shuffle(photo)
         return render_template('home/index.html', photo=photo, categories=categories, categories_filtrer=categories_filtrer)
 
 @creation_bp.route('/chercher', methods=['GET', 'POST'])
@@ -612,6 +616,7 @@ def chercher():
                 flash("Aucune oeuvre trouvée pour le terme recherché.")
                 return redirect(url_for("home.landing_page"))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, chercher=chercher)
         
         else: 
@@ -697,6 +702,7 @@ def chercher():
                 flash("Aucune oeuvre trouvée pour le terme recherché.")
                 return redirect(url_for("home.landing_page", categories_filtrer=categories_filtrer))
             else:
+                random.shuffle(photo)
                 return render_template('home/index.html', photo=photo, categories=categories, chercher=chercher, categories_filtrer=categories_filtrer)
 
         else: 
