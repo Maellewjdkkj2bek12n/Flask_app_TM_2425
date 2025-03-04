@@ -298,44 +298,6 @@ def affichage_perso():
     random.shuffle(photo)
     close_db()
     return render_template('creation/affichage_perso.html', categorie_oeuvre=categorie_oeuvre, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user)
-
-
-@creation_bp.route('/supprimer_oeuvre', methods=('GET', 'POST'))
-@login_required
-def supprimer_oeuvre():
-    user_id = session.get('user_id')  
-    photoeuvre_id = request.args.get('photogrand_id')
-    filename = request.args.get('filename')
-    filepath = os.path.join('app/static/upload', str(user_id), filename)
-    
-    
-    if not photoeuvre_id or not filepath:
-        flash("ID de l'œuvre ou chemin du fichier manquant.", "error")
-        return redirect(url_for("user.show_profile"))
-    
-    db = get_db()
-    
-    try:
-        db.execute("DELETE FROM oeuvres WHERE id_oeuvre = ?", (photoeuvre_id,))
-        db.execute("DELETE FROM categorisations WHERE oeuvre = ?", (photoeuvre_id,))
-        db.commit()  
-     
-        
-        if os.path.exists(filepath):  
-            os.remove(filepath)
-            
-        else:
-            flash(f"Le fichier à supprimer n'existe pas à l'emplacement : {filepath}", "error")
-        
-        return redirect(url_for("user.show_profile"))
-    
-    except Exception as e:
-        db.rollback() 
-        flash(f"Une erreur est survenue lors de la suppression de votre photo. {e}", "error")
-        return redirect(url_for("user.show_profile"))
-    
-    finally:
-        close_db()  
         
  
 @creation_bp.route('/filtrer', methods=['POST'])

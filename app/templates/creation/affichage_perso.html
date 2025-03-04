@@ -10,7 +10,7 @@ Connect'Art
     <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
 </nav>
 <div id="menu2" class="menu2 hidden">
-    <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
+    <a href="{{url_for('user.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
         <input type="button" value="Supprimer l'oeuvre" class="menuboutons">
     </a>  
     <a href="{{url_for('user.modifier_fichier', oeuvre_id=photoagrandie['id_oeuvre'])}}">
