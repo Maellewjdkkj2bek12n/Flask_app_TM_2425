@@ -37,7 +37,7 @@ Connect'Art
         </div>
     </div>
         <div class= "uploadpetit">
-            <a href="{{url_for('creation.supprimer_oeuvre', photogrand_id=oeuvres['id_oeuvre'], filename=oeuvres['nom'])}}">
+            <a href="{{url_for('user.supprimer_oeuvre', photogrand_id=oeuvres['id_oeuvre'], filename=oeuvres['nom'])}}">
                 <input type="button" value="Annuler" class="uploadpetitsboutons">
             </a>
             <input type="submit" value="Publier !" class="uploadpetitsboutons">
