@@ -184,6 +184,7 @@
 /*boutons du haut à gauche*/
 
 #header-nav-gauche{
+  position: fixed;
   justify-self: start;
   grid-column-start: partie-gauche;
   grid-column-end: débutgrand1;
