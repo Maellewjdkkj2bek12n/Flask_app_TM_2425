@@ -1286,25 +1286,25 @@ textarea {
 }
 
 .messages{
-  width: 96%;
+  display: flex;
+  width: 96vw;
 }
 
 .messages:last-child {
   margin-bottom: calc(45px + 2vw);
-  }
+}
 
 .reçu, .envoyé {
-  margin-bottom: 5px;
-  text-align: center;
-  font-size: 13px;
-  font-family:'Inter-light';
-  color: #000000;
-  box-shadow: 2px 4px 2px #0000004d;
   display: flex;
   flex-wrap: wrap;
   max-width: 70vw;
   padding: 5px 20px 5px 20px;
   border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  font-family:'Inter-light';
+  color: #000000;
+  box-shadow: 2px 4px 2px #0000004d;
 }
 
 #contenu{
@@ -1318,13 +1318,13 @@ textarea {
 .reçu {
   background-color: #ffffff;
   text-align: left;
-  justify-self:left;
+  margin-right: auto;
 }
 
 .envoyé {
   background-color: #ffffff;
   text-align: right;
-  justify-self:right;
+  margin-left: auto;
 }
 
 .arrièreenvoyer {
@@ -1349,6 +1349,7 @@ textarea {
   justify-content: space-between;
   padding-left: 30px;
   padding-right: 20px;
+  
 }
 
 .envoyer textarea {
