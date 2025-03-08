@@ -108,7 +108,7 @@
 /*boutons du haut si il y a 2 boutons à droite*/
 
 #header-nav-droite1{
-  position: fixed;
+  position: absolute;
   justify-self: center;
   grid-column-start: débutgrand1;
   grid-column-end: débutgrand2;
@@ -121,7 +121,7 @@
 }
 
 #header-nav-droite2{
-  position: fixed;
+  position: absolute;
   justify-self: center;
   grid-column-start: débutgrand2;
   grid-column-end: fin;
@@ -136,7 +136,8 @@
 /*boutons du haut si il y a 3 boutons à droite */
 
 #header-nav-droite3{
-  position: fixed;
+  position: absolute;
+
   justify-self: end;
   grid-column-start: débutgrand1;
   grid-column-end: fin2;
@@ -183,7 +184,6 @@
 /*boutons du haut à gauche*/
 
 #header-nav-gauche{
-  position: fixed;
   justify-self: start;
   grid-column-start: partie-gauche;
   grid-column-end: débutgrand1;
@@ -761,7 +761,7 @@ textarea {
 }
 
 #arrièrephotoagrandie{
-  position : fixed;
+  position: absolute;
   grid-column-start: débutphotoengrand;
   grid-column-end: finphotoengrand;
   grid-row-start: haut;
