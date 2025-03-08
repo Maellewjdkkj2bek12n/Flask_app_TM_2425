@@ -32,12 +32,11 @@ def landing_page():
         if not categories_filtrer and not chercher:
             exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
             exclusion_ids = [row[0] for row in exclusions]
-            exclusion_ids.append(user_id)
 
             if exclusion_ids:
                 photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
             else:
-                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur != ?", (user_id,)).fetchall()
+                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()
 
             random.shuffle(photo)
             close_db()  
@@ -65,8 +64,8 @@ def landing_page():
             try:
                 # Récupérer les œuvres correspondant au terme recherché
                 photo_ids = db.execute(
-                    "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?",
-                    ('%' + chercher + '%', user_id)
+                    "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
+                    ('%' + chercher + '%',)
                 ).fetchall()
                 photo_ids_list.extend([photo[0] for photo in photo_ids])  
 
@@ -88,7 +87,6 @@ def landing_page():
                 (user_id, user_id)
             ).fetchall()
             exclusion_ids = [row[0] for row in exclusions]
-            exclusion_ids.append(user_id)
             
             if exclusion_ids:
                 photo = db.execute(
@@ -100,10 +98,10 @@ def landing_page():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                         ', '.join('?' for _ in common_ids)
                     ),
-                    tuple(common_ids + [user_id])
+                    tuple(common_ids)
                 ).fetchall()
             random.shuffle(photo)
             close_db()  
@@ -112,8 +110,8 @@ def landing_page():
         elif chercher and not categories_filtrer:
             photo_ids_list = []    
             # Récupérer les ID des œuvres correspondant au terme de recherche
-            photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?", 
-                                    ('%' + chercher + '%', user_id)).fetchall()
+            photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?", 
+                                    ('%' + chercher + '%',)).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
 
             if not photo_ids_list:  
@@ -127,7 +125,6 @@ def landing_page():
                     (user_id, user_id)
                 ).fetchall()
                 exclusion_ids = [row[0] for row in exclusions]
-                exclusion_ids.append(user_id)  
                 
                 if exclusion_ids:  
                     photo = db.execute(
@@ -139,10 +136,10 @@ def landing_page():
                     ).fetchall()
                 else:
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                             ','.join('?' for _ in photo_ids_list)
                         ),
-                        tuple(photo_ids_list + [user_id])  
+                        tuple(photo_ids_list)  
                     ).fetchall()
 
             except Exception as e:
@@ -183,7 +180,6 @@ def landing_page():
                 (user_id, user_id)
             ).fetchall()
             exclusion_ids = [row[0] for row in exclusions]
-            exclusion_ids.append(user_id)  
             
             if exclusion_ids:
                 photo = db.execute(
@@ -195,10 +191,10 @@ def landing_page():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                         ', '.join('?' for _ in photo_ids_list)
                     ),
-                    tuple(photo_ids_list + [user_id])
+                    tuple(photo_ids_list)
                 ).fetchall()
             
             close_db() 

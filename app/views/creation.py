@@ -21,18 +21,18 @@ def affichage():
     user_id = session.get('user_id')
     chercher = request.args.get('chercher')
     categories_filtrer = request.args.getlist('categories_filtrer')
+    photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
+    user_id_autre = photoagrandie['utilisateur']
     
     if not categories_filtrer and not chercher:
         exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
         exclusion_ids = [row[0] for row in exclusions]
 
-        exclusion_ids.append(user_id)
-
         if exclusion_ids:
             photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? AND utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), [photoagrandie_id] + exclusion_ids).fetchall()
 
         else:
-            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur != ?", (photoagrandie_id, user_id,)).fetchall()
+            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ?", (photoagrandie_id,)).fetchall()
         
         photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
 
@@ -57,8 +57,8 @@ def affichage():
         try:
             # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
-                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?",
-                ('%' + chercher + '%', user_id)
+                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
+                ('%' + chercher + '%',)
             ).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
         
@@ -93,8 +93,6 @@ def affichage():
         exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
         exclusion_ids = [row[0] for row in exclusions]
 
-        exclusion_ids.append(user_id)
-
         if exclusion_ids:
             photo = db.execute(
                 "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur NOT IN ({})".format(
@@ -105,10 +103,10 @@ def affichage():
             ).fetchall()
         else:
             photo = db.execute(
-                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur != ?".format(
+                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ?".format(
                     ', '.join('?' for _ in common_ids)  
                 ),
-                tuple(common_ids + [photoagrandie_id] + [user_id] )  
+                tuple(common_ids + [photoagrandie_id])  
             ).fetchall()
         
         photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
@@ -131,8 +129,8 @@ def affichage():
         try:
             # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
-                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?",
-                ('%' + chercher + '%', user_id)
+                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
+                ('%' + chercher + '%',)
             ).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
         
@@ -145,8 +143,6 @@ def affichage():
         exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
         exclusion_ids = [row[0] for row in exclusions]
 
-        exclusion_ids.append(user_id)
-
         if exclusion_ids:
             photo = db.execute(
                 "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur NOT IN ({})".format(
@@ -157,10 +153,10 @@ def affichage():
             ).fetchall()
         else:
             photo = db.execute(
-                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur != ?".format(
+                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ?".format(
                     ', '.join('?' for _ in photo_ids_list)  
                 ),
-                tuple(photo_ids_list + [photoagrandie_id] + [user_id] )  
+                tuple(photo_ids_list + [photoagrandie_id])  
             ).fetchall()
         
         photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
@@ -203,8 +199,6 @@ def affichage():
         exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
         exclusion_ids = [row[0] for row in exclusions]
 
-        exclusion_ids.append(user_id)
-
         if exclusion_ids:
             photo = db.execute(
                 "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur NOT IN ({})".format(
@@ -215,10 +209,10 @@ def affichage():
             ).fetchall()
         else:
             photo = db.execute(
-                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ? AND utilisateur != ?".format(
+                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND id_oeuvre != ?".format(
                     ', '.join('?' for _ in photo_ids_list)  
                 ),
-                tuple(photo_ids_list + [photoagrandie_id] + [user_id] )  
+                tuple(photo_ids_list + [photoagrandie_id])  
             ).fetchall()
         
         photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
@@ -241,6 +235,7 @@ def affichage():
 @login_required
 def affichage_autres():
     photoagrandie_id = request.args.get('photogrand_id')
+    user_id = session.get('user_id')
     db = get_db()
  
     categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
@@ -248,6 +243,10 @@ def affichage_autres():
     photoagrandie = db.execute("SELECT id_oeuvre, chemin_fichier, utilisateur, description_oeuvre FROM oeuvres WHERE id_oeuvre = ?", (photoagrandie_id,)).fetchone()
     user_id_autre = photoagrandie['utilisateur']
     
+    if user_id_autre == user_id :
+          close_db()
+          return redirect(url_for('creation.affichage_perso', photogrand_id=photoagrandie_id))
+
     photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre != ? and utilisateur = ?", (photoagrandie_id, user_id_autre,)).fetchall()
 
     categorisation_oeuvre = db.execute("SELECT categorie FROM categorisations WHERE oeuvre = ?", (photoagrandie_id,)).fetchall()
@@ -336,7 +335,6 @@ def filtrer():
                 (user_id, user_id)
             ).fetchall()
             exclusion_ids = [row[0] for row in exclusions]
-            exclusion_ids.append(user_id)  
             
             if exclusion_ids:
                 photo = db.execute(
@@ -348,10 +346,10 @@ def filtrer():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                         ', '.join('?' for _ in photo_ids_list)
                     ),
-                    tuple(photo_ids_list + [user_id])
+                    tuple(photo_ids_list)
                 ).fetchall()
             
             close_db() 
@@ -376,8 +374,8 @@ def filtrer():
         try:
             # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
-                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?",
-                ('%' + chercher + '%', user_id)
+                "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
+                ('%' + chercher + '%',)
             ).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
             
@@ -420,7 +418,6 @@ def filtrer():
                     (user_id, user_id)
                 ).fetchall()
                 exclusion_ids = [row[0] for row in exclusions]
-                exclusion_ids.append(user_id)
                 
                 if exclusion_ids:
                     photo = db.execute(
@@ -432,10 +429,10 @@ def filtrer():
                     ).fetchall()
                 else:
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                             ', '.join('?' for _ in common_ids)
                         ),
-                        tuple(common_ids + [user_id])
+                        tuple(common_ids)
                     ).fetchall()
             except Exception as e:
                 flash("Une erreur est survenue lors du filtrage des œuvres.")
@@ -492,7 +489,6 @@ def filtrer_rapide(categorie_id):
     try:
         exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
         exclusion_ids = [row[0] for row in exclusions]
-        exclusion_ids.append(user_id)
         if exclusion_ids:
             photo = db.execute(
                 "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
@@ -502,7 +498,7 @@ def filtrer_rapide(categorie_id):
                 tuple(photo_ids_list + exclusion_ids) 
             ).fetchall()
         else :
-            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list + [user_id])).fetchall()
+            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list)).fetchall()
     
     except Exception as e:
         flash("Une erreur est survenue lors de la récupération des œuvres.")
@@ -532,8 +528,8 @@ def chercher():
         
         if chercher:  
             # Récupérer les ID des œuvres correspondant au terme de recherche
-            photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?", 
-                                   ('%' + chercher + '%', user_id)).fetchall()
+            photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?", 
+                                   ('%' + chercher + '%',)).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
 
             if not photo_ids_list:  
@@ -546,8 +542,7 @@ def chercher():
                     "SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", 
                     (user_id, user_id)
                 ).fetchall()
-                exclusion_ids = [row[0] for row in exclusions]
-                exclusion_ids.append(user_id)  
+                exclusion_ids = [row[0] for row in exclusions] 
                 
                 if exclusion_ids:  
                     
@@ -561,10 +556,10 @@ def chercher():
                 else:
                    
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                             ','.join('?' for _ in photo_ids_list)
                         ),
-                        tuple(photo_ids_list + [user_id])  
+                        tuple(photo_ids_list)  
                     ).fetchall()
 
             except Exception as e:
@@ -612,8 +607,8 @@ def chercher():
         if chercher:
             # Récupérer les œuvres correspondant à la recherche 
             try:
-                photo_ids2 = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ? AND utilisateur != ?", 
-                                        ('%' + chercher + '%', user_id)).fetchall()
+                photo_ids2 = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?", 
+                                        ('%' + chercher + '%',)).fetchall()
                 photo_ids_list2.extend([photo[0] for photo in photo_ids2])  
                 
                 if not photo_ids_list2: 
@@ -634,7 +629,6 @@ def chercher():
                     (user_id, user_id)
                 ).fetchall()
                 exclusion_ids = [row[0] for row in exclusions]
-                exclusion_ids.append(user_id)  
                 
                 if exclusion_ids:  
                     photo = db.execute(
@@ -647,10 +641,10 @@ def chercher():
                 else:
                     
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur != ?".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
                             ', '.join('?' for _ in common_ids)
                         ),
-                        tuple(common_ids + [user_id]) 
+                        tuple(common_ids) 
                     ).fetchall()
 
             except Exception as e:
