@@ -849,7 +849,7 @@ textarea {
 }
 
 .imagerapetissie {
-  box-shadow: 1.5px 1.5px 3.5px rgba(209, 202, 202, 0.473);
+  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
   align-self: center;
   justify-self: center;
   object-fit: cover;
@@ -1288,7 +1288,7 @@ textarea {
 
 .messages{
   display: flex;
-  width: 96vw;
+  width: 90vw;
 }
 
 .messages:last-child {
@@ -1299,10 +1299,10 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   max-width: 70vw;
-  padding: 5px 20px 5px 20px;
+  padding: 7px 22px 7px 22px;
   border-radius: 5px;
   margin-bottom: 5px;
-  font-size: 13px;
+  font-size: 15px;
   font-family:'Inter-light';
   color: #000000;
   box-shadow: 2px 4px 2px #0000004d;
