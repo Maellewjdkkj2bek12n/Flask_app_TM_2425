@@ -732,10 +732,11 @@ def messages():
     afficher =  request.args.get('afficher')  
     db = get_db()
     messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
+    autre = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
     db.close()
     if afficher :
-        return render_template('user/messages.html', messages=messages, user_id=user_id, afficher=user_id)
-    return render_template('user/messages.html', messages=messages, user_id=user_id, retour=user_id)
+        return render_template('user/messages.html', messages=messages, user=autre, afficher=user_id, user_id=user_id)
+    return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id)
 
 
 @user_bp.route('/envoyer', methods=['POST'])

@@ -8,13 +8,10 @@ Connect'Art
 <nav id="header-nav-droite3">
 {% if afficher %}
   <a href="{{ url_for('user.afficher_conversations') }}">Retour</a> 
-  <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">Voir le profil</a> 
+  <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">{{user['nom_utilisateur']}}</a> 
 
 {% else %}
-  {% if retour %}
-    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">Voir le profil</a>
-  {% else %}
-  {% endif %}
+    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">{{user['nom_utilisateur']}}</a>
 {% endif %}
     {% if g.user['photo_profil'] %}
       <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
