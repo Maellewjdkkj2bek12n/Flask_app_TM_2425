@@ -29,13 +29,13 @@ Connect'Art
     {% if message['emetteur'] == session['user_id'] %}
       <div class="messages" >
         <div class="message envoyé">
-           <a id="contenu"> {{ message['message'] }} </a>
+           <a id="contenu"> {{ message['message'].replace('\n', '<br>')|safe  }}  </a>
         </div>
       </div>
     {% else %}
       <div class="messages" >
         <div class="message reçu">
-          <a id="contenu"> {{ message['message'] }} </a>
+          <a id="contenu"> {{ message['message'].replace('\n', '<br>')|safe  }} </a>
         </div>
       </div>
     {% endif %}

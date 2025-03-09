@@ -744,7 +744,7 @@ def envoyer_message():
     db = get_db()
     user_id = session.get('user_id')  
     destinataire_id = request.args.get('user_id')  
-    contenu = request.form.get('message')  
+    contenu = request.form.get('message', '').strip()
 
     if not destinataire_id or not contenu:
         flash("Le destinataire et le message sont requis.", "error")
