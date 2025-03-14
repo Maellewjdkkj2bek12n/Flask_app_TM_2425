@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #717171, #d9d9d9);
+    background : linear-gradient(to top, #7a7a7a, #cfcfcf);
     background-attachment: fixed; 
   }
   
@@ -235,7 +235,7 @@
 }
 
 .image{
-  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.423);
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.502);
   width: 180px;
   height: 180px;
   cursor: pointer;
@@ -261,6 +261,11 @@
 #grille-image a:nth-of-type(8n+2) {
   width: 275px !important;
   height: 180px !important;
+}
+
+
+#grille-image a:last-of-type {
+  margin-bottom: 20px;
 }
 
 .image:hover {
@@ -694,6 +699,10 @@ textarea {
   grid-column: span 2;
 }
 
+#galerierapetissieuser a:last-of-type {
+  margin-bottom: 3.5vw;
+}
+
 #galerierapetissieuser :hover{
   transform: scale(1.008);
 }
@@ -731,7 +740,7 @@ textarea {
   align-items: center; 
 
   font-size : 15px;
-  color:  #848484;
+  color:  #858585;
   font-family:'Inter-Black';
   text-align:center;
   text-decoration: none;
@@ -748,7 +757,7 @@ textarea {
   width: 100%;
   height: 100px;
 
-  background-color: #9b9b9b;
+  background-color: #858585;
   box-shadow: 2px 4px 3px #0000004d;
   border-radius: 8px;
   margin-left: 15px;
