@@ -37,7 +37,9 @@ Connect'Art
             {% if photo %}
             <div id="galerierapetissie">
                 {% for photo in photo %}
-                <a href="{{ url_for('creation.affichage_autres', photogrand_id=photo['id_oeuvre']) }}"><img class="imagerapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
+                <a class="imagerapetissie" href="{{ url_for('creation.affichage_autres', photogrand_id=photo['id_oeuvre']) }}">
+                    <img class = "imgrapetissie" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+                </a>
                 {% endfor %}
             </div>
             {% else %}
@@ -46,7 +48,7 @@ Connect'Art
                 <div class="Aucuneautrecreation">Aucune autre création<br/> de cet utilisateur</div>
             </div> 
             {% endif %}
-        <!-- fin minie gelarie-->
+        <!-- fin minie galerie-->
     <div class="createur">
         {% if user['photo_profil'] %}
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}><img id= "createurphoto"  src="{{user['photo_profil']}}" alt="Clée"></a>

@@ -34,7 +34,9 @@
   <!-- Zone du mileux qui ne bouge pas-->
   <div id="grille-image">
     {% for photo in photo %}
-    <a href="{{ url_for('creation.affichage') }}"><img class="image" src="{{ photo.chemin_fichier }}"alt="Oeuvres"></a>
+    <a class="image">
+    <img  class="img" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+    </a>
     {% endfor %}
   </div>
   <!-- fin Zone du mileux qui ne bouge pas-->

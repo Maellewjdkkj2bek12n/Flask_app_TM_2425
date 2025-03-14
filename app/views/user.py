@@ -230,7 +230,7 @@ def chemin_fichier():
 
     if request.method == 'POST':
         if 'upload' not in request.files:
-            error= "Aucun fichier envayé."
+            error= "Aucun fichier envoyé."
             flash(error)
             return redirect(url_for("user.show_profile"))
 

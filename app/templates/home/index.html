@@ -69,20 +69,20 @@ Connect'Art
     {% endfor %}
 {% elif categories_filtrer %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer) }}">
-            <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        <a  class="image" href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], categories_filtrer=categories_filtrer) }}">
+            <img class="img" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
 {% elif chercher %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], chercher=chercher) }}">
-            <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        <a  class="image" href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre'], chercher=chercher) }}">
+            <img class="img" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
 {% else %}
     {% for photo in photo %}
-        <a href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}">
-            <img class="image" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
+        <a class="image" href="{{ url_for('creation.affichage', photogrand_id=photo['id_oeuvre']) }}">
+            <img class="img" src="{{ photo.chemin_fichier }}" alt="Oeuvres">
         </a>
     {% endfor %}
 {% endif %}
@@ -100,7 +100,9 @@ Connect'Art
                     <!-- Zone du mileux qui ne bouge pas-->
                     <div id="grille-image">
                       {% for photo in photo %}
-                      <img class="image" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+                      <a class="image">
+                      <img  class="img" src="{{ photo.chemin_fichier }}"alt="Oeuvres">
+                      </a>
                       {% endfor %}
                     </div>
                     <!-- fin Zone du mileux qui ne bouge pas-->
