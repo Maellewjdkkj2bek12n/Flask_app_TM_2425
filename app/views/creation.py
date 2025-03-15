@@ -48,6 +48,9 @@ def affichage():
 
         close_db()
         random.shuffle(photo)
+        if user_id_autre == user_id :
+            photo_perso = user_id
+            return render_template('creation/affichage.html',photo_perso=photo_perso, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
 
     elif categories_filtrer and chercher:
@@ -122,6 +125,10 @@ def affichage():
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
         random.shuffle(photo)
         close_db()
+        
+        if user_id_autre == user_id :
+            photo_perso = user_id
+            return render_template('creation/affichage.html', photo_perso=photo_perso, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer, chercher=chercher)
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer, chercher=chercher)
              
     elif chercher and not categories_filtrer:
@@ -173,6 +180,10 @@ def affichage():
 
         random.shuffle(photo)
         close_db()
+        if user_id_autre == user_id :
+            photo_perso = user_id
+            return render_template('creation/affichage.html', photo_perso=photo_perso, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, chercher=chercher)
+    
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, chercher=chercher)
     
     elif categories_filtrer and not chercher:
@@ -228,6 +239,10 @@ def affichage():
         user = db.execute("SELECT nom_utilisateur, bio, photo_profil FROM utilisateurs WHERE id_utilisateur = ?", (user_id_autre,)).fetchone()
         random.shuffle(photo)
         close_db()
+        if user_id_autre == user_id :
+            photo_perso = user_id
+            return render_template('creation/affichage.html', photo_perso=photo_perso, photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer)
+        
 
         return render_template('creation/affichage.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre, categories_filtrer=categories_filtrer)
         

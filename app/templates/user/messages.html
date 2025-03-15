@@ -6,7 +6,7 @@ Connect'Art
 
 {% block menu %}
 <nav id="header-nav-droite3">
-    <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">{{user['nom_utilisateur']}}</a>
+    <a href="{{ url_for('home.landing_page') }}">Galerie</a>
     {% if g.user['photo_profil'] %}
       <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
     {% else %}
@@ -17,6 +17,14 @@ Connect'Art
 {% block content %}
 <div class="arrièrefondlisteutilisateursmessages">
 <div class="fondlisteutilisateursmessages">
+  <a href="{{ url_for('user.show_autreprofile', user=user_id) }}" class="listeutilisateursselectionné">
+    {% if user['photo_profil'] %}
+    <img class="listeutilisateursphoto" src="{{ user['photo_profil'] }}" alt="Profil">
+    {% else %}
+    <img class="listeutilisateursphoto" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
+    {% endif %}
+    <p>{{ user['nom_utilisateur'] }}</p>
+  </a>
   {% for conv in conv %}
   <a href="{{ url_for('user.messages', user_id=conv['id_utilisateur'], afficher=conv['id_utilisateur']) }}" class="listeutilisateurs">
           {% if conv['photo_profil'] %}
@@ -31,7 +39,7 @@ Connect'Art
 </div>
 </div>
 
-
+<div class="arrièrearrièremessages">
 <div class="arrièremessages">
   {% for message in messages %}
     {% if message['emetteur'] == session['user_id'] %}
@@ -48,6 +56,7 @@ Connect'Art
       </div>
     {% endif %}
   {% endfor %}
+</div>
 </div>
 <div class="arrièreenvoyer">
   <form action="{{ url_for('user.envoyer_message', user_id=user_id) }}" method="POST" class="envoyer">

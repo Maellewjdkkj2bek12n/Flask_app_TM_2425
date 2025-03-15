@@ -24,7 +24,23 @@ Connect'Art
         {% endif %}
         
         <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
+        {% if photo_perso %}
+        <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
+        {% else %}
+        {% endif %}
 </nav>
+
+{% if photo_perso %}
+<div id="menu2" class="menu2 hidden">
+    <a href="{{url_for('user.supprimer_oeuvre', photogrand_id=photoagrandie['id_oeuvre'], filename=photoagrandie['nom'])}}">
+        <input type="button" value="Supprimer l'oeuvre" class="menuboutons">
+    </a>  
+    <a href="{{url_for('user.modifier_fichier', oeuvre_id=photoagrandie['id_oeuvre'])}}">
+        <input type="button" value="Modifier l'oeuvre" class="menuboutons">
+    </a> 
+</div>
+{% else %}
+{% endif %}
 
 <div id="menu3" class="menu3 hidden">
     {% if chercher %} 

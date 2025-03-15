@@ -727,13 +727,8 @@ def changer_profil():
 @user_bp.route('/messages', methods=['GET', 'POST'])
 @login_required
 def messages():
-    user_id = request.args.get('user_id')
-    user = session.get('user_id')
-    afficher =  request.args.get('afficher')  
-    db = get_db()
-    messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
-    autre = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-    
+    user = session.get('user_id') 
+
     emetteur_ids = [] 
     recepteur_ids = [] 
     bloque_ids = [] 
@@ -741,8 +736,11 @@ def messages():
     combined_ids = []
     stop_ids = []
     conversation_ids =[]
+    conv = []
 
-    emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur = ?", (user,)).fetchall()
+    db = get_db()
+
+    emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur= ?", (user,)).fetchall()
     recepteurs = db.execute("SELECT recepteur FROM contacter WHERE emetteur = ?", (user,)).fetchall()
     bloques = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ?", (user,)).fetchall()
     empecheurs = db.execute("SELECT empecheur FROM bloque WHERE bloqué = ?", (user,)).fetchall()
@@ -755,20 +753,24 @@ def messages():
     combined_ids = list(set(emetteur_ids) | set(recepteur_ids))
     stop_ids = list(set(bloque_ids) | set(empecheur_ids) )
     
-    conversation_ids = [id for id in combined_ids if id not in stop_ids and id != user_id]
+    conversation_ids = [id for id in combined_ids if id not in stop_ids]
+
+    user_id = request.args.get('user_id')
+    if not user_id :
+        if conversation_ids:  
+            user_id = random.choice(conversation_ids)
+
+
+
+    messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
+    autre = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+  
        
     placeholders = ', '.join('?' for _ in conversation_ids)
-    query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
-    conv = db.execute(query, tuple(conversation_ids)).fetchall()
-    
-    if not conv:
-        flash("Aucune conversation trouvée.")
-        db.close()
-        return redirect(url_for("user.show_profile"))
+    query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders}) AND id_utilisateur != ?"
+    conv = db.execute(query, tuple(conversation_ids) + (user_id,)).fetchall()
     
     db.close()
-    if afficher :
-        return render_template('user/messages.html', messages=messages, user=autre, afficher=user_id, user_id=user_id, conv=conv)
     return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id, conv=conv)
 
 
@@ -788,49 +790,4 @@ def envoyer_message():
     db.commit()
     db.close()
 
-    flash("Message envoyé avec succès.", "success")
     return redirect(url_for('user.messages', user_id=destinataire_id))
-
-@user_bp.route('/afficher_conversations', methods=['GET', 'POST'])
-@login_required
-def afficher_conversations():
-    user_id = session.get('user_id')
-    emetteur_ids = [] 
-    recepteur_ids = [] 
-    bloque_ids = [] 
-    empecheur_ids = [] 
-    combined_ids = []
-    stop_ids = []
-    conversation_ids =[]
-
-
-    db = get_db()
-
-    emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur = ?", (user_id,)).fetchall()
-    recepteurs = db.execute("SELECT recepteur FROM contacter WHERE emetteur = ?", (user_id,)).fetchall()
-    bloques = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ?", (user_id,)).fetchall()
-    empecheurs = db.execute("SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id,)).fetchall()
-
-    emetteur_ids = [row[0] for row in emetteurs if row[0]]
-    recepteur_ids = [row[0] for row in recepteurs if row[0]]
-    bloque_ids = [row[0] for row in bloques if row[0]]
-    empecheur_ids = [row[0] for row in empecheurs if row[0]]
-
-    combined_ids = list(set(emetteur_ids) | set(recepteur_ids))
-    stop_ids = list(set(bloque_ids) | set(empecheur_ids))
-    conversation_ids = [id for id in combined_ids if id not in stop_ids]
-       
-    placeholders = ', '.join('?' for _ in conversation_ids)
-    query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
-    utilisateurs = db.execute(query, tuple(conversation_ids)).fetchall()
-    
-    if not utilisateurs:
-        flash("Aucune conversation trouvée.")
-        db.close()
-        return redirect(url_for("user.show_profile"))
-
-    db.close()
-    return render_template('user/afficher_conversations.html', utilisateurs=utilisateurs)
-
-
-

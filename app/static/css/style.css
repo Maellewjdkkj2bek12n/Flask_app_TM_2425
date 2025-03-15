@@ -888,12 +888,16 @@ textarea {
   height: 74vh ;
 }
 
-#galerierapetissie a:nth-of-type(3n) {
+#galerierapetissie a:nth-of-type(1) {
+  grid-column: span 2;
+}
+
+#galerierapetissie a:nth-of-type(6) {
   grid-column: span 2;
 }
 
 #galerierapetissie a:nth-of-type(12) {
-  grid-column: span 1;
+  grid-column: span 2;
 }
 
 .imagerapetissie {
@@ -1331,13 +1335,33 @@ textarea {
   overflow: hidden;
 }
 
+.listeutilisateursselectionné{
+  margin-top: 10px;
+  background-color: #bebebe;
+  border: none;
+  box-shadow: 2px 4px 2px #00000064;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 90% ;
+  height: 65px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 20px;
+  gap: 30px;
+  text-decoration: none;
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
 .listeutilisateurs:hover {
   transform: scale(1.01);
   text-decoration: none;
 }
 
 
-.listeutilisateurs p {
+.listeutilisateurs p, .listeutilisateursselectionné p {
   margin: 0;
   text-decoration: none;
   font-size: 25px;
@@ -1354,12 +1378,25 @@ textarea {
   box-shadow: 1.2px 1.2px 2.5px rgba(0, 0, 0, 0.267);
 }
 
+.arrièrearrièremessages {
+  position:absolute;
+  overflow: auto;
+  z-index: 1;
+  bottom: 0px;
+  right: 0px;
+  width: 70vw;
+  height: calc(100vh - 45px);
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .arrièremessages {
+  z-index: 2;
   position: absolute;
   right:2vw;
-  overflow: auto;
-  margin-top: 2vw;
   width: 65vw;
+  height: fit-content;
+  min-height: calc(100vh - 45px) ;
   display: flex;
   flex-wrap: nowrap; 
   flex-direction: column;
@@ -1376,13 +1413,17 @@ textarea {
   margin-bottom: calc(45px + 2vw);
 }
 
+.messages:first-child {
+  margin-top: 2vw;
+}
+
 .reçu, .envoyé {
   display: flex;
   flex-wrap: wrap;
-  max-width: 50vw;
+  max-width: 60%;
   padding: 7px 22px 7px 22px;
   border-radius: 5px;
-  margin-bottom: 5px;
+  margin-bottom: 8px;
   font-size: 15px;
   font-family:'Inter-light';
   color: #000000;
@@ -1413,7 +1454,7 @@ textarea {
   position: fixed;
   bottom: 1vw;
   right:0px;
-  width: 69vw;
+  width: 70vw;
   height: 40px;
   display: flex;
   justify-content: center;
