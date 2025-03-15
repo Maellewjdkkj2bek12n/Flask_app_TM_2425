@@ -22,7 +22,7 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
-    background : linear-gradient(to top, #7a7a7a, #cfcfcf);
+    background : linear-gradient(to top, #898989, #d7d7d7);
     background-attachment: fixed; 
   }
   
@@ -235,7 +235,7 @@
 }
 
 .image{
-  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.502);
+  box-shadow: 2px 4px 3px #0000006e;
   width: 180px;
   height: 180px;
   cursor: pointer;
@@ -682,7 +682,7 @@ textarea {
 }
 
 .imagerapetissieuser {
-  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
+  box-shadow: 2px 4px 3px #0000006e;
   align-self: center;
   object-fit: cover;
   width:  100%;
@@ -740,7 +740,7 @@ textarea {
   align-items: center; 
 
   font-size : 15px;
-  color:  #858585;
+  color:  #808080;
   font-family:'Inter-Black';
   text-align:center;
   text-decoration: none;
@@ -758,7 +758,7 @@ textarea {
   height: 100px;
 
   background-color: #858585;
-  box-shadow: 2px 4px 3px #0000004d;
+  box-shadow: 2px 4px 3px #0000006e;
   border-radius: 8px;
   margin-left: 15px;
 
@@ -814,7 +814,7 @@ textarea {
   background-color: #ffffff;
   width: 60vw;
   height: 75vh;
-  box-shadow: 2px 4px 3px #0000004d;
+  box-shadow: 2px 4px 3px #0000006e;
   border-radius: 8px;
 
   display: flex;
@@ -860,7 +860,7 @@ textarea {
 
 #photoagrandie{
   flex: 0 1 calc(60vw - 150px); 
-  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
+  box-shadow: 2px 4px 3px #0000006e;
   object-fit: contain;
   max-width: calc(60vw - 150px);
   max-height: calc(75vh - 40px);
@@ -901,7 +901,7 @@ textarea {
 }
 
 .imagerapetissie {
-  box-shadow: 1.5px 1.5px 3.5px rgba(0, 0, 0, 0.473);
+  box-shadow: 2px 4px 3px #0000006e;
   align-self: center;
   justify-self: center;
   width:  100%;
@@ -1337,7 +1337,7 @@ textarea {
 
 .listeutilisateursselectionné{
   margin-top: 10px;
-  background-color: #bebebe;
+  background-color: #cdcdcd;
   border: none;
   box-shadow: 2px 4px 2px #00000064;
   border-radius: 10px;
@@ -1375,7 +1375,7 @@ textarea {
   object-fit: cover;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 1.2px 1.2px 2.5px rgba(0, 0, 0, 0.267);
+  box-shadow: 1.5px 1.5px 3px rgba(0, 0, 0, 0.55);
 }
 
 .arrièrearrièremessages {

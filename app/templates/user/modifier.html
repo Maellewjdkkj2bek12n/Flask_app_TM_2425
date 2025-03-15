@@ -22,14 +22,16 @@ Connect'Art
         <div class="uploadeecriture">
             <a>Sélectionnez la/les catégories de l'œuvre </a>
         </div>
-            {% for categories in categories %}
-            <div class="checkbox-container">
-                <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
-                <div class="box2">
-                    <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+            <div>
+                {% for categories in categories %}         
+                <div class="checkbox-container">
+                    <input type="checkbox" id="categorie-{{ categories.id_categorie }}" name="categories" value="{{ categories.id_categorie }}">
+                    <div class="box2">
+                        <label for="categorie-{{ categories.id_categorie }}">{{ categories.nom }}</label>
+                    </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
     </div>
         <div class= "uploadpetit">
             <a href="{{url_for('user.show_profile')}}">
