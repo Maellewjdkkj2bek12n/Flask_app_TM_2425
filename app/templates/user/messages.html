@@ -6,13 +6,7 @@ Connect'Art
 
 {% block menu %}
 <nav id="header-nav-droite3">
-{% if afficher %}
-  <a href="{{ url_for('user.afficher_conversations') }}">Retour</a> 
-  <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">{{user['nom_utilisateur']}}</a> 
-
-{% else %}
     <a href="{{ url_for('user.show_autreprofile', user=user_id) }}">{{user['nom_utilisateur']}}</a>
-{% endif %}
     {% if g.user['photo_profil'] %}
       <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ g.user['photo_profil'] }}" alt="Profil"></a>
     {% else %}
@@ -21,6 +15,23 @@ Connect'Art
 {% endblock %}
 
 {% block content %}
+<div class="arrièrefondlisteutilisateursmessages">
+<div class="fondlisteutilisateursmessages">
+  {% for conv in conv %}
+  <a href="{{ url_for('user.messages', user_id=conv['id_utilisateur'], afficher=conv['id_utilisateur']) }}" class="listeutilisateurs">
+          {% if conv['photo_profil'] %}
+          <img class="listeutilisateursphoto" src="{{ conv['photo_profil'] }}" alt="Profil">
+          {% else %}
+          <img class="listeutilisateursphoto" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil">
+          {% endif %}
+          <p>{{ conv['nom_utilisateur'] }}</p>
+  </a>
+  {% endfor %}
+  <br/>
+</div>
+</div>
+
+
 <div class="arrièremessages">
   {% for message in messages %}
     {% if message['emetteur'] == session['user_id'] %}

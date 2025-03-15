@@ -733,10 +733,43 @@ def messages():
     db = get_db()
     messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
     autre = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
+    
+    emetteur_ids = [] 
+    recepteur_ids = [] 
+    bloque_ids = [] 
+    empecheur_ids = [] 
+    combined_ids = []
+    stop_ids = []
+    conversation_ids =[]
+
+    emetteurs = db.execute("SELECT emetteur FROM contacter WHERE recepteur = ?", (user,)).fetchall()
+    recepteurs = db.execute("SELECT recepteur FROM contacter WHERE emetteur = ?", (user,)).fetchall()
+    bloques = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ?", (user,)).fetchall()
+    empecheurs = db.execute("SELECT empecheur FROM bloque WHERE bloqué = ?", (user,)).fetchall()
+
+    emetteur_ids = [row[0] for row in emetteurs if row[0]]
+    recepteur_ids = [row[0] for row in recepteurs if row[0]]
+    bloque_ids = [row[0] for row in bloques if row[0]]
+    empecheur_ids = [row[0] for row in empecheurs if row[0]]
+
+    combined_ids = list(set(emetteur_ids) | set(recepteur_ids))
+    stop_ids = list(set(bloque_ids) | set(empecheur_ids) )
+    
+    conversation_ids = [id for id in combined_ids if id not in stop_ids and id != user_id]
+       
+    placeholders = ', '.join('?' for _ in conversation_ids)
+    query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders})"
+    conv = db.execute(query, tuple(conversation_ids)).fetchall()
+    
+    if not conv:
+        flash("Aucune conversation trouvée.")
+        db.close()
+        return redirect(url_for("user.show_profile"))
+    
     db.close()
     if afficher :
-        return render_template('user/messages.html', messages=messages, user=autre, afficher=user_id, user_id=user_id)
-    return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id)
+        return render_template('user/messages.html', messages=messages, user=autre, afficher=user_id, user_id=user_id, conv=conv)
+    return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id, conv=conv)
 
 
 @user_bp.route('/envoyer', methods=['POST'])

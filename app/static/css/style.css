@@ -18,7 +18,7 @@
   */
   body {
     margin: 0; 
-    height: 100vh;
+    height:100vh;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     font-size: 10px;
@@ -1279,8 +1279,7 @@ textarea {
 /*afficher les utilisateur*/ 
 
 .fondlisteutilisateurs{
-  overflow: auto;
-  position:fixed;
+  position: absolute;
   top: 100px;
   width: 100vw ;
   display: flex;
@@ -1289,6 +1288,29 @@ textarea {
   justify-content: center;
 
 }
+
+.fondlisteutilisateursmessages{
+  position:absolute;
+  z-index: 2;
+  top: calc(45px + 2vw);
+  width: 30vw ;
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.arrièrefondlisteutilisateursmessages{
+  position:fixed;
+  overflow: auto;
+  z-index: 1;
+  top: 0px;
+  width: 30vw ;
+  display: flex;
+  background-color: #00000028;
+  height: 100vh;
+}
+
 .listeutilisateurs{
   margin-top: 10px;
   background-color: #ffffff;
@@ -1296,7 +1318,7 @@ textarea {
   box-shadow: 2px 4px 2px #0000004d;
   border-radius: 10px;
   cursor: pointer;
-  width: 90vw ;
+  width: 90% ;
   height: 65px;
   cursor: pointer;
   display: flex;
@@ -1306,6 +1328,7 @@ textarea {
   gap: 30px;
   text-decoration: none;
   transition: transform 0.3s ease;
+  overflow: hidden;
 }
 
 .listeutilisateurs:hover {
@@ -1332,9 +1355,11 @@ textarea {
 }
 
 .arrièremessages {
+  position: absolute;
+  right:2vw;
   overflow: auto;
   margin-top: 2vw;
-  width: 100%;
+  width: 65vw;
   display: flex;
   flex-wrap: nowrap; 
   flex-direction: column;
@@ -1344,7 +1369,7 @@ textarea {
 
 .messages{
   display: flex;
-  width: 90vw;
+  width: 100%;
 }
 
 .messages:last-child {
@@ -1354,7 +1379,7 @@ textarea {
 .reçu, .envoyé {
   display: flex;
   flex-wrap: wrap;
-  max-width: 70vw;
+  max-width: 50vw;
   padding: 7px 22px 7px 22px;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -1387,8 +1412,8 @@ textarea {
 .arrièreenvoyer {
   position: fixed;
   bottom: 1vw;
-  left: 0px;
-  width: 100%;
+  right:0px;
+  width: 69vw;
   height: 40px;
   display: flex;
   justify-content: center;
