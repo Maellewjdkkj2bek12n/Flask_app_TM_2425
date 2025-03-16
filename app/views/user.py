@@ -757,8 +757,11 @@ def messages():
 
     user_id = request.args.get('user_id')
     if not user_id :
-        if conversation_ids:  
-            user_id = random.choice(conversation_ids)
+        if conversation_ids:
+            max_row = db.execute("SELECT MAX(message_id) AS id_max, recepteur, emetteur FROM contacter WHERE (recepteur = ?) OR (emetteur = ?)", (user, user)).fetchone()
+            if max_row:
+                user_id = max_row['recepteur'] if max_row['recepteur'] != user else max_row['emetteur']
+
 
 
 
