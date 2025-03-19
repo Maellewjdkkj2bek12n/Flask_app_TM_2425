@@ -774,6 +774,10 @@ def messages():
     conv = db.execute(query, tuple(conversation_ids) + (user_id,)).fetchall()
     
     db.close()
+    if not autre :
+        flash("Aucune conversation", "error")
+        return redirect(url_for("user.show_profile"))
+
     return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id, conv=conv)
 
 
@@ -790,6 +794,7 @@ def envoyer_message():
         return redirect(url_for('user.messages', user_id=destinataire_id))
 
     db.execute("INSERT INTO contacter (emetteur, recepteur, message) VALUES (?, ?, ?)", (user_id, destinataire_id, contenu))
+
     db.commit()
     db.close()
 

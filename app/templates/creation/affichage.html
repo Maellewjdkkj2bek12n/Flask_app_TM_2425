@@ -22,8 +22,6 @@ Connect'Art
         {% else %}
         <a href="{{url_for('user.show_profile')}}"><img class= "logo_profil" src="{{ url_for('static', filename='imgs/Profil.png') }}" alt="Profil"></a>
         {% endif %}
-        
-        <a><img id = "menu-toggle3" src="{{ url_for('static', filename='imgs/Filtre.png') }}" alt="Filtre"></a>
         {% if photo_perso %}
         <a><img id = "menu-toggle2" src="{{ url_for('static', filename='imgs/Settings.png') }}" alt="Settings"></a>
         {% else %}
