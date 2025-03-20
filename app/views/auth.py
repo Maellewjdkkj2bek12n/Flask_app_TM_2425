@@ -41,8 +41,9 @@ def register():
                 close_db()
               
             except db.IntegrityError:
-                error = "Oups, l'utilisateur {username} ou le mail {mail} déjà enregistré."
+                error = f"Oups, l'utilisateur \"{username}\" ou le mail \"{mail}\" est déjà enregistré."
                 flash(error)
+
                 return redirect(url_for("auth.register"))
             
             return redirect(url_for("auth.login"))
@@ -106,22 +107,16 @@ def load_logged_in_user():
 @auth_bp.route('/MDP', methods=['GET', 'POST'])
 def MDP():
     user_id = session.get('user_id')
-    if user_id:
-        db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
-        close_db()
-    
-    if not user_id:
-        db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
-        close_db()
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    close_db()
     
     if request.method == 'POST':
-        nom = request.form['nom']
+        mail = request.form['nom']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
 
-        if not nom or not password or not confirm_password:
+        if not mail or not password or not confirm_password:
             flash("Veuillez remplir tous les champs.")
             return redirect(url_for('auth.MDP'))
 
@@ -131,17 +126,17 @@ def MDP():
 
         db = get_db()
         
-        user = db.execute('SELECT * FROM utilisateurs WHERE nom_utilisateur = ?', (nom,)).fetchone()
+        user = db.execute('SELECT * FROM utilisateurs WHERE adresse_mail = ?', (mail,)).fetchone()
         if user_id :
             if user_id != user['id_utilisateur'] :
-                flash("Ce pseudo n'est pas attribué à ce compte")
+                flash("Cette adresse mail n'est pas attribuée à ce compte")
                 return redirect(url_for('auth.MDP'))
 
         if user:
             hashed_password = generate_password_hash(password)
 
             try:
-                db.execute('UPDATE utilisateurs SET mot_passe = ? WHERE nom_utilisateur = ?', (hashed_password, nom))
+                db.execute('UPDATE utilisateurs SET mot_passe = ? WHERE adresse_mail = ?', (hashed_password, mail))
                 db.commit()
                 return redirect(url_for('auth.logout'))  
             except Exception as e:
