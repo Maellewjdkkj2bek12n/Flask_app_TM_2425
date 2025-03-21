@@ -4,70 +4,90 @@ document.addEventListener('DOMContentLoaded', () => {
     //parametres profil
     const menuToggle1 = document.getElementById('menu-toggle1');
     const menu1 = document.getElementById('menu1');
+    var activeImg1 = '/static/imgs/SettingsA.png';
+    var inactiveImg1 = '/static/imgs/Settings.png';
 
-    if (menuToggle1 && menu1) {
+    if (menuToggle1 && menu1 && inactiveImg1 && activeImg1) {
         menuToggle1.addEventListener('click', () => {
-            menu1.classList.toggle('hidden');
-            menuToggle1.src = menu1.classList.contains('hidden')
-                ? '/static/imgs/Settings.png'
-                : '/static/imgs/SettingsA.png';
+            if (menu1.classList.contains('hidden')) {
+                menu1.classList.remove('hidden');
+                menuToggle1.src = activeImg1; 
+            } else {
+                menu1.classList.add('hidden'); 
+                menuToggle1.src = inactiveImg1; 
+            }
         });
     }
 
     // Bloquer et parler à d'autres utilisateurs
     const menuToggle2 = document.getElementById('menu-toggle2');
     const menu2 = document.getElementById('menu2');
+    var activeImg2 = '/static/imgs/SettingsA.png'; 
+    var inactiveImg2 = '/static/imgs/Settings.png'; 
 
-    if (menuToggle2 && menu2) {
+    if (menuToggle2 && menu2 && inactiveImg2 && activeImg2) {
         menuToggle2.addEventListener('click', () => {
-            menu2.classList.toggle('hidden');
-            menuToggle2.src = menu2.classList.contains('hidden')
-                ? '/static/imgs/Settings.png'
-                : '/static/imgs/SettingsA.png';
+            if (menu2.classList.contains('hidden')) {
+                menu2.classList.remove('hidden'); 
+                menuToggle2.src = activeImg2; 
+            } else {
+                menu2.classList.remove('visible'); 
+                menu2.classList.add('hidden'); 
+                menuToggle2.src = inactiveImg2; 
+            }
         });
     }
 
     // Filtrer les œuvres
     const menuToggle3 = document.getElementById('menu-toggle3');
     const menu3 = document.getElementById('menu3');
+    var activeImg3 = '/static/imgs/FiltreA.png'; 
+    var inactiveImg3 = '/static/imgs/Filtre.png'; 
 
-    if (menuToggle3 && menu3) {
+    if (menuToggle3 && menu3 && inactiveImg3 && activeImg3) {
         menuToggle3.addEventListener('click', () => {
-            menu3.classList.toggle('hidden');
-            menuToggle3.src = menu3.classList.contains('hidden')
-                ? '/static/imgs/Filtre.png'
-                : '/static/imgs/FiltreA.png';
+            if (menu3.classList.contains('hidden')) {
+                menu3.classList.remove('hidden'); 
+                menuToggle3.src = activeImg3; 
+            } else {
+                menu3.classList.remove('visible'); 
+                menu3.classList.add('hidden'); 
+                menuToggle3.src = inactiveImg3; 
+            }
         });
     }
 
-    // Gestion connexion et inscription
+    // Gestion connexion
     const loginButton = document.getElementById('toggle-login');
-    const registerButton = document.getElementById('toggle-register');
     const loginMenu = document.getElementById('login-menu');
-    const registerMenu = document.getElementById('register-menu');
 
-    if (loginButton && registerButton && loginMenu && registerMenu) {
+    if (loginButton && loginMenu) {
         loginButton.addEventListener('click', () => {
-            if (loginMenu.style.display === 'block') {
-                loginMenu.style.display = 'none';
-                loginButton.removeAttribute('id');
+            if (loginMenu.classList.contains('hidden')) {
+                loginMenu.classList.remove('hidden'); 
+                loginButton.classList.add('active'); 
             } else {
-                loginMenu.style.display = 'block';
-                registerMenu.style.display = 'none';
-                loginButton.setAttribute('id', 'active-login');
-                registerButton.removeAttribute('id');
+                loginMenu.classList.remove('visible'); 
+                loginMenu.classList.add('hidden'); 
+                loginButton.classList.remove('active'); 
             }
         });
 
+    }
+
+    //gestion inscription
+    const registerButton = document.getElementById('toggle-register');
+    const registerMenu = document.getElementById('register-menu');
+
+    if (registerButton && registerMenu) {
         registerButton.addEventListener('click', () => {
-            if (registerMenu.style.display === 'block') {
-                registerMenu.style.display = 'none';
-                registerButton.removeAttribute('id');
+            if (registerMenu.classList.contains('hidden')) {
+                registerMenu.classList.remove('hidden'); 
+                registerButton.classList.add('active'); 
             } else {
-                registerMenu.style.display = 'block';
-                loginMenu.style.display = 'none';
-                registerButton.setAttribute('id', 'active-register');
-                loginButton.removeAttribute('id');
+                registerMenu.classList.remove('visible'); 
+                registerMenu.classList.add('hidden'); 
+                registerButton.classList.remove('active'); 
             }
         });
     }
@@ -75,21 +95,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Barre de recherche
     const menuToggle4 = document.getElementById('menu-toggle4');
     const menu4 = document.getElementById('menu4');
+    var activeImg4 = '/static/imgs/chercherA.png'; 
+    var inactiveImg4 = '/static/imgs/chercher.png'; 
 
-    if (menuToggle4 && menu4) {
+    if (menuToggle4 && menu4 && inactiveImg4 && activeImg4) {
         menuToggle4.addEventListener('click', () => {
-            menu4.classList.toggle('hidden');
-            menuToggle4.src = menu4.classList.contains('hidden')
-                ? '/static/imgs/chercher.png'
-                : '/static/imgs/chercherA.png';
+            if (menu4.classList.contains('hidden')) {
+                menu4.classList.remove('hidden'); 
+                menuToggle4.src = activeImg4; 
+            } else {
+                menu4.classList.remove('visible'); 
+                menu4.classList.add('hidden'); 
+                menuToggle4.src = inactiveImg4; 
+            }
         });
     }
 
     // Pour des messages d'erreurs qui disparaissent
-    const flashes = document.querySelectorAll('.flash');
-    if (flashes.length > 0) {
+    const duration = 3000;
+    const flashMessage = document.getElementById('flash-message');
+
+    if (flashMessage) {
         setTimeout(() => {
-            flashes.forEach(msg => msg.classList.add('hide'));
-        }, 2000);
+            flashMessage.style.display = 'none';
+        }, duration);
     }
+
 });

@@ -496,7 +496,7 @@ textarea {
   z-index: 5;
 }
 
-#active-login, #active-register {
+.toggle-register.active, .toggle-login.active {
   font-size : 15px;
   color: #707070;
   font-family: 'Inter-Black';
@@ -506,7 +506,7 @@ textarea {
   z-index: 5;
 }
 
-#active-login:hover, #active-register:hover {
+.toggle-register.active:hover,  .toggle-login.active:hover {
   font-size : 16px;
   cursor: pointer;
   transform: scale(1.05);
@@ -1146,7 +1146,7 @@ textarea {
 
 /*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
 
-.menu1 , .menu11, .menu12, .menu13, .menu14, .menu2, .menu3 {
+.menu1 , .menu2, .menu3 {
   position : fixed;
   z-index: 4;
   top:53px;
@@ -1215,7 +1215,7 @@ textarea {
   transform: scale(1.05);
 }
 
-.menu1.hidden, .menu11.hidden, .menu12.hidden, .menu13.hidden, .menu14.hidden, .menu2.hidden, .menu3.hidden, .menu4.hidden {
+.menu1.hidden, .register-menu.hidden, .menu2.hidden, .menu3.hidden, .menu4.hidden, .login-menu.hidden {
   display: none;
 }
 
@@ -1231,7 +1231,7 @@ textarea {
 }
 
 /*pour avoir des flash messages jolis dans les menu cachés*/
-.flash {
+#flash-message{
   position: fixed;
   top: 5px;   
   height: 43px;
@@ -1244,11 +1244,6 @@ textarea {
   font-family:'Inter-Bold';
   z-index: 9999;   
   transition: opacity 1s ease-out; 
-}
-
-.flash.hide {
-  opacity: 0;
-  pointer-events: none; 
 }
 
 .chercher{

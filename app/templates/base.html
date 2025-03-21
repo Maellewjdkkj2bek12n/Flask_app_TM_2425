@@ -49,9 +49,9 @@
               {% else %}
                 
                     <nav id="header-nav-droite1">
-                        <a id="toggle-register">Inscription</a>
+                        <a id="toggle-register" class="toggle-register">Inscription</a>
                     </nav>
-                    <div id="register-menu" style="display: none;">
+                    <div id="register-menu" class="register-menu hidden">
 
                         <div id="highligh-register">
                         </div>
@@ -91,10 +91,10 @@
                     </div>  
                     
                     <nav id="header-nav-droite2">
-                        <a id="toggle-login">Connexion</a>
+                        <a id="toggle-login" class="toggle-login">Connexion</a>
                     </nav>
                       
-                    <div id="login-menu" style="display: none;">
+                    <div id="login-menu" class="login-menu hidden">
                         <div id="highligh-login">
                     </div>
                       
@@ -125,7 +125,7 @@
         {% block content %}{% endblock %}
     
         {% for message in get_flashed_messages() %}
-        <div class="flash">{{ message }}</div>
+        <div id="flash-message">{{ message }}</div>
         {% endfor %}
 
     </main>
