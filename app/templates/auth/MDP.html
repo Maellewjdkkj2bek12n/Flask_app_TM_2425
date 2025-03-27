@@ -2,7 +2,7 @@
 
 
 {% block content %}
-  <!--partie du milieux avec les trucs pour changer le mot de passe-->
+  
   <img class= "imageMDP" src="{{ url_for('static', filename='imgs/Clée.png') }}" alt="Clée">
     <div class="MDP">
       <div>
@@ -26,12 +26,10 @@
           </form>
       </div>
     </div>
-  <!--fin partie du milieux avec les trucs pour changer le mot de passe-->
-  <!--assombrissement de la galerie pour la page d'accueil-->
+ 
   <div id="assombrissement">
   </div>
-  <!--fin assombrissement de la galerie pour la page d'accueil-->
-  <!-- Zone du mileux qui ne bouge pas-->
+  
   <div id="grille-image">
     {% for photo in photo %}
     <a class="image">
@@ -39,5 +37,4 @@
     </a>
     {% endfor %}
   </div>
-  <!-- fin Zone du mileux qui ne bouge pas-->
 {% endblock %}

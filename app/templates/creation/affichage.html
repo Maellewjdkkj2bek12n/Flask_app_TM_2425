@@ -90,7 +90,6 @@ Connect'Art
         </div>
         </div>
     
-        <!--minie galerie-->
             {% if photo %}
             <div id="galerierapetissie">
 {% if categories_filtrer and chercher%}
@@ -125,7 +124,7 @@ Connect'Art
                 <div class="Aucuneautrecreation">Aucune autre </br> création</div>
             </div> 
             {% endif %}
-        <!-- fin minie gelarie-->
+
     <div class="createur">
         {% if user['photo_profil'] %}
         <a href={{url_for('user.show_autreprofile', user=photoagrandie['utilisateur'])}}><img id= "createurphoto"  src="{{user['photo_profil']}}" alt="Clée"></a>

@@ -10,7 +10,6 @@ import os
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-# Route /auth/register
 @auth_bp.route('/register', methods=('GET', 'POST'))
 def register():
     db = get_db()  
@@ -55,7 +54,6 @@ def register():
     else:
         return render_template('home/index.html', photo=photo)
 
-# Route /auth/login
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
     db = get_db()  
@@ -84,7 +82,6 @@ def login():
     else:
         return render_template('home/index.html', photo=photo)
 
-# Route /auth/logout
 @auth_bp.route('/logout')
 def logout():
     session.clear()

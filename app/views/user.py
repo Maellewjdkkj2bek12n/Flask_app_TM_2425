@@ -9,12 +9,8 @@ import sqlite3
 from app.db.db import get_db, close_db
 import os
 
-
-
-# Routes /user/...
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
-# Route /user/profile accessible uniquement à un utilisateur connecté grâce au décorateur @login_required
 @user_bp.route('/profil_autre', methods=('GET', 'POST')) 
 def show_autreprofile() :
     db = get_db()
@@ -67,7 +63,6 @@ def show_profile():
     
     return render_template('user/profil.html', user=g.user,photo_user=photo_user, abonnés = abonnés, abonnements =abonnements)
 
-#pour changer la bio
 @user_bp.route('/bio', methods=('GET', 'POST'))
 @login_required
 def change_bio():
@@ -94,7 +89,6 @@ def change_bio():
                 return redirect(url_for("user.changer_profil"))
     return redirect(url_for("user.changer_profil"))
 
-#pour changer le nom d'utilisateur
 @user_bp.route('/username', methods=('GET', 'POST'))
 @login_required
 def change_username():
@@ -120,7 +114,6 @@ def change_username():
                 return redirect(url_for('user.changer_profil'))
     return redirect(url_for("user.changer_profil"))
 
-#pour changer la photo de profil
 @user_bp.route('/change_photo_profil', methods=('GET', 'POST'))
 @login_required
 def change_photo_profil():  
@@ -164,7 +157,6 @@ def change_photo_profil():
             base_name, extension = os.path.splitext(filename)
             count = 1
             while os.path.exists(filepath):
-                # Ajouter un suffixe sous la forme _1, _2, etc.
                 filename = f"{base_name}_{count}{extension}"
                 filepath = os.path.join('app/static/upload' , str(user_id) , filename)
                 count += 1
@@ -219,8 +211,7 @@ def supprimer_photo_profil():
     else:
         flash("Aucune photo de profil trouvée.")
     return redirect(url_for('user.changer_profil'))
-    
-#pour ajouter des oeuvres
+
 @user_bp.route('/chemin_fichier', methods=('GET', 'POST'))
 @login_required
 def chemin_fichier():
@@ -257,13 +248,12 @@ def chemin_fichier():
             
             base_name, extension = os.path.splitext(filename)
             count = 1
-            while os.path.exists(filepath):
-                # Ajouter un suffixe sous la forme _1, _2, etc. 
+            while os.path.exists(filepath): 
                 filename = f"{base_name}_{count}{extension}"
                 filepath = os.path.join('app/static/upload' , str(user_id), filename)
                 count += 1
 
-            # Vérifiez si le répertoire existe, sinon créez-le
+            
             user_dir = os.path.join('app/static/upload', str(user_id))
             if not os.path.exists(user_dir):
                 os.makedirs(user_dir)
@@ -275,7 +265,6 @@ def chemin_fichier():
                 flash(error)
                 return redirect(url_for("user.chemin_fichier"))
 
-            # Utilisez url_for pour générer l'URL du fichier
             image_url = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
             user_id = session.get('user_id') 
 
@@ -297,8 +286,6 @@ def chemin_fichier():
     page_type= "upload"
     return render_template('user/upload.html', categories=categories,  page_type= page_type)
 
-
-# pour selectionner les catégories 
 @user_bp.route('/change_categorie', methods=['POST'])
 @login_required
 def change_categorie():
@@ -366,10 +353,9 @@ def supprimer_utilisateur():
             
 
             user_dir = os.path.join('app/static/upload', str(user_id))
-            # Vérifiez si le dossier existe et supprimez-le
             if os.path.exists(user_dir) and os.path.isdir(user_dir):
+                
                 os.chmod(user_dir, 0o777)
-                #à laide de coopilot, pour avoir les autorisations du dossier
                 shutil.rmtree(user_dir)
                 print(f"Le dossier {user_dir} a été supprimé avec succès.")
                 
@@ -402,8 +388,6 @@ def supprimer_utilisateur():
     random.shuffle(photo)
     close_db()
     return render_template('user/supprimer_profil.html', user=g.user, page_type= page_type, photo=photo)
-
-
 
 @user_bp.route('/chercher', methods=['GET', 'POST'])
 @login_required
@@ -452,7 +436,6 @@ def bloquer():
     db.commit()
     close_db()
     return redirect(url_for("user.show_autreprofile", user=bloque))
-
 
 @user_bp.route('/debloquer', methods=('GET', 'POST'))
 @login_required
@@ -512,7 +495,6 @@ def afficher_bloquer():
         return redirect(url_for("user.show_profile"))
 
     return render_template('user/afficher.html', utilisateurs=utilisateurs)
-
 
 @user_bp.route('/afficher_suiveur', methods=['GET', 'POST'])
 @login_required
@@ -648,8 +630,6 @@ def modifier_oeuvre():
         close_db()
         return redirect(url_for("user.show_profile"))
 
-
-
 @user_bp.route('/modifier_fichier', methods=('GET', 'POST'))
 @login_required
 def modifier_fichier():
@@ -753,22 +733,24 @@ def messages():
     combined_ids = list(set(emetteur_ids) | set(recepteur_ids))
     stop_ids = list(set(bloque_ids) | set(empecheur_ids) )
     
+    
     conversation_ids = [id for id in combined_ids if id not in stop_ids]
 
     user_id = request.args.get('user_id')
     if not user_id :
         if conversation_ids:
-            max_row = db.execute("SELECT MAX(message_id) AS id_max, recepteur, emetteur FROM contacter WHERE (recepteur = ?) OR (emetteur = ?)", (user, user)).fetchone()
+            placeholders = ', '.join('?' for _ in stop_ids)
+            query = f"SELECT MAX(message_id) AS id_max, recepteur, emetteur FROM contacter WHERE ((recepteur = ? AND emetteur NOT IN ({placeholders}))OR (emetteur = ? AND recepteur NOT IN ({placeholders})))"
+            params = (user,) + tuple(stop_ids) + (user,) + tuple(stop_ids)
+            max_row = db.execute(query, params).fetchone()
+
+            
             if max_row:
                 user_id = max_row['recepteur'] if max_row['recepteur'] != user else max_row['emetteur']
 
-
-
-
     messages = db.execute("SELECT message, emetteur FROM contacter WHERE (recepteur = ? AND emetteur = ?) OR (recepteur = ? AND emetteur = ?)", (user_id, user, user, user_id)).fetchall(); 
     autre = db.execute("SELECT id_utilisateur, nom_utilisateur, bio, photo_profil  FROM utilisateurs WHERE id_utilisateur = ?",(user_id,)).fetchone()
-  
-       
+      
     placeholders = ', '.join('?' for _ in conversation_ids)
     query = f"SELECT * FROM utilisateurs WHERE id_utilisateur IN ({placeholders}) AND id_utilisateur != ?"
     conv = db.execute(query, tuple(conversation_ids) + (user_id,)).fetchall()
@@ -779,7 +761,6 @@ def messages():
         return redirect(url_for("user.show_profile"))
 
     return render_template('user/messages.html', messages=messages, user=autre, user_id=user_id, conv=conv)
-
 
 @user_bp.route('/envoyer', methods=['POST'])
 @login_required

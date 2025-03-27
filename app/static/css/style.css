@@ -86,7 +86,6 @@
   font-style: normal; 
 }
 
-/*block du haut en général*/
 .header{
   z-index: 3;
   height: 53px;
@@ -104,8 +103,6 @@
   grid-template-columns: [début] 37px [partie-gauche] auto [débutgrand1] 75px [fin1] 75px [débutgrand2] 113px [fin2] 37px [fin];
   align-items: center;
 }
-
-/*boutons du haut si il y a 2 boutons à droite*/
 
 #header-nav-droite1{
   position: absolute;
@@ -132,8 +129,6 @@
   align-items: center;
   z-index: 6;
 }
-
-/*boutons du haut si il y a 3 boutons à droite */
 
 #header-nav-droite3{
   position: absolute;
@@ -181,8 +176,6 @@
   transition: transform 0.3s ease;
 }
 
-/*boutons du haut à gauche*/
-
 #header-nav-gauche{
   position: fixed;
   left: 37px;
@@ -198,8 +191,6 @@
   gap: 10px;
 }
 
-/*écritures du haut*/
-
 .header-nav a {
   font-size : 16px;
   color: #ffffff;
@@ -213,7 +204,6 @@
   transform: scale(1.1);
 }
 
-/* fond avec toutes les ptites images de la galerie*/
 #grille-image{
   position : absolute;
   top:78px;
@@ -272,8 +262,6 @@
   transform: scale(1.05);
 }
 
-/*petit texte central*/
-
 #zone-texte{
   position: fixed;
   top: 300px;
@@ -294,8 +282,6 @@
   font-family:'ZenKakuGothicNew-Light';
   text-align:center;
 }
-
-/*haut de page, petits blocs reliés aux truc du loging et du register*/
 
 .content-register div, .content-login div{
   position : fixed;
@@ -333,8 +319,6 @@
 
   height: 170px;
 }
-
-/*apparence de la partie ou il faut écrire les noms ect*/
 
 .login-grands-boutons{
   font-size: 13px;
@@ -474,8 +458,6 @@ textarea {
   transform: scale(1.0005);
 }
 
-/*highlight des boutons quand on clique dessus*/
-
 #highligh-register, #highligh-login{
   background-color: #EFEDED;
   height: 53px;
@@ -512,7 +494,6 @@ textarea {
   transform: scale(1.05);
 }
 
-/*assombrissement de la galerie pour la page d'accueil*/
 #assombrissement{
   position : fixed;
   top:0px;
@@ -522,8 +503,6 @@ textarea {
   height: 1000px;
   width: 100%;
 }
-
-/*partie du milieux avec les trucs pour changer le mot de passe*/
 
 .imageMDP{
   position : fixed;
@@ -567,8 +546,6 @@ textarea {
 .MDP a{
   text-decoration: none;
 }
-
-/*partie profil*/
 
 #profil{
   position : absolute;
@@ -786,8 +763,6 @@ textarea {
   line-height: 1,5;
 }
 
-
-/*affivhage d'une photo en pariculier*/
 #affichage{
   position : fixed;
   top:10px;
@@ -1040,7 +1015,7 @@ textarea {
   justify-content: space-around; 
   transition: transform 0.3s ease;
 }
-/*page uploade*/
+
 #upload{
   position: absolute;
   grid-column-start: débutgalerie;
@@ -1105,7 +1080,6 @@ textarea {
   transform: scale(1.05);
 }
 
-
 .uploadpetit{
   grid-column-start: débutphotoengrand;
   grid-column-end: fingalerie;
@@ -1143,8 +1117,6 @@ textarea {
   cursor: pointer;
   transition: transform 0.3s ease;
 }
-
-/*menu pour selectionner type d'art ou truc pour profile ou n'importe*/
 
 .menu1 , .menu2, .menu3 {
   position : fixed;
@@ -1230,7 +1202,6 @@ textarea {
   display: none;
 }
 
-/*pour avoir des flash messages jolis dans les menu cachés*/
 #flash-message{
   position: fixed;
   top: 5px;   
@@ -1274,8 +1245,6 @@ textarea {
 #chercher:hover {
   transform: scale(1.05);
 }
-
-/*afficher les utilisateur*/ 
 
 .fondlisteutilisateurs{
   position: absolute;

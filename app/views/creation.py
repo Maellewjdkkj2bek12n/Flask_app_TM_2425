@@ -11,7 +11,6 @@ import sqlite3
 
 creation_bp = Blueprint('creation', __name__)
 
-# Route /affichage
 @creation_bp.route('/affichage', methods=('GET', 'POST'))
 @login_required
 def affichage():
@@ -58,7 +57,6 @@ def affichage():
         photo_ids_list2 = [] 
         common_ids = []  
         try:
-            # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
                 "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
                 ('%' + chercher + '%',)
@@ -72,7 +70,6 @@ def affichage():
             return redirect(url_for("home.landing_page"))
         
         try:
-            # Récupérer les œuvres correspondant aux catégories sélectionnées
             for category_id in categories_filtrer:
                 photo_ids2 = db.execute(
                     "SELECT oeuvre FROM categorisations WHERE categorie = ?",
@@ -85,7 +82,6 @@ def affichage():
                 close_db()
                 return redirect(url_for("home.landing_page", chercher=chercher))
             
-            # Trouver les IDs communs entre la recherche et les catégories
             common_ids = list(set(photo_ids_list) & set(photo_ids_list2))
 
         except ValueError:
@@ -134,7 +130,6 @@ def affichage():
     elif chercher and not categories_filtrer:
         photo_ids_list = []  
         try:
-            # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
                 "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
                 ('%' + chercher + '%',)
@@ -189,7 +184,6 @@ def affichage():
     elif categories_filtrer and not chercher:
         photo_ids_list = []    
         try:
-            # Récupérer les œuvres correspondant aux catégories sélectionnées
             for category_id in categories_filtrer:
                 photo_ids = db.execute(
                     "SELECT oeuvre FROM categorisations WHERE categorie = ?",
@@ -277,8 +271,6 @@ def affichage_autres():
     random.shuffle(photo)
     return render_template('creation/affichage_autre.html', photoagrandie=photoagrandie, photo=photo, categories=categories, user=user, categorie_oeuvre=categorie_oeuvre)
 
-
-#affichage de nos oeuvres
 @creation_bp.route('/affichage_perso', methods=('GET', 'POST'))
 @login_required
 def affichage_perso():
@@ -329,7 +321,6 @@ def filtrer():
         
         if categories_filtrer:
             try:
-                # Récupérer les œuvres correspondant aux catégories sélectionnées
                 for category_id in categories_filtrer:
                     photo_ids = db.execute("SELECT oeuvre FROM categorisations WHERE categorie = ?", (category_id,)).fetchall()
                     photo_ids_list.extend([photo[0] for photo in photo_ids])  
@@ -344,7 +335,6 @@ def filtrer():
                 close_db()
                 return redirect(url_for("home.landing_page"))
             
-            # Exclure les œuvres appartenant aux utilisateurs bloqués ou à l'utilisateur connecté
             exclusions = db.execute(
                 "SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", 
                 (user_id, user_id)
@@ -387,7 +377,6 @@ def filtrer():
         common_ids = [] 
         
         try:
-            # Récupérer les œuvres correspondant au terme recherché
             photo_ids = db.execute(
                 "SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?",
                 ('%' + chercher + '%',)
@@ -406,7 +395,7 @@ def filtrer():
         
         if categories_filtrer:
             try:
-                # Récupérer les œuvres correspondant aux catégories sélectionnées
+               
                 for category_id in categories_filtrer:
                     photo_ids2 = db.execute(
                         "SELECT oeuvre FROM categorisations WHERE categorie = ?",
@@ -419,7 +408,7 @@ def filtrer():
                     close_db()
                     return redirect(url_for("home.landing_page", chercher=chercher))
                 
-                # Trouver les IDs communs entre la recherche et les catégories
+               
                 common_ids = list(set(photo_ids_list) & set(photo_ids_list2))
                 
                 if not common_ids:
@@ -427,7 +416,6 @@ def filtrer():
                     close_db()
                     return redirect(url_for("home.landing_page", chercher=chercher))
                 
-                # Exclure les œuvres appartenant aux utilisateurs bloqués ou à l'utilisateur connecté
                 exclusions = db.execute(
                     "SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?",
                     (user_id, user_id)
@@ -542,7 +530,7 @@ def chercher():
         photo_ids_list = []  
         
         if chercher:  
-            # Récupérer les ID des œuvres correspondant au terme de recherche
+           
             photo_ids = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?", 
                                    ('%' + chercher + '%',)).fetchall()
             photo_ids_list.extend([photo[0] for photo in photo_ids])  
@@ -552,7 +540,7 @@ def chercher():
                 return redirect(url_for("home.landing_page"))
 
             try:
-                # Récupérer les utilisateurs bloqués par l'utilisateur courant ou qui ont bloqué l'utilisateur courant
+                
                 exclusions = db.execute(
                     "SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", 
                     (user_id, user_id)
@@ -602,7 +590,6 @@ def chercher():
         photo_ids_list2 = []  
         common_ids = [] 
         
-        # Récupérer les œuvres correspondant aux catégories sélectionnées
         try:
             for category_id in categories_filtrer:
                 photo_ids = db.execute("SELECT oeuvre FROM categorisations WHERE categorie = ?", (category_id,)).fetchall()
@@ -620,7 +607,7 @@ def chercher():
             return redirect(url_for("home.landing_page"))
         
         if chercher:
-            # Récupérer les œuvres correspondant à la recherche 
+           
             try:
                 photo_ids2 = db.execute("SELECT id_oeuvre FROM oeuvres WHERE description_oeuvre LIKE ?", 
                                         ('%' + chercher + '%',)).fetchall()
@@ -638,7 +625,7 @@ def chercher():
                     close_db() 
                     return redirect(url_for("home.landing_page", categories_filtrer=categories_filtrer))
                 
-                # Exclure les œuvres appartenant aux utilisateurs bloqués ou à l'utilisateur connecté
+              
                 exclusions = db.execute(
                     "SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", 
                     (user_id, user_id)

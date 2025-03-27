@@ -57,7 +57,7 @@ Connect'Art
   <main>
         <div class="content-index">
           {% if g.user %}
-          <!-- Zone du mileux qui ne bouge pas-->
+          
 
           <div id="grille-image"> 
 
@@ -88,16 +88,16 @@ Connect'Art
 {% endif %}
           </div>
 
-            <!-- fin Zone du mileux qui ne bouge pas-->
+          
           {% else %}
-                    <!--assombrissement de la galerie pour la page d'accueil-->
+                   
                     <div id="assombrissement">
                     </div>
-                    <!--fin assombrissement de la galerie pour la page d'accueil-->
+                   
                     <div id="zone-texte">
                         <h1>Partagez gratuitement vos créations sur la galerie <br/> d'art en ligne</h1>
                     </div>
-                    <!-- Zone du mileux qui ne bouge pas-->
+                   
                     <div id="grille-image">
                       {% for photo in photo %}
                       <a class="image">
@@ -105,7 +105,7 @@ Connect'Art
                       </a>
                       {% endfor %}
                     </div>
-                    <!-- fin Zone du mileux qui ne bouge pas-->
+                    
           {% endif %}
         </div>
   </main>
