@@ -14,7 +14,7 @@ home_bp = Blueprint('home', __name__)
 @home_bp.route('/', methods=('GET', 'POST'))
 def landing_page():
     db = get_db()
-    categories = db.execute("SELECT id_categorie, nom FROM categories_oeuvres").fetchall()
+    categories = db.execute("SELECT * FROM categories_oeuvres").fetchall()
     close_db()
 
     user_id = session.get('user_id')
