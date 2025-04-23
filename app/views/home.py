@@ -13,16 +13,13 @@ home_bp = Blueprint('home', __name__)
 
 @home_bp.route('/', methods=('GET', 'POST'))
 def landing_page():
-    db = get_db()
-    categories = db.execute("SELECT * FROM categories_oeuvres").fetchall()
-    close_db()
-
     user_id = session.get('user_id')
-
+    
     if user_id: 
         chercher = request.args.get('chercher')
         categories_filtrer = request.args.getlist('categories_filtrer')
         db = get_db()
+        categories = db.execute("SELECT * FROM categories_oeuvres").fetchall()
 
         if not categories_filtrer and not chercher:
             exclusions = db.execute("SELECT bloqué FROM bloque WHERE empecheur = ? UNION SELECT empecheur FROM bloque WHERE bloqué = ?", (user_id, user_id)).fetchall()
