@@ -265,7 +265,8 @@ def chemin_fichier():
                 flash(error)
                 return redirect(url_for("user.chemin_fichier"))
 
-            image_url = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
+            #image_url = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
+            image_url = "static/upload/{user_id}/{filename}"
             user_id = session.get('user_id') 
 
             if image_url and user_id: 
