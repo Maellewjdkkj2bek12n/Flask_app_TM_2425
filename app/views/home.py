@@ -27,9 +27,9 @@ def landing_page():
             exclusion_ids = [row[0] for row in exclusions]
 
             if exclusion_ids:
-                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({})".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
+                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE utilisateur NOT IN ({}) ORDER BY RANDOM() LIMIT 30".format(', '.join('?' for _ in exclusion_ids)), exclusion_ids).fetchall()
             else:
-                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()
+                photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres ORDER BY RANDOM() LIMIT 30").fetchall()
 
             random.shuffle(photo)
             close_db()  
@@ -82,7 +82,7 @@ def landing_page():
             
             if exclusion_ids:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                         ', '.join('?' for _ in common_ids),
                         ', '.join('?' for _ in exclusion_ids)
                     ),
@@ -90,7 +90,7 @@ def landing_page():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                         ', '.join('?' for _ in common_ids)
                     ),
                     tuple(common_ids)
@@ -120,7 +120,7 @@ def landing_page():
                 
                 if exclusion_ids:  
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in photo_ids_list),
                             ', '.join('?' for _ in exclusion_ids)
                         ),
@@ -128,7 +128,7 @@ def landing_page():
                     ).fetchall()
                 else:
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ','.join('?' for _ in photo_ids_list)
                         ),
                         tuple(photo_ids_list)  
@@ -183,7 +183,7 @@ def landing_page():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                         ', '.join('?' for _ in photo_ids_list)
                     ),
                     tuple(photo_ids_list)
@@ -200,7 +200,7 @@ def landing_page():
     
     if not user_id:
         db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres ORDER BY RANDOM() LIMIT 30").fetchall()  
         close_db() 
         random.shuffle(photo)
         return render_template('home/index.html', photo=photo, categories=categories)

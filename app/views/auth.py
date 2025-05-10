@@ -13,7 +13,7 @@ auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 @auth_bp.route('/register', methods=('GET', 'POST'))
 def register():
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres  ORDER BY RANDOM() LIMIT 30").fetchall()  
     close_db()
     
     if request.method == 'POST':
@@ -57,7 +57,7 @@ def register():
 @auth_bp.route('/login', methods=('GET', 'POST'))
 def login():
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres  ORDER BY RANDOM() LIMIT 30").fetchall()  
     close_db()
     if request.method == 'POST':
 
@@ -105,7 +105,7 @@ def load_logged_in_user():
 def MDP():
     user_id = session.get('user_id')
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres  ORDER BY RANDOM() LIMIT 30").fetchall()  
     close_db()
     
     if request.method == 'POST':

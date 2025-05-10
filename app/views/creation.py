@@ -343,7 +343,7 @@ def filtrer():
             
             if exclusion_ids:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                         ', '.join('?' for _ in photo_ids_list),
                         ', '.join('?' for _ in exclusion_ids)
                     ),
@@ -351,7 +351,7 @@ def filtrer():
                 ).fetchall()
             else:
                 photo = db.execute(
-                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                    "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                         ', '.join('?' for _ in photo_ids_list)
                     ),
                     tuple(photo_ids_list)
@@ -424,7 +424,7 @@ def filtrer():
                 
                 if exclusion_ids:
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in common_ids),
                             ', '.join('?' for _ in exclusion_ids)
                         ),
@@ -432,7 +432,7 @@ def filtrer():
                     ).fetchall()
                 else:
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in common_ids)
                         ),
                         tuple(common_ids)
@@ -494,14 +494,14 @@ def filtrer_rapide(categorie_id):
         exclusion_ids = [row[0] for row in exclusions]
         if exclusion_ids:
             photo = db.execute(
-                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({}) ORDER BY RANDOM() LIMIT 30".format(
                     ', '.join('?' for _ in photo_ids_list),  
                     ', '.join('?' for _ in exclusion_ids) 
                 ), 
                 tuple(photo_ids_list + exclusion_ids) 
             ).fetchall()
         else :
-            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list)).fetchall()
+            photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})  ORDER BY RANDOM() LIMIT 30".format(','.join('?' for _ in photo_ids_list)),tuple(photo_ids_list)).fetchall()
     
     except Exception as e:
         flash("Une erreur est survenue lors de la récupération des œuvres.")
@@ -550,7 +550,7 @@ def chercher():
                 if exclusion_ids:  
                     
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in photo_ids_list),
                             ', '.join('?' for _ in exclusion_ids)
                         ),
@@ -559,7 +559,7 @@ def chercher():
                 else:
                    
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ','.join('?' for _ in photo_ids_list)
                         ),
                         tuple(photo_ids_list)  
@@ -634,7 +634,7 @@ def chercher():
                 
                 if exclusion_ids:  
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({}) AND utilisateur NOT IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in common_ids),
                             ', '.join('?' for _ in exclusion_ids)
                         ),
@@ -643,7 +643,7 @@ def chercher():
                 else:
                     
                     photo = db.execute(
-                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})".format(
+                        "SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE id_oeuvre IN ({})  ORDER BY RANDOM() LIMIT 30".format(
                             ', '.join('?' for _ in common_ids)
                         ),
                         tuple(common_ids) 

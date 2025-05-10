@@ -384,7 +384,7 @@ def supprimer_utilisateur():
             close_db()
     page_type= "upload"
     db = get_db()  
-    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ? ORDER BY RANDOM() LIMIT 30",(user_id,)).fetchall() 
     random.shuffle(photo)
     close_db()
     return render_template('user/supprimer_profil.html', user=g.user, page_type= page_type, photo=photo)
@@ -691,17 +691,11 @@ def supprimer_oeuvre():
 @login_required
 def changer_profil():
     page_type= "upload"
-    user_id = session.get('user_id')
-    if user_id:
-        db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres WHERE NOT utilisateur = ?",(user_id,)).fetchall() 
-        close_db()
-    
-    if not user_id:
-        db = get_db()  
-        photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres").fetchall()  
-        close_db()
+    db = get_db()  
+    photo = db.execute("SELECT id_oeuvre, chemin_fichier FROM oeuvres ORDER BY RANDOM() LIMIT 30").fetchall()  
+    close_db()
     random.shuffle(photo)
+
     return render_template('user/changer_profil.html', user=g.user, page_type= page_type, photo=photo)
 
 @user_bp.route('/messages', methods=['GET', 'POST'])
