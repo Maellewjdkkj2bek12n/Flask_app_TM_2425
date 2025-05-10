@@ -172,8 +172,8 @@ def change_photo_profil():
                 flash(error)
                 return redirect(url_for("user.show_profile"))
             
-            photo_profil = f"static/upload/{user_id}/{filename}"
             user_id = session.get('user_id') 
+            photo_profil = f"/static/upload/{user_id}/{filename}"
            
         
             if photo_profil :
@@ -265,7 +265,7 @@ def chemin_fichier():
                 return redirect(url_for("user.chemin_fichier"))
 
             #image_url = url_for('static', filename=f'upload/{user_id}/{filename}', _external=True)
-            image_url = f"static/upload/{user_id}/{filename}"
+            image_url = f"/static/upload/{user_id}/{filename}"
             user_id = session.get('user_id') 
 
             if image_url and user_id: 
